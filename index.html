@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <title>Bateria & Guitarra — Guia de Treinamento Completo</title>
+  <title>Bateria & Guitarra — Guia Completo de Treinamento</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <!-- ══════════════ HEADER ══════════════ -->
 <header class="app-header">
-  <h1>🥁 Bateria & 🎸 Guitarra</h1>
+  <h1>🥁 BATERIA & 🎸 GUITARRA</h1>
   <span class="phase-badge" id="currentPhase">Iniciante</span>
 </header>
 
@@ -21,147 +21,244 @@
 <!-- ── PAGE: HOME ── -->
 <div class="page active" id="page-home">
   <div class="hero">
-    <h2>Seu Guia Completo <span>de Treinamento</span></h2>
-    <p>Teoria, exercícios práticos, metrônomo e progressão estruturada em 12 semanas.</p>
+    <h2>Seu Treinamento Completo <span>Começa Aqui</span></h2>
+    <p>Aprenda bateria e guitarra do zero ao intermediário com teoria aplicada, exercícios práticos e progressão estruturada.</p>
     <div class="hero-badges">
       <span class="hero-badge">🥁 Bateria</span>
       <span class="hero-badge">🎸 Guitarra</span>
       <span class="hero-badge">📅 12 Semanas</span>
+      <span class="hero-badge">✨ 100% Prático</span>
     </div>
   </div>
 
-  <h2>Acesso Rápido</h2>
+  <h2>Comece Agora</h2>
   <div class="quick-access-grid">
     <button class="quick-btn" onclick="goToTab('drums')">
-      🥁 Bateria<br><span class="quick-btn-label">Grooves & Técnica</span>
+      <div class="quick-btn-icon">🥁</div>
+      <div>Bateria</div>
+      <div class="quick-btn-label">Grooves & Ritmo</div>
     </button>
     <button class="quick-btn" onclick="goToTab('guitar')">
-      🎸 Guitarra<br><span class="quick-btn-label">Escalas & Teoria</span>
+      <div class="quick-btn-icon">🎸</div>
+      <div>Guitarra</div>
+      <div class="quick-btn-label">Acordes & Escalas</div>
     </button>
     <button class="quick-btn" onclick="goToTab('metronome')">
-      🎵 Metrônomo<br><span class="quick-btn-label">Praticar Ritmo</span>
+      <div class="quick-btn-icon">🎵</div>
+      <div>Metrônomo</div>
+      <div class="quick-btn-label">Praticar Ritmo</div>
     </button>
     <button class="quick-btn" onclick="goToTab('progress')">
-      ✅ Progresso<br><span class="quick-btn-label">Seu Plano</span>
+      <div class="quick-btn-icon">📋</div>
+      <div>Plano</div>
+      <div class="quick-btn-label">12 Semanas</div>
     </button>
   </div>
 
-  <div class="callout gold" style="margin:16px 16px 0;">
-    <div class="callout-title">⚡ Como Usar Este Guia</div>
+  <div class="callout gold" style="margin:16px;">
+    <div class="callout-title">⚡ ANTES DE COMEÇAR</div>
     <ul>
-      <li><strong>Estude a teoria primeiro</strong> — entenda o "porquê" antes do "como"</li>
-      <li><strong>Use o metrônomo sempre</strong> — sem ele, você vai desenvolver ritmo impreciso</li>
-      <li><strong>Pratique 15-30 minutos por dia</strong> — consistência > intensidade</li>
-      <li><strong>Toque com música real</strong> — as músicas de exemplo são essenciais</li>
-      <li><strong>Grave-se</strong> — compare com a semana anterior para ver progresso</li>
+      <li><strong>Sempre use metrônomo</strong> — ele é mais importante que ter talento natural</li>
+      <li><strong>15-30 min por dia</strong> — consistência supera intensidade</li>
+      <li><strong>Ouça a música referência</strong> — seu ouvido aprende antes das mãos</li>
+      <li><strong>Pratique devagar</strong> — comece a 60 BPM, aumente gradualmente</li>
+      <li><strong>Não pule etapas</strong> — a progressão é planejada com cuidado</li>
     </ul>
+  </div>
+
+  <h2 style="margin-top: 20px;">Como Este Guia Funciona</h2>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-number">1</div>
+      <div class="card-title-group">
+        <div class="card-title">Teoria + Prática Integradas</div>
+        <div class="card-subtitle">Entenda o "porquê" antes do "como"</div>
+      </div>
+      <div class="card-chevron">›</div>
+    </div>
+    <div class="card-body">
+      <p>Cada lição começa com <strong>conceitos fundamentais</strong>, depois passa para <strong>exemplos práticos</strong> e <strong>exercícios progressivos</strong>. Você não memoriza — você compreende.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-number">2</div>
+      <div class="card-title-group">
+        <div class="card-title">Três Fases de Aprendizado</div>
+        <div class="card-subtitle">Iniciante → Intermediário → Avançado</div>
+      </div>
+      <div class="card-chevron">›</div>
+    </div>
+    <div class="card-body">
+      <p><strong>Fase 1 (Semanas 1-4):</strong> Fundações. Técnica básica, coordenação, acordes simples.<br>
+      <strong>Fase 2 (Semanas 5-8):</strong> Expansão. Novos estilos, dinâmica, independência.<br>
+      <strong>Fase 3 (Semanas 9-12):</strong> Expressão. Fills complexos, improviso, criatividade.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-number">3</div>
+      <div class="card-title-group">
+        <div class="card-title">Referências de Músicas Reais</div>
+        <div class="card-subtitle">Aprenda tocando músicas famosas</div>
+      </div>
+      <div class="card-chevron">›</div>
+    </div>
+    <div class="card-body">
+      <p>Cada exercício inclui 3-5 referências de músicas reais que usam aquela técnica. Você pode tocar imediatamente depois de aprender — isso acelera o aprendizado.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-number">4</div>
+      <div class="card-title-group">
+        <div class="card-title">Metrônomo Integrado</div>
+        <div class="card-subtitle">Pratique com precisão</div>
+      </div>
+      <div class="card-chevron">›</div>
+    </div>
+    <div class="card-body">
+      <p>Use o metrônomo na aba "Metrônomo" para praticar qualquer exercício. Comece sempre lento (60 BPM), practique até perfeição, depois aumente +5 BPM.</p>
+    </div>
   </div>
 </div>
 
 <!-- ── PAGE: DRUMS ── -->
 <div class="page" id="page-drums">
   <div class="tab-bar" id="drum-tabs">
-    <button class="tab-btn active" onclick="showDrumTab('drum-theory')">Teoria</button>
-    <button class="tab-btn" onclick="showDrumTab('drum-phase1')">Fase 1</button>
-    <button class="tab-btn" onclick="showDrumTab('drum-phase2')">Fase 2</button>
-    <button class="tab-btn" onclick="showDrumTab('drum-phase3')">Fase 3</button>
+    <button class="tab-btn active" onclick="showDrumTab('drum-theory')">📚 Teoria</button>
+    <button class="tab-btn" onclick="showDrumTab('drum-phase1')">🥁 Fase 1</button>
+    <button class="tab-btn" onclick="showDrumTab('drum-phase2')">🎯 Fase 2</button>
+    <button class="tab-btn" onclick="showDrumTab('drum-phase3')">🔥 Fase 3</button>
   </div>
 
   <!-- ═══ DRUM THEORY ═══ -->
   <div id="drum-theory" class="section-content active">
-    <h2>Teoria para Bateria</h2>
+    <h2>Fundações da Bateria</h2>
 
-    <div class="module-card">
-      <div class="module-header" onclick="toggleModule(this)">
-        <div class="module-num">T1</div>
-        <div>
-          <div class="module-title">Componentes da Bateria</div>
-          <div class="module-sub">Conheça cada instrumento</div>
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-number">T1</div>
+        <div class="card-title-group">
+          <div class="card-title">Conheça Sua Bateria</div>
+          <div class="card-subtitle">5 instrumentos, infinitas possibilidades</div>
         </div>
-        <div class="chevron">›</div>
+        <div class="card-chevron">›</div>
       </div>
-      <div class="module-body">
-        <div class="theory-card">
-          <h4>🥁 Os 5 Instrumentos Essenciais</h4>
-          <p><strong>Hi-Hat (HH)</strong> — Dois pratos que abrem e fecham. É o "metrônomo natural" da bateria. Você usa o pé esquerdo para fechar e a mão direita para tocar.</p>
-          <p><strong>Bumbo (BD)</strong> — O tambor mais grave, acionado pelo pé direito. Define a "pulsação" do groove.</p>
-          <p><strong>Caixa (SN)</strong> — O tambor agudo do meio. Tem som "crocante". Você a toca com as duas mãos.</p>
-          <p><strong>Toms</strong> — Tambores médios usados em fills (viradas). Geralmente 2-3 unidades: tom alto, tom médio, tom baixo.</p>
-          <p><strong>Crash</strong> — Prato grande e ruidoso. Marca seções importantes da música (introdução, verso, refrão).</p>
-        </div>
-        
-        <div class="theory-card">
-          <h4>📊 Simbologia na Tablatura</h4>
-          <p>Quando você ver uma tablatura de bateria:</p>
-          <div class="formula">
-x = toque normal fechado
-X = toque forte
-o = toque aberto (HH aberto)
-s = toque normal na caixa
-S = toque forte na caixa
-b = bumbo
-g = ghost note (nota quase inaudível)
-          </div>
+      <div class="card-body">
+        <div class="theory-box">
+          <h4>🎯 Os 5 Componentes Essenciais</h4>
+          <p><strong>1. Hi-Hat (Prato de Embreagem)</strong><br>Dois pratos que abrem e fecham com o pé esquerdo. Você toca com a mão direita. É o "coração" do groove — mantém o tempo constante.</p>
+          <p><strong>2. Bumfo (Bass Drum)</strong><br>O tambor mais grave, tocado com o pé direito. Define a "pulsação" do groove. Cria o padrão de baixo da música.</p>
+          <p><strong>3. Caixa (Snare)</strong><br>Tambor agudo e "crocante" no meio da bateria. Você a toca com as duas mãos. Soa nos tempos 2 e 4 em um groove básico.</p>
+          <p><strong>4. Toms</strong><br>Tambores médios usados em "fills" (viradas). Geralmente 2-3: tom agudo, tom médio, tom grave. Criam transições entre seções.</p>
+          <p><strong>5. Crash (Prato Grande)</strong><br>O prato mais barulhento. Marca grandes momentos: intro, refrão, final. Você o toca com a mão esquerda.</p>
         </div>
 
-        <div class="callout gold">
-          <div class="callout-title">💡 Dica: Pegada Correta</div>
+        <div class="callout slate">
+          <div class="callout-title">💡 Disposição da Bateria</div>
           <ul>
-            <li>Segure a baqueta entre o polegar e dedo indicador, próximo do ponto de equilíbrio</li>
-            <li>Os outros dedos devem ficar relaxados — não é uma "garra"</li>
-            <li>O movimento vem do pulso, não do braço inteiro</li>
-            <li>Pratique com as duas mãos: destro com mão direita, canhoto com esquerda</li>
+            <li><strong>Mão esquerda:</strong> Crash (ombro esquerdo), Hi-Hat (também esquerda, mas é tocado com o pé)</li>
+            <li><strong>Mão direita:</strong> Caixa (centro), Tom agudo (direita), Tom médio (direita-centro)</li>
+            <li><strong>Pé esquerdo:</strong> Hi-Hat (fechar/abrir)</li>
+            <li><strong>Pé direito:</strong> Bumfo</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <div class="module-card">
-      <div class="module-header" onclick="toggleModule(this)">
-        <div class="module-num">T2</div>
-        <div>
-          <div class="module-title">Tempo, Pulso e BPM</div>
-          <div class="module-sub">Os alicerces do ritmo</div>
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-number">T2</div>
+        <div class="card-title-group">
+          <div class="card-title">Pulso, Tempo e BPM</div>
+          <div class="card-subtitle">Os fundamentos do ritmo</div>
         </div>
-        <div class="chevron">›</div>
+        <div class="card-chevron">›</div>
       </div>
-      <div class="module-body">
-        <div class="theory-card">
-          <h4>O que é Pulso?</h4>
-          <p>Pulso é a pulsação constante que você sente numa música. É aquilo que faz você bater o pé automaticamente. Imagime: "boom-boom-boom-boom" — cada "boom" é um pulso.</p>
+      <div class="card-body">
+        <div class="theory-box">
+          <h4>🎵 O que é Pulso?</h4>
+          <p>Pulso é a pulsação constante em uma música. É aquilo que faz você <strong>naturalmente bater o pé</strong>. Você sente: boom-boom-boom-boom. Cada "boom" = 1 pulso.</p>
+          <p><strong>Exemplo:</strong> Ouça "We Will Rock You" — você consegue bater o pé naturalmente? Esse é o pulso.</p>
         </div>
 
-        <div class="theory-card">
-          <h4>BPM — Batidas Por Minuto</h4>
-          <p>Mede quantos pulsos cabem em 1 minuto. Exemplos:</p>
-          <div class="formula">
-60 BPM     = 1 batida por segundo (muito lento)
-100 BPM    = Ritmo de rock médio
-140 BPM    = Ritmo acelerado / pop
-200 BPM    = Metal extremo
+        <div class="theory-box">
+          <h4>⏱️ BPM — Batidas Por Minuto</h4>
+          <p><strong>BPM mede quantos pulsos cabem em 60 segundos.</strong></p>
+          <div style="background: #0A0A0A; border: 1px solid #333; border-radius: 8px; padding: 10px; margin: 8px 0; font-family: monospace; font-size: 0.8rem; color: #F0C040;">
+60 BPM    = 1 pulso por segundo (MUITO lento)<br>
+80 BPM    = Ritmo de balada<br>
+100 BPM   = Rock médio (AC/DC, Queen)<br>
+120 BPM   = Rock mais rápido<br>
+140 BPM   = Pop/Funk<br>
+200+ BPM  = Metal extremo
           </div>
-          <p><strong>Começar lento é OBRIGATÓRIO.</strong> Se você não consegue fazer um groove a 60 BPM com precisão, jamais conseguirá a 100 BPM. A velocidade vem com o tempo.</p>
+          <p><strong>⚠️ REGRA DE OURO:</strong> Sempre comece em 60 BPM. Se você não consegue fazer um groove perfeitamente a 60 BPM, <strong>jamais conseguirá a 100 BPM</strong>. Velocidade vem com tempo.</p>
         </div>
 
-        <div class="theory-card">
-          <h4>Compasso: Agrupando Pulsos</h4>
-          <p>Em vez de contar infinitamente (1-2-3-4-5-6-7-8...), agrupamos pulsos em compassos. O mais comum é <strong>4/4</strong> (quatro tempos por compasso):</p>
-          <div class="formula">
-Compasso 1: 1-2-3-4 |
-Compasso 2: 1-2-3-4 |
-Compasso 3: 1-2-3-4 | etc.
+        <div class="theory-box">
+          <h4>📊 Compasso: Agrupando Pulsos</h4>
+          <p>Em vez de contar infinitamente (1-2-3-4-5-6-7-8...), agrupamos pulsos em <strong>compassos</strong>. O mais comum é <strong>4/4</strong> (4 tempos por compasso).</p>
+          <div style="background: #0A0A0A; border: 1px solid #333; border-radius: 8px; padding: 10px; margin: 8px 0; font-family: monospace; font-size: 0.8rem; color: #4CAF50;">
+Compasso 1: 1-2-3-4 |<br>
+Compasso 2: 1-2-3-4 |<br>
+Compasso 3: 1-2-3-4 | ...(e repete)
           </div>
-          <p>Cada compasso tem 4 tempos. Você conta até 4 e recomeça. É como respirar no ritmo da música.</p>
+          <p>É como <strong>respirar no ritmo</strong>. Você conta até 4 e recomeça. A música respira em ciclos de 4 tempos.</p>
         </div>
 
-        <div class="exercise-card">
-          <h4>✅ Exercício Prático: Sinta o Pulso</h4>
-          <ul class="exercise-steps">
-            <li>Procure "We Will Rock You" — AC/DC (100 BPM aproximadamente)</li>
-            <li>Pressione play e apenas bata palma em cada pulso (não precisa ser rápido)</li>
+        <div class="exercise-box">
+          <h4>✅ Exercício 1: Sinta o Pulso</h4>
+          <ol class="exercise-steps">
+            <li>Procure "We Will Rock You" (Queen) ou "Back in Black" (AC/DC)</li>
+            <li>Pressione play</li>
+            <li>Apenas <strong>bata a palma</strong> em cada pulso (não precisa ser rápido)</li>
             <li>Conte em voz alta: "1-2-3-4 | 1-2-3-4"</li>
-            <li>Repita por 3 minutos — o objetivo é sentir o pulso, não contar perfeitamente</li>
-            <li>Agora feche os olhos — consegue manter o pulso sem olhar o relógio?</li>
+            <li>Repita por 3 minutos</li>
+            <li>Agora <strong>feche os olhos</strong> — consegue manter o pulso?</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-number">T3</div>
+        <div class="card-title-group">
+          <div class="card-title">Postura e Técnica</div>
+          <div class="card-subtitle">Como sentar e pegar as baquetas</div>
+        </div>
+        <div class="card-chevron">›</div>
+      </div>
+      <div class="card-body">
+        <div class="theory-box">
+          <h4>🪑 Postura Correta</h4>
+          <p><strong>Assento:</strong> Sente-se à altura do seu cotovelo quando o braço está relaxado. A altura ideal é quando sua coxa fica paralela ao chão.</p>
+          <p><strong>Distância:</strong> Sente-se perto o suficiente para atingir tudo confortavelmente, mas não muito perto (sufocante).</p>
+          <p><strong>Costas:</strong> Costas retas, não curvadas. Uma postura ruim causa dor e limita seu potencial.</p>
+        </div>
+
+        <div class="theory-box">
+          <h4>🎯 Pegada da Baqueta</h4>
+          <p><strong>Pegada Tradicional (Mais comum):</strong><br>
+          Segure a baqueta entre o <strong>polegar e o dedo indicador</strong>. Os outros dedos ficam <strong>relaxados</strong> — não é uma "garra".</p>
+          <p><strong>Ponto de Fulcro:</strong> Encontre o ponto de equilíbrio da baqueta (geralmente a 1/3 do caminho a partir do topo). Esse é o ponto de apoio.</p>
+          <p><strong>Movimento:</strong> O movimento vem do <strong>pulso</strong>, não do braço inteiro. Imagine um pêndulo — o pulso é a articulação principal.</p>
+          <p><strong>Rigidez:</strong> Se suas mãos ficarem cansadas rapidamente, significa que está usando músculos demais. A baqueta deve fazer o trabalho, não suas mãos.</p>
+        </div>
+
+        <div class="callout success">
+          <div class="callout-title">✨ Dica: Teste a Pegada Correta</div>
+          <ul>
+            <li>Segure a baqueta como descrito</li>
+            <li>Relaxe completamente os dedos — apenas o polegar e indicador sustentam</li>
+            <li>Toque o bumfo (ou qualquer superfície) — o som deve sair fácil</li>
+            <li>Se precisar de muito esforço, está pegando errado</li>
           </ul>
         </div>
       </div>
@@ -170,58 +267,54 @@ Compasso 3: 1-2-3-4 | etc.
 
   <!-- ═══ DRUM PHASE 1 ═══ -->
   <div id="drum-phase1" class="section-content" style="display:none;">
-    <div class="phase-banner gold" style="margin-top:12px;">
-      <div class="ph-num">1</div>
-      <div class="ph-info">
-        <h3>FASE 1 — Iniciante (Semanas 1–4)</h3>
-        <p>Rock Básico, Coordenação Motora, Fundamentais</p>
+    <div class="phase-banner">
+      <div class="phase-num">1</div>
+      <div class="phase-info">
+        <h3>FASE 1 — Semanas 1–4: FUNDAÇÕES</h3>
+        <p>Rock Básico, Coordenação, Independência Motora</p>
       </div>
     </div>
 
-    <div class="module-card">
-      <div class="module-header" onclick="toggleModule(this)">
-        <div class="module-num">G1</div>
-        <div>
-          <div class="module-title">Groove 01 — Rock Básico</div>
-          <div class="module-sub">O groove mais tocado do mundo</div>
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-number">G1</div>
+        <div class="card-title-group">
+          <div class="card-title">Groove 01 — Rock Básico</div>
+          <div class="card-subtitle">O groove mais tocado do mundo</div>
         </div>
-        <div class="chevron">›</div>
+        <div class="card-chevron">›</div>
       </div>
-      <div class="module-body">
-        <p>Este é o groove que você aprenderá primeiro. É a base de 80% da música popular.</p>
-        
-        <div class="theory-card">
-          <h4>Estrutura do G01</h4>
-          <p><strong>Hi-Hat:</strong> toque constante a cada colcheia (↓↑↓↑↓↑↓↑)<br>
-          <strong>Caixa:</strong> tempos 2 e 4<br>
-          <strong>Bumfo:</strong> tempos 1 e 3</p>
-          <div class="formula">
-Compasso: |  1  &  2  &  3  &  4  & |
-Hi-Hat:  |  ↓  ↑  ↓  ↑  ↓  ↑  ↓  ↑ |
-Caixa:   |        X        X       |
-Bumfo:   |  X           X          |
-          </div>
+      <div class="card-body">
+        <p>Este é o groove que você aprenderá primeiro. 80% da música pop/rock usa este padrão base.</p>
+
+        <div class="theory-box">
+          <h4>📊 Estrutura do G01</h4>
+          <p><strong>Hi-Hat:</strong> Toque constante em todas as colcheias (↓↑↓↑↓↑↓↑) = 8 toques por compasso<br>
+          <strong>Caixa:</strong> Tempos 2 e 4 (sincopado)<br>
+          <strong>Bumfo:</strong> Tempos 1 e 3</p>
         </div>
 
-        <div class="exercise-card">
-          <h4>✅ Como Praticar G01</h4>
-          <ul class="exercise-steps">
-            <li><strong>Passo 1 (Dia 1-2):</strong> Só Hi-Hat a 60 BPM por 5 minutos. Metrônomo obrigatório.</li>
-            <li><strong>Passo 2 (Dia 3-4):</strong> Hi-Hat + Caixa nos tempos 2 e 4 a 60 BPM</li>
-            <li><strong>Passo 3 (Dia 5+):</strong> Adicione o Bumfo nos tempos 1 e 3. Agora é o groove completo!</li>
-            <li><strong>Próximos 2 dias:</strong> Aumente para 70 BPM, depois 80, etc. +5 BPM a cada 2 dias</li>
-            <li><strong>Meta da semana:</strong> Tocar G01 a 100 BPM por 2 minutos seguidos sem errar</li>
-          </ul>
+        <div id="tab-g01" style="margin: 12px 0;"></div>
+
+        <div class="exercise-box">
+          <h4>✅ Como Praticar G01 (Progressão de 5 Dias)</h4>
+          <ol class="exercise-steps">
+            <li><strong>Dia 1-2:</strong> Só Hi-Hat a 60 BPM por 5 minutos. Metrônomo obrigatório. Foque na consistência.</li>
+            <li><strong>Dia 3:</strong> Mantenha Hi-Hat + Caixa (tempos 2 e 4) a 60 BPM</li>
+            <li><strong>Dia 4:</strong> Adicione Bumfo (tempos 1 e 3). Agora é o groove completo!</li>
+            <li><strong>Dia 5+:</strong> Aumente +5 BPM a cada sessão: 60→65→70→75→80→85→90→95→100 BPM</li>
+            <li><strong>Meta:</strong> Tocar G01 a 100 BPM por 2 minutos seguidos sem errar</li>
+          </ol>
         </div>
 
         <div class="music-box">
-          <div class="music-box-header">🎵 Toque com estas músicas — G01</div>
+          <div class="music-box-header">🎵 TOQUE COM ESTAS MÚSICAS</div>
           <div class="music-item">
             <span class="music-note">♪</span>
             <div class="music-info">
               <div class="music-song">We Will Rock You</div>
               <div class="music-artist">Queen</div>
-              <div class="music-tip">Perfeito para começar — groove óbvio e previsível</div>
+              <div class="music-tip">Perfeito para começar — groove óbvio, 100 BPM</div>
             </div>
           </div>
           <div class="music-item">
@@ -229,7 +322,7 @@ Bumfo:   |  X           X          |
             <div class="music-info">
               <div class="music-song">Back in Black</div>
               <div class="music-artist">AC/DC</div>
-              <div class="music-tip">Clássico absoluto — 100 BPM, rock direto</div>
+              <div class="music-tip">Clássico absoluto — 100 BPM, rock puro</div>
             </div>
           </div>
           <div class="music-item">
@@ -237,216 +330,248 @@ Bumfo:   |  X           X          |
             <div class="music-info">
               <div class="music-song">Sweet Home Chicago</div>
               <div class="music-artist">Blues Brothers</div>
-              <div class="music-tip">Um pouco mais lento (~90 BPM), excelente para consolidar</div>
+              <div class="music-tip">Um pouco mais lento (~90 BPM)</div>
             </div>
           </div>
-        </div>
-
-        <div class="goal-tracker">
-          <h4 style="margin-top:0;">Metas da Semana 1</h4>
-          <div class="goal-item">Praticar Hi-Hat fechado a 60 BPM por 5 minutos sem parar</div>
-          <div class="goal-item">Adicionar Caixa nos tempos 2 e 4 mantendo Hi-Hat</div>
-          <div class="goal-item">Adicionar Bumfo nos tempos 1 e 3</div>
-          <div class="goal-item">Atingir 100 BPM com segurança (sem parar/errar)</div>
-          <div class="goal-item">Tocar 1 música completa mantendo o groove</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="module-card">
-      <div class="module-header" onclick="toggleModule(this)">
-        <div class="module-num">G2</div>
-        <div>
-          <div class="module-title">Groove 02 — Bumfo Antecipado</div>
-          <div class="module-sub">Primeira variação do rock básico</div>
-        </div>
-        <div class="chevron">›</div>
-      </div>
-      <div class="module-body">
-        <p>Agora você vai usar uma variação: adicione um bumfo extra na 4ª colcheia ("+2"). Isso cria uma sensação de "movimento" extra.</p>
-
-        <div class="theory-card">
-          <h4>Estrutura do G02</h4>
-          <div class="formula">
-Compasso: |  1  &  2  &  3  &  4  & |
-Hi-Hat:  |  ↓  ↑  ↓  ↑  ↓  ↑  ↓  ↑ |
-Caixa:   |        X        X       |
-Bumfo:   |  X        X   X        |
-           (observe: bumfo extra no "+2")
-          </div>
-        </div>
-
-        <div class="callout slate">
-          <div class="callout-title">🎯 Quando Usar G02?</div>
-          <ul>
-            <li>Quando a música quer mais "drive" e energia</li>
-            <li>Em seções de verso após refrão mais calmo</li>
-            <li>Para criar contrast — combine G01 (verso calmo) + G02 (refrão energético)</li>
-          </ul>
-        </div>
-
-        <div class="music-box">
-          <div class="music-box-header">🎵 Músicas com Bumfo Antecipado</div>
           <div class="music-item">
             <span class="music-note">♪</span>
             <div class="music-info">
               <div class="music-song">Come As You Are</div>
               <div class="music-artist">Nirvana</div>
-              <div class="music-tip">Verso com bumfo antecipado — excelente exemplo</div>
+              <div class="music-tip">Intro com Hi-Hat — excelente referência</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-tracker">
+          <h4>✅ Checklist da Semana 1</h4>
+          <div class="goal-item" onclick="toggleGoal(this)">Praticar Hi-Hat fechado a 60 BPM (5 min)</div>
+          <div class="goal-item" onclick="toggleGoal(this)">Adicionar Caixa + Hi-Hat</div>
+          <div class="goal-item" onclick="toggleGoal(this)">Adicionar Bumfo (groove completo)</div>
+          <div class="goal-item" onclick="toggleGoal(this)">Atingir 100 BPM com segurança</div>
+          <div class="goal-item" onclick="toggleGoal(this)">Tocar 1 música completa mantendo groove</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-number">G2</div>
+        <div class="card-title-group">
+          <div class="card-title">Groove 02 — Bumfo Antecipado</div>
+          <div class="card-subtitle">Primeira variação do rock básico</div>
+        </div>
+        <div class="card-chevron">›</div>
+      </div>
+      <div class="card-body">
+        <p>Agora você vai criar movimento adicionando um bumfo extra. Isso dá mais "drive" e energia.</p>
+
+        <div class="theory-box">
+          <h4>📊 Estrutura do G02</h4>
+          <p>Tudo igual a G01, <strong>exceto:</strong> Adicione um bumfo antecipado na colcheia "+2" (meio do tempo 2).</p>
+        </div>
+
+        <div id="tab-g02" style="margin: 12px 0;"></div>
+
+        <div class="callout slate">
+          <div class="callout-title">🎯 Quando Usar G02?</div>
+          <ul>
+            <li>Quando a música precisa de mais "energia"</li>
+            <li>Em versos com mais movimento</li>
+            <li>Para criar contraste: G01 (verso calmo) → G02 (refrão energético)</li>
+          </ul>
+        </div>
+
+        <div class="music-box">
+          <div class="music-box-header">🎵 MÚSICAS COM BUMFO ANTECIPADO</div>
+          <div class="music-item">
+            <span class="music-note">♪</span>
+            <div class="music-info">
+              <div class="music-song">Smells Like Teen Spirit</div>
+              <div class="music-artist">Nirvana</div>
+              <div class="music-tip">Verso com bumfo antecipado</div>
+            </div>
+          </div>
+          <div class="music-item">
+            <span class="music-note">♪</span>
+            <div class="music-info">
+              <div class="music-song">Plug in Baby</div>
+              <div class="music-artist">Muse</div>
+              <div class="music-tip">Bumfo mais dinâmico</div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <h2>Rotina da Semana 1</h2>
+
+    <div class="theory-box">
+      <h4>📅 Plano Diário Recomendado</h4>
+      <p><strong>⏰ Dia 1-2 (15 minutos cada):</strong><br>
+      5 min: Alongamento/aquecimento<br>
+      5 min: Hi-Hat a 60 BPM (apenas isso)<br>
+      5 min: Tocar uma música fácil com o Hi-Hat</p>
+      <p><strong>⏰ Dia 3-4 (20 minutos cada):</strong><br>
+      5 min: Aquecimento<br>
+      5 min: Hi-Hat + Caixa (tempos 2 e 4)<br>
+      10 min: Tocar músicas de referência</p>
+      <p><strong>⏰ Dia 5-7 (30 minutos cada):</strong><br>
+      5 min: Aquecimento<br>
+      10 min: G01 completo a 60→70 BPM<br>
+      15 min: Tocar músicas de referência</p>
+    </div>
   </div>
 
   <!-- ═══ DRUM PHASE 2 ═══ -->
   <div id="drum-phase2" class="section-content" style="display:none;">
-    <div class="phase-banner slate" style="margin-top:12px;">
-      <div class="ph-num">2</div>
-      <div class="ph-info">
-        <h3>FASE 2 — Intermediário (Semanas 5–8)</h3>
-        <p>Dinâmica, Estilos Diversos, Independência</p>
+    <div class="phase-banner">
+      <div class="phase-num">2</div>
+      <div class="phase-info">
+        <h3>FASE 2 — Semanas 5–8: EXPANSÃO</h3>
+        <p>Dinâmica, Estilos Variados, Independência Completa</p>
       </div>
     </div>
 
     <div class="callout slate">
       <div class="callout-title">📚 Tópicos da Fase 2</div>
       <ul>
-        <li>Dinâmica (forte e suave)</li>
-        <li>Half-time feel</li>
-        <li>Funk básico (ghost notes)</li>
-        <li>Reggae</li>
-        <li>Independência dos 4 membros</li>
+        <li>✅ Dinâmica (forte vs. suave)</li>
+        <li>✅ Half-time feel</li>
+        <li>✅ Funk básico (ghost notes)</li>
+        <li>✅ Reggae</li>
+        <li>✅ Independência dos 4 membros</li>
       </ul>
     </div>
+
+    <p style="text-align: center; color: var(--gray); margin: 24px 16px;">
+      A Fase 2 será adicionada em breve com conteúdo completo 🚀
+    </p>
   </div>
 
   <!-- ═══ DRUM PHASE 3 ═══ -->
   <div id="drum-phase3" class="section-content" style="display:none;">
-    <div class="phase-banner red" style="margin-top:12px;">
-      <div class="ph-num">3</div>
-      <div class="ph-info">
-        <h3>FASE 3 — Avançado (Semanas 9–12)</h3>
-        <p>Fills Complexos, Polirritmos, Expressão Musical</p>
+    <div class="phase-banner">
+      <div class="phase-num">3</div>
+      <div class="phase-info">
+        <h3>FASE 3 — Semanas 9–12: DOMÍNIO</h3>
+        <p>Fills Complexos, Expressão, Criatividade</p>
       </div>
     </div>
 
     <div class="callout red">
       <div class="callout-title">🔥 Tópicos da Fase 3</div>
       <ul>
-        <li>Fills nos toms (viradas)</li>
-        <li>Double bass (bumfo duplo)</li>
-        <li>Metal / Prog rock</li>
-        <li>Improviso e criatividade</li>
+        <li>🔥 Fills nos toms (viradas)</li>
+        <li>🔥 Double bass (bumfo duplo)</li>
+        <li>🔥 Metal / Progressive rock</li>
+        <li>🔥 Improviso e criatividade</li>
       </ul>
     </div>
+
+    <p style="text-align: center; color: var(--gray); margin: 24px 16px;">
+      A Fase 3 será adicionada em breve com conteúdo completo 🚀
+    </p>
   </div>
 </div>
 
 <!-- ── PAGE: GUITAR ── -->
 <div class="page" id="page-guitar">
   <div class="tab-bar" id="guitar-tabs">
-    <button class="tab-btn active" onclick="showGuitarTab('guitar-theory')">Teoria</button>
-    <button class="tab-btn" onclick="showGuitarTab('guitar-phase1')">Fase 1</button>
-    <button class="tab-btn" onclick="showGuitarTab('guitar-phase2')">Fase 2</button>
-    <button class="tab-btn" onclick="showGuitarTab('guitar-phase3')">Fase 3</button>
+    <button class="tab-btn active" onclick="showGuitarTab('guitar-theory')">📚 Teoria</button>
+    <button class="tab-btn" onclick="showGuitarTab('guitar-phase1')">🎸 Fase 1</button>
+    <button class="tab-btn" onclick="showGuitarTab('guitar-phase2')">🎯 Fase 2</button>
+    <button class="tab-btn" onclick="showGuitarTab('guitar-phase3')">🔥 Fase 3</button>
   </div>
 
   <!-- ═══ GUITAR THEORY ═══ -->
   <div id="guitar-theory" class="section-content active">
-    <h2>Teoria para Guitarra</h2>
+    <h2>Fundações da Guitarra</h2>
 
-    <div class="module-card">
-      <div class="module-header" onclick="toggleModule(this)">
-        <div class="module-num">T1</div>
-        <div>
-          <div class="module-title">As 12 Notas Cromáticas</div>
-          <div class="module-sub">A base de TUDO na guitarra</div>
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-number">T1</div>
+        <div class="card-title-group">
+          <div class="card-title">As 12 Notas Cromáticas</div>
+          <div class="card-subtitle">A base de TUDO na guitarra</div>
         </div>
-        <div class="chevron">›</div>
+        <div class="card-chevron">›</div>
       </div>
-      <div class="module-body">
-        <div class="theory-card">
-          <h4>O Sistema de 12 Notas</h4>
-          <p>A música ocidental usa apenas <strong>12 notas diferentes</strong>. Depois delas, a sequência se repete (oitava acima ou abaixo):</p>
-          <div class="formula">
+      <div class="card-body">
+        <div class="theory-box">
+          <h4>🎵 O Sistema de 12 Notas</h4>
+          <p>A música ocidental usa apenas <strong>12 notas diferentes</strong>. Depois delas, a sequência se repete (mesma nota, oitava diferente):</p>
+          <div style="background: #0A0A0A; border: 1px solid #333; border-radius: 8px; padding: 10px; margin: 8px 0; font-family: monospace; font-size: 0.85rem; color: #4CAF50; text-align: center; letter-spacing: 2px;">
 C - C# - D - D# - E - F - F# - G - G# - A - A# - B - (volta para C)
           </div>
-          <p>Observe: <strong>entre E-F e B-C NÃO há nota</strong>. São semitons diretos. Isso é CRÍTICO para entender escalas.</p>
+          <p><strong>⚠️ CRÍTICO:</strong> Entre E-F e B-C <strong>NÃO há nota</strong>. São semitons diretos (sem "#"). Isso é fundamental para entender escalas!</p>
         </div>
 
-        <div class="theory-card">
-          <h4>Tons vs. Semitons</h4>
-          <p><strong>Semitom:</strong> a menor distância entre duas notas. Na guitarra, é 1 casa/traste.<br>
-          <strong>Tom:</strong> 2 semitons = 2 casas na guitarra.</p>
-          <div class="formula">
-C → C#  = 1 semitom (1 casa)
-C → D   = 1 tom (2 casas)
-E → F   = 1 semitom (SEM #, sem nota intermediária!)
+        <div class="theory-box">
+          <h4>📏 Tons vs. Semitons</h4>
+          <p><strong>Semitom:</strong> A menor distância entre 2 notas = 1 casa na guitarra<br>
+          <strong>Tom:</strong> 2 semitons = 2 casas na guitarra</p>
+          <div style="background: #0A0A0A; border: 1px solid #333; border-radius: 8px; padding: 10px; margin: 8px 0; font-family: monospace; font-size: 0.8rem; color: #F0C040;">
+C → C#  = 1 semitom (1 casa)<br>
+C → D   = 1 tom (2 casas)<br>
+E → F   = 1 semitom (SEM #!)<br>
 F → G   = 1 tom (2 casas)
           </div>
         </div>
 
-        <div class="exercise-card">
-          <h4>✅ Exercício: Memorize a Sequência</h4>
-          <ul class="exercise-steps">
-            <li>Na 6ª corda (Mi mais grave), toque cada nota: E, F, F#, G, G#, A, A#, B, C</li>
-            <li>Conte os trastes: 0, 1, 2, 3, 4, 5, 6, 7, 8</li>
+        <div class="exercise-box">
+          <h4>✅ Exercício: Memorize as 12 Notas</h4>
+          <ol class="exercise-steps">
+            <li>Na 6ª corda (Mi grave), toque: E, F, F#, G, G#, A, A#, B, C</li>
+            <li>Conta os trastes: 0, 1, 2, 3, 4, 5, 6, 7, 8</li>
             <li>Cante o nome da nota enquanto toca</li>
             <li>Repita até não precisar contar — apenas tocar e falar os nomes</li>
-            <li>Depois faça em outra corda (observe o padrão — é sempre o mesmo!)</li>
-          </ul>
+            <li>Agora faça em outra corda (5ª, 4ª, etc.)</li>
+            <li><strong>Observação:</strong> O padrão é SEMPRE o mesmo!</li>
+          </ol>
         </div>
 
-        <div class="callout gold">
-          <div class="callout-title">💡 Por que é importante?</div>
+        <div class="callout success">
+          <div class="callout-title">💡 Por que memorizar?</div>
           <ul>
-            <li>Escalas são apenas <strong>seleções de 7 notas</strong> dessas 12</li>
-            <li>Se você não sabe os 12 nomes, não consegue aprender escalas</li>
-            <li>Todos os acordes são combinações de notas específicas</li>
+            <li>Escalas são apenas "seleções de 7 notas" dessas 12</li>
+            <li>Acordes são combinações específicas de notas</li>
+            <li>Sem isso, você fica preso a memorização de padrões</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <div class="module-card">
-      <div class="module-header" onclick="toggleModule(this)">
-        <div class="module-num">T2</div>
-        <div>
-          <div class="module-title">Intervalos Musicais</div>
-          <div class="module-sub">A distância entre as notas</div>
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-number">T2</div>
+        <div class="card-title-group">
+          <div class="card-title">Postura e Técnica de Mão</div>
+          <div class="card-subtitle">Como sentar corretamente</div>
         </div>
-        <div class="chevron">›</div>
+        <div class="card-chevron">›</div>
       </div>
-      <div class="module-body">
-        <div class="theory-card">
-          <h4>O que é um Intervalo?</h4>
-          <p>Intervalo é a distância (em semitons) entre duas notas. Cada intervalo tem um nome e uma "cor" (sensação).</p>
-          <div class="formula">
-Intervalo         Semitons    Sensação
-Unísono           0           (mesma nota)
-Semitom/Segundo   1           desconfortável
-Tom/Terça Menor   2-3         triste, melancólico
-Terça Maior       4           alegre
-Quarta Perfeita   5           neutro
-Trítono           6           assustador (diabo musical!)
-Quinta Perfeita   7           estável, harmônico
-Sexta Maior       8           quente, acolhedor
-Sétima Menor      10          bluesy, tenso
-Oitava            12          mesma nota, oitava acima
-          </div>
+      <div class="card-body">
+        <div class="theory-box">
+          <h4>🪑 Postura Correta</h4>
+          <p><strong>Assento:</strong> Sente-se confortavelmente, com a guitarra repousando em sua perna esquerda (se destro).</p>
+          <p><strong>Altura da guitarra:</strong> O braço deve estar paralelo ao chão, não apontando para baixo ou para cima.</p>
+          <p><strong>Braço direito:</strong> Relaxado no corpo da guitarra, perto do buraco/pickup.</p>
+          <p><strong>Costas:</strong> Retas — não curvadas. Previne dor e permite maior precisão.</p>
         </div>
 
-        <div class="exercise-card">
-          <h4>✅ Sinta os Intervalos</h4>
-          <ul class="exercise-steps">
-            <li>Toque C na 1ª corda (traste 3 na 6ª corda, ou traste 8 na 5ª)</li>
-            <li>Toque E (4 semitons acima) — escuta como é "alegre"?</li>
-            <li>Toque F# (6 semitons acima) — escuta como é "estranho"?</li>
-            <li>Toque G (7 semitons acima) — escuta como é "estável"?</li>
-            <li>Faça isso em diferentes notas iniciais. O SENTIMENTO é sempre o mesmo</li>
-          </ul>
+        <div class="theory-box">
+          <h4>🎯 Mão Esquerda (Trastes)</h4>
+          <p><strong>Polegar:</strong> Atrás do braço, entre os dedos 1 e 2</p>
+          <p><strong>Dedos:</strong> Curvados — toque as cordas com a ponta do dedo, não com a lateral<br>
+          <strong>Pressão:</strong> Apenas o necessário para o som sair claro. Se apertar demais, cansa rápido.</p>
+        </div>
+
+        <div class="theory-box">
+          <h4>🎸 Mão Direita (Rasqueado)</h4>
+          <p><strong>Técnica de Palheta:</strong> Segure a palheta entre polegar e indicador, com a ponta para baixo (45°).</p>
+          <p><strong>Movimento:</strong> Do pulso, não do braço. Descendo (↓) e subindo (↑) em movimentos fluidamente.</p>
+          <p><strong>Posição:</strong> A palheta toca próximo do buraco/pickup, não muito perto do braço.</p>
         </div>
       </div>
     </div>
@@ -454,65 +579,111 @@ Oitava            12          mesma nota, oitava acima
 
   <!-- ═══ GUITAR PHASE 1 ═══ -->
   <div id="guitar-phase1" class="section-content" style="display:none;">
-    <div class="phase-banner gold" style="margin-top:12px;">
-      <div class="ph-num">1</div>
-      <div class="ph-info">
-        <h3>FASE 1 — Iniciante (Semanas 1–4)</h3>
-        <p>Acordes Básicos, Pentatônica Menor, Rasqueado Simples</p>
+    <div class="phase-banner">
+      <div class="phase-num">1</div>
+      <div class="phase-info">
+        <h3>FASE 1 — Semanas 1–4: FUNDAÇÕES</h3>
+        <p>Acordes Básicos, Rasqueado Simples, Transições</p>
       </div>
     </div>
 
-    <div class="module-card">
-      <div class="module-header" onclick="toggleModule(this)">
-        <div class="module-num">A1</div>
-        <div>
-          <div class="module-title">Acordes Básicos — Em, Am, G</div>
-          <div class="module-sub">Os 3 acordes mais fáceis</div>
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-number">A1</div>
+        <div class="card-title-group">
+          <div class="card-title">Os 3 Acordes Mais Fáceis</div>
+          <div class="card-subtitle">Em, Am, G — começa aqui</div>
         </div>
-        <div class="chevron">›</div>
+        <div class="card-chevron">›</div>
       </div>
-      <div class="module-body">
-        <div class="theory-card">
-          <h4>O que é um Acorde?</h4>
-          <p>Um acorde é 3 ou mais notas tocadas <strong>simultaneamente</strong>. Cada acorde tem uma "cor" — sensação emocional.</p>
-          <div class="formula">
-Acorde = Raiz + Terça + Quinta
-
-Se a Terça for:
-- 4 semitons acima = MAIOR (alegre)
-- 3 semitons acima = MENOR (triste)
+      <div class="card-body">
+        <div class="theory-box">
+          <h4>🎵 O que é um Acorde?</h4>
+          <p>Um acorde é 3+ notas tocadas <strong>ao mesmo tempo</strong>. Cada um tem uma "cor" — sensação.</p>
+          <div style="background: #0A0A0A; border: 1px solid #333; border-radius: 8px; padding: 10px; margin: 8px 0; font-family: monospace; font-size: 0.8rem; color: #4CAF50;">
+Acorde = Raiz + Terça + Quinta<br>
+<br>
+Se Terça for:<br>
+- 4 semitons = MAIOR (alegre) ✨<br>
+- 3 semitons = MENOR (triste) 😔
           </div>
         </div>
 
-        <div class="exercise-card">
-          <h4>✅ Pratique os 3 Acordes</h4>
-          <ul class="exercise-steps">
-            <li><strong>Em (Mi menor):</strong> Primeiro dedo na 1ª corda, traste 1. Segundo dedo na 4ª corda, traste 2. Toque as 6 cordas (ou pule a 6ª)</li>
-            <li><strong>Am (Lá menor):</strong> Primeiro dedo na 1ª corda, traste 1. Segundo dedo na 2ª corda, traste 1. Terceiro dedo na 3ª corda, traste 2</li>
-            <li><strong>G (Sol maior):</strong> Mais complexo — requer 3 dedos. Pratique depois de dominar Em e Am</li>
-            <li>Prátique cada acorde por 30 segundos, depois troque para o próximo</li>
-            <li>Meta: Trocar de acorde sem parar de rasguear (sem silêncios)</li>
-          </ul>
+        <div class="theory-box">
+          <h4>🎸 Acorde 1: Em (Mi Menor)</h4>
+          <p><strong>Posição:</strong><br>
+          1º dedo: 1ª corda, traste 1<br>
+          2º dedo: 4ª corda, traste 2<br>
+          <strong>Cordas a tocar:</strong> Todas (ou pule a 6ª)</p>
+          <p><strong>Som:</strong> Melancólico, "triste"</p>
+        </div>
+
+        <div class="theory-box">
+          <h4>🎸 Acorde 2: Am (Lá Menor)</h4>
+          <p><strong>Posição:</strong><br>
+          1º dedo: 1ª corda, traste 1<br>
+          2º dedo: 2ª corda, traste 1<br>
+          3º dedo: 3ª corda, traste 2<br>
+          <strong>Cordas a tocar:</strong> 5ª até 1ª (não toque a 6ª)</p>
+          <p><strong>Som:</strong> Similar a Em, mas mais "quente"</p>
+        </div>
+
+        <div class="theory-box">
+          <h4>🎸 Acorde 3: G (Sol Maior)</h4>
+          <p><strong>Posição (mais complexa):</strong><br>
+          1º dedo: 5ª corda, traste 3<br>
+          2º dedo: 6ª corda, traste 3<br>
+          3º dedo: 1ª corda, traste 3</p>
+          <p><strong>Som:</strong> Brilhante, "alegre"</p>
+          <p><strong>💡 Dica:</strong> Pratique Em e Am primeiro. Aprenda G depois.</p>
+        </div>
+
+        <div class="exercise-box">
+          <h4>✅ Rotina da Semana 1 — Acordes</h4>
+          <ol class="exercise-steps">
+            <li><strong>Dias 1-2:</strong> Aprenda posição de Em. Toque-a 20 vezes lentamente</li>
+            <li><strong>Dia 3:</strong> Aprenda posição de Am. Toque 10 vezes cada</li>
+            <li><strong>Dia 4:</strong> Alternância Em ↔ Am. Mude de acorde a cada 4 strums</li>
+            <li><strong>Dias 5-6:</strong> Mantenha Em + Am, agora começar a aprender G</li>
+            <li><strong>Dia 7:</strong> Toque todas as 3 sequências: Em → Am → G → Em</li>
+          </ol>
         </div>
 
         <div class="music-box">
-          <div class="music-box-header">🎵 Musiques com estes acordes</div>
+          <div class="music-box-header">🎵 MÚSICAS COM ESTES 3 ACORDES</div>
           <div class="music-item">
             <span class="music-note">♪</span>
             <div class="music-info">
               <div class="music-song">Knockin' on Heaven's Door</div>
               <div class="music-artist">Bob Dylan</div>
-              <div class="music-tip">G - D - Am - G. Simples e clássica</div>
+              <div class="music-tip">G - D - Am - G. Classicíssima!</div>
             </div>
           </div>
           <div class="music-item">
             <span class="music-note">♪</span>
             <div class="music-info">
-              <div class="music-song">Wonderwall</div>
+              <div class="music-song">Wonderwall (Intro)</div>
               <div class="music-artist">Oasis</div>
-              <div class="music-tip">Em7 - Dsus4. Muito próximo de Em e G</div>
+              <div class="music-tip">Em7 / Am — muito próximos</div>
             </div>
           </div>
+          <div class="music-item">
+            <span class="music-note">♪</span>
+            <div class="music-info">
+              <div class="music-song">House of the Rising Sun</div>
+              <div class="music-artist">The Animals</div>
+              <div class="music-tip">Em - G - D - A. Excelente referência</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-tracker">
+          <h4>✅ Checklist da Semana 1 — Guitarra</h4>
+          <div class="goal-item" onclick="toggleGoal(this)">Memorizar posição de Em</div>
+          <div class="goal-item" onclick="toggleGoal(this)">Memorizar posição de Am</div>
+          <div class="goal-item" onclick="toggleGoal(this)">Transição Em ↔ Am sem parar</div>
+          <div class="goal-item" onclick="toggleGoal(this)">Aprender posição de G</div>
+          <div class="goal-item" onclick="toggleGoal(this)">Tocar 1 música com estes 3 acordes</div>
         </div>
       </div>
     </div>
@@ -520,46 +691,32 @@ Se a Terça for:
 
   <!-- ═══ GUITAR PHASE 2 ═══ -->
   <div id="guitar-phase2" class="section-content" style="display:none;">
-    <div class="phase-banner slate" style="margin-top:12px;">
-      <div class="ph-num">2</div>
-      <div class="ph-info">
-        <h3>FASE 2 — Intermediário (Semanas 5–8)</h3>
-        <p>Pentatônica em Diferentes Posições, Bends, Slides</p>
+    <div class="phase-banner">
+      <div class="phase-num">2</div>
+      <div class="phase-info">
+        <h3>FASE 2 — Semanas 5–8: EXPANSÃO</h3>
+        <p>Pentatônica, Bends, Slides, Improviso Básico</p>
       </div>
     </div>
 
-    <div class="callout slate">
-      <div class="callout-title">📚 Tópicos da Fase 2</div>
-      <ul>
-        <li>Pentatônica em 5 posições diferentes</li>
-        <li>Bends (esticar a corda)</li>
-        <li>Slides (deslizar entre notas)</li>
-        <li>Vibrato</li>
-        <li>Primeira improvisação</li>
-      </ul>
-    </div>
+    <p style="text-align: center; color: var(--gray); margin: 24px 16px;">
+      A Fase 2 será adicionada em breve com conteúdo completo 🚀
+    </p>
   </div>
 
   <!-- ═══ GUITAR PHASE 3 ═══ -->
   <div id="guitar-phase3" class="section-content" style="display:none;">
-    <div class="phase-banner red" style="margin-top:12px;">
-      <div class="ph-num">3</div>
-      <div class="ph-info">
-        <h3>FASE 3 — Avançado (Semanas 9–12)</h3>
-        <p>Escalas Completas, Sweep Picking, Técnicas Avançadas</p>
+    <div class="phase-banner">
+      <div class="phase-num">3</div>
+      <div class="phase-info">
+        <h3>FASE 3 — Semanas 9–12: DOMÍNIO</h3>
+        <p>Escalas Completas, Técnicas Avançadas, Composição</p>
       </div>
     </div>
 
-    <div class="callout red">
-      <div class="callout-title">🔥 Tópicos da Fase 3</div>
-      <ul>
-        <li>Escala Maior</li>
-        <li>Escala Menor Harmônica</li>
-        <li>Sweep picking</li>
-        <li>Sequências de improvisação</li>
-        <li>Análise de músicas</li>
-      </ul>
-    </div>
+    <p style="text-align: center; color: var(--gray); margin: 24px 16px;">
+      A Fase 3 será adicionada em breve com conteúdo completo 🚀
+    </p>
   </div>
 </div>
 
@@ -573,29 +730,31 @@ Se a Terça for:
       <div class="metro-label">BPM</div>
     </div>
     <div class="metro-beat-vis" id="beatVis"></div>
-    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+    <div class="metro-controls">
+      <button class="metro-btn" onclick="changeBpm(-10)">−10</button>
       <button class="metro-btn" onclick="changeBpm(-5)">−5</button>
       <input type="range" class="metro-slider" id="bpmSlider" min="40" max="220" value="80" oninput="setBpm(this.value)">
       <button class="metro-btn" onclick="changeBpm(5)">+5</button>
+      <button class="metro-btn" onclick="changeBpm(10)">+10</button>
     </div>
     <button class="metro-btn play" id="metroPlayBtn" onclick="toggleMetro()">▶ TOCAR</button>
     <div class="metro-sig" id="metroSig"></div>
   </div>
 
   <h2>Referências de BPM</h2>
-  <div class="module-card" style="margin:0 16px 8px;">
-    <div style="padding:10px 14px;">
+  <div class="card" style="margin:0 16px;">
+    <div class="card-body">
       <div id="bpmRefs"></div>
     </div>
   </div>
 
   <div class="callout gold" style="margin:16px;">
-    <div class="callout-title">💡 Como Usar o Metrônomo</div>
+    <div class="callout-title">💡 COMO USAR O METRÔNOMO</div>
     <ul>
-      <li>Sempre comece em 60 BPM — não importa o quão fácil pareça</li>
-      <li>Pratique até conseguir fazer 3 repetições perfeitas (sem errar) antes de aumentar</li>
-      <li>Aumente +5 BPM a cada sessão completa</li>
-      <li>Se errar, volte -10 BPM</li>
+      <li><strong>Sempre comece em 60 BPM</strong> — não importa quão fácil pareça</li>
+      <li><strong>Pratique até 3 repetições perfeitas</strong> (sem errar) antes de aumentar</li>
+      <li><strong>Aumente +5 BPM</strong> a cada sessão completa</li>
+      <li><strong>Se errar,</strong> volte −10 BPM e repita</li>
     </ul>
   </div>
 </div>
@@ -604,58 +763,69 @@ Se a Terça for:
 <div class="page" id="page-progress">
   <h2>Plano de 12 Semanas</h2>
   
-  <div class="module-card" style="margin:12px 16px 0;">
-    <div class="module-header" onclick="toggleModule(this)">
-      <div class="module-num">W1</div>
-      <div>
-        <div class="module-title">Semana 1 — Fundações</div>
-        <div class="module-sub">Pulso, Tempo, Primeiros Acordes</div>
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-number">W1</div>
+      <div class="card-title-group">
+        <div class="card-title">Semana 1 — Fundações</div>
+        <div class="card-subtitle">Pulso, Primeiros Acordes, Independência</div>
       </div>
-      <div class="chevron">›</div>
+      <div class="card-chevron">›</div>
     </div>
-    <div class="module-body">
-      <h4>🥁 Bateria</h4>
-      <ul>
-        <li>Entender pulso e BPM</li>
+    <div class="card-body">
+      <h4>🥁 Bateria — 20 min/dia</h4>
+      <ul style="padding-left: 16px;">
+        <li>Entender pulso e BPM (5 min de lição)</li>
         <li>Praticar Hi-Hat fechado a 60 BPM (5 min)</li>
-        <li>Adicionar Caixa e Bumfo</li>
-        <li>Atingir Groove 01 a 80 BPM</li>
+        <li>Adicionar Caixa e Bumfo (5 min)</li>
+        <li>Tocar 1ª música de referência (5 min)</li>
       </ul>
-      <h4>🎸 Guitarra</h4>
-      <ul>
-        <li>Memorizar as 12 notas cromáticas</li>
-        <li>Aprender posição de Em</li>
-        <li>Aprender posição de Am</li>
-        <li>Praticar transição Em → Am</li>
+      <h4>🎸 Guitarra — 20 min/dia</h4>
+      <ul style="padding-left: 16px;">
+        <li>Memorizar 12 notas cromáticas (5 min)</li>
+        <li>Aprender posição de Em (5 min)</li>
+        <li>Aprender posição de Am (5 min)</li>
+        <li>Praticar transição Em → Am (5 min)</li>
       </ul>
-      <h4>⏱️ Tempo de Prática Recomendado</h4>
-      <p>15 min bateria + 15 min guitarra = 30 min/dia</p>
+      <h4>📊 Foco</h4>
+      <p>Qualidade acima de velocidade. Se o som não sair limpo, volte para o básico.</p>
     </div>
   </div>
 
-  <div class="module-card" style="margin:12px 16px 0;">
-    <div class="module-header" onclick="toggleModule(this)">
-      <div class="module-num">W2</div>
-      <div>
-        <div class="module-title">Semana 2 — Consolidação</div>
-        <div class="module-sub">Aumentar Velocidade, Adicionar Acordes</div>
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-number">W2</div>
+      <div class="card-title-group">
+        <div class="card-title">Semana 2 — Consolidação</div>
+        <div class="card-subtitle">Aumentar Velocidade, Adicionar Complexidade</div>
       </div>
-      <div class="chevron">›</div>
+      <div class="card-chevron">›</div>
     </div>
-    <div class="module-body">
+    <div class="card-body">
       <h4>🥁 Bateria</h4>
-      <ul>
-        <li>G01 a 100 BPM (meta: 2 minutos sem parar)</li>
+      <ul style="padding-left: 16px;">
+        <li>G01 a 100 BPM (meta: 2 min sem parar)</li>
         <li>Conhecer Groove 02 (bumfo antecipado)</li>
-        <li>Tocar 1ª música completa</li>
+        <li>Tocar 2-3 músicas de referência</li>
       </ul>
       <h4>🎸 Guitarra</h4>
-      <ul>
+      <ul style="padding-left: 16px;">
         <li>Aprender posição de G</li>
-        <li>Praticar transição G → Em → Am</li>
+        <li>Transição Em → Am → G (em loop)</li>
         <li>Aprender rasqueado básico (down-up)</li>
       </ul>
     </div>
+  </div>
+
+  <div class="callout success" style="margin:16px;">
+    <div class="callout-title">✨ DICAS PARA MANTER A MOTIVAÇÃO</div>
+    <ul>
+      <li><strong>Grave a si mesmo:</strong> Compare semana a semana — o progresso motiva</li>
+      <li><strong>Toque com amigos:</strong> Mesmo que estejam em níveis diferentes</li>
+      <li><strong>Escolha músicas que você ama:</strong> Não pratique algo que não gosta</li>
+      <li><strong>Aceite que vai "plateauar":</strong> Semanas sem progresso aparente são normais</li>
+      <li><strong>Celebre pequenas vitórias:</strong> Conseguiu fazer em 80 BPM? Ótimo!</li>
+    </ul>
   </div>
 </div>
 
