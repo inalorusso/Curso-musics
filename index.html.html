@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Bateria & Guitarra — Curso Interativo</title>
+<style>
+/* ── TOKENS ── */
+:root {
+  --bg: #0E0E0E;
+  --surface: #1A1A1A;
+  --surface2: #242424;
+  --border: #2E2E2E;
+  --gold: #C8971A;
+  --gold2: #F0C040;
+  --red: #C0392B;
+  --slate: #4A90D9;
+  --cream: #FAF7F2;
+  --gray: #8A8A8A;
+  --lgray: #555;
+  --white: #FFFFFF;
+  --font-display: 'Georgia', 'Times New Roman', serif;
+  --font-body: -apple-system, 'Helvetica Neue', sans-serif;
+  --radius: 10px;
+  --tab-height: 56px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  padding-bottom: calc(var(--tab-height) + env(safe-area-inset-bottom));
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+.app-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px 8px;
+  display: flex; align-items: center; gap: 10px;
+}
+.app-header h1 {
+  font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--gold);
+  flex: 1;
+}
+.app-header .phase-badge {
+  font-size: 0.65rem; font-weight: 700;
+  background: var(--gold); color: #000;
+  padding: 2px 8px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  height: calc(var(--tab-height) + env(safe-area-inset-bottom));
+  background: #111;
+  border-top: 1px solid var(--border);
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-tab {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  background: none; border: none; color: var(--lgray);
+  font-size: 0.6rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.04em; cursor: pointer;
+  transition: color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-tab.active { color: var(--gold); }
+.nav-tab svg { width: 22px; height: 22px; }
+
+/* ── PAGES ── */
+.page { display: none; padding: 0 0 16px; }
+.page.active { display: block; }
+
+/* ── SECTION ── */
+.section { padding: 16px 16px 0; }
+.section + .section { padding-top: 0; }
+
+/* ── MODULE CARD ── */
+.module-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 12px 16px 0;
+  overflow: hidden;
+}
+.module-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.module-header:active { background: var(--surface2); }
+.module-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--gold); color: #000;
+  font-weight: 800; font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.module-title { flex: 1; font-size: 0.9rem; font-weight: 600; }
+.module-sub { font-size: 0.7rem; color: var(--gray); margin-top: 1px; }
+.chevron {
+  color: var(--lgray); font-size: 1rem;
+  transition: transform 0.25s; flex-shrink: 0;
+}
+.module-card.open .chevron { transform: rotate(90deg); }
+.module-body {
+  display: none; padding: 0 14px 14px;
+  border-top: 1px solid var(--border);
+}
+.module-card.open .module-body { display: block; }
+
+/* ── PHASE BANNER ── */
+.phase-banner {
+  margin: 16px 16px 0;
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.phase-banner.gold { background: linear-gradient(135deg,#3A2800,#1A1200); border: 1px solid var(--gold); }
+.phase-banner.slate { background: linear-gradient(135deg,#0A1A30,#050E1A); border: 1px solid var(--slate); }
+.phase-banner.red { background: linear-gradient(135deg,#2A0800,#150400); border: 1px solid var(--red); }
+.phase-banner .ph-num { font-family: var(--font-display); font-size: 2rem; font-weight: 700; line-height: 1; }
+.phase-banner.gold .ph-num { color: var(--gold); }
+.phase-banner.slate .ph-num { color: var(--slate); }
+.phase-banner.red .ph-num { color: var(--red); }
+.phase-banner .ph-info h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 2px; }
+.phase-banner .ph-info p { font-size: 0.7rem; color: var(--gray); }
+
+/* ── DRUM TAB ── */
+.dtab-wrap {
+  background: #FFFDF5;
+  border: 1px solid #D4C080;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 10px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.dtab-title {
+  font-size: 0.75rem; font-weight: 700; color: #1A1A1A;
+  padding: 6px 8px 2px;
+  border-bottom: 1px solid #E8D88A;
+}
+.dtab-bpm { font-weight: 400; color: #888; float: right; }
+.dtab {
+  display: table;
+  min-width: 100%;
+  border-collapse: collapse;
+  padding: 4px 0;
+}
+.dtab-row {
+  display: table-row;
+}
+.dtab-label {
+  display: table-cell;
+  font-size: 0.65rem; font-weight: 700; color: #2C3E50;
+  padding: 0 6px;
+  white-space: nowrap;
+  vertical-align: middle;
+  width: 32px;
+}
+.dtab-cells {
+  display: table-cell;
+  vertical-align: middle;
+}
+.dtab-cells-inner {
+  display: flex;
+}
+.dtab-cell {
+  width: 28px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  border-right: 1px solid #F0E8C0;
+  flex-shrink: 0;
+  position: relative;
+}
+.dtab-cell::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 1px;
+  background: #D8C878;
+  pointer-events: none;
+}
+.dtab-cell.beat-start { border-right-color: #C8A840; }
+.dtab-cell.bar-start { border-left: 2px solid #B89030; }
+.sym-x { color: #1A1A1A; font-weight: 800; z-index: 1; position: relative; }
+.sym-X { color: #C0392B; font-weight: 800; z-index: 1; position: relative; }
+.sym-o { color: #C8971A; font-weight: 800; z-index: 1; position: relative; }
+.sym-s { width: 14px; height: 14px; border-radius: 50%; background: #2C3E50; z-index: 1; position: relative; }
+.sym-S { width: 14px; height: 14px; border-radius: 50%; background: #C0392B; z-index: 1; position: relative; }
+.sym-b { width: 14px; height: 14px; border-radius: 50%; background: #1A1A1A; z-index: 1; position: relative; }
+.sym-g { color: #999; font-size: 0.65rem; z-index: 1; position: relative; }
+.sym-dot { color: #C8B880; font-size: 0.7rem; z-index: 1; position: relative; }
+.sym-plus { color: #2C3E50; font-weight: 800; z-index: 1; position: relative; }
+.dtab-beat-row {
+  display: table-row;
+}
+.dtab-beat-label { display: table-cell; width: 32px; }
+.dtab-beat-cells { display: table-cell; }
+.dtab-beat-cells-inner { display: flex; }
+.dtab-beat-cell {
+  width: 28px; height: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.55rem; color: #AAA; flex-shrink: 0;
+}
+
+/* ── MUSIC BOX ── */
+.music-box {
+  background: #111; border: 1px solid #333;
+  border-radius: 8px; margin: 10px 0; overflow: hidden;
+}
+.music-box-header {
+  background: var(--gold); color: #000;
+  font-size: 0.7rem; font-weight: 800;
+  padding: 5px 10px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.music-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #222;
+}
+.music-item:last-child { border-bottom: none; }
+.music-note { font-size: 1rem; }
+.music-info { flex: 1; }
+.music-song { font-size: 0.8rem; font-weight: 700; color: var(--cream); }
+.music-artist { font-size: 0.7rem; color: var(--gray); }
+.music-tip { font-size: 0.65rem; color: var(--gold); margin-top: 1px; }
+
+/* ── CALLOUT ── */
+.callout {
+  border-radius: 8px; margin: 10px 0;
+  padding: 10px 12px;
+  border-left: 3px solid;
+}
+.callout.gold { background: #1A1200; border-color: var(--gold); }
+.callout.slate { background: #050E1A; border-color: var(--slate); }
+.callout.red { background: #150400; border-color: var(--red); }
+.callout-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; }
+.callout.gold .callout-title { color: var(--gold); }
+.callout.slate .callout-title { color: var(--slate); }
+.callout.red .callout-title { color: var(--red); }
+.callout ul { padding-left: 14px; }
+.callout li { font-size: 0.78rem; color: #CCC; margin-bottom: 4px; line-height: 1.4; }
+
+/* ── THEORY CARD ── */
+.theory-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+}
+.theory-card h4 { font-size: 0.85rem; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+.theory-card p, .theory-card li { font-size: 0.8rem; color: #CCC; line-height: 1.5; }
+.theory-card ul { padding-left: 16px; }
+.theory-card .formula {
+  background: #0A0A0A; border: 1px solid var(--gold);
+  border-radius: 6px; padding: 8px 12px;
+  font-family: monospace; font-size: 0.85rem;
+  color: var(--gold2); margin: 8px 0;
+  letter-spacing: 0.05em;
+}
+
+/* ── CHROMATIC KEYBOARD ── */
+.chromatic {
+  display: flex; margin: 8px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  gap: 2px;
+  padding: 4px;
+  background: #111; border-radius: 8px;
+}
+.key {
+  min-width: 32px; height: 56px;
+  border-radius: 4px; border: 1px solid #333;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding-bottom: 4px;
+  font-size: 0.6rem; font-weight: 700;
+  flex-shrink: 0; cursor: pointer;
+  transition: transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.key:active { transform: scaleY(0.95); }
+.key.natural { background: var(--cream); color: #222; }
+.key.sharp { background: #1A1A1A; color: #CCC; height: 36px; }
+.key.highlight { background: var(--gold) !important; color: #000 !important; }
+.key.highlight2 { background: var(--slate) !important; color: white !important; }
+
+/* ── INTERVAL GRID ── */
+.interval-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 3px; margin: 8px 0;
+}
+.interval-box {
+  background: var(--surface2);
+  border-radius: 6px; padding: 6px 4px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.interval-box.root { background: var(--red); border-color: var(--red); }
+.interval-box.important { border-color: var(--gold); }
+.interval-name { font-size: 0.55rem; color: var(--gray); }
+.interval-note { font-size: 0.9rem; font-weight: 800; color: var(--cream); }
+.interval-box.root .interval-note, .interval-box.root .interval-name { color: white; }
+.interval-st { font-size: 0.55rem; color: var(--gold); margin-top: 1px; }
+
+/* ── PROGRESS TRACKER ── */
+.progress-section {
+  padding: 16px;
+}
+.week-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.week-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.week-header:active { background: var(--surface2); }
+.week-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.85rem; flex-shrink: 0;
+}
+.week-num.done { background: #1A3A1A; color: #4CAF50; border: 2px solid #4CAF50; }
+.week-num.current { background: var(--gold); color: #000; }
+.week-num.future { background: var(--surface2); color: var(--gray); border: 2px solid var(--border); }
+.week-info { flex: 1; }
+.week-title { font-size: 0.85rem; font-weight: 600; }
+.week-focus { font-size: 0.7rem; color: var(--gray); margin-top: 1px; }
+.week-body {
+  display: none; padding: 0 12px 12px;
+  border-top: 1px solid var(--border);
+}
+.week-card.open .week-body { display: block; }
+.week-body p { font-size: 0.8rem; color: #CCC; margin-top: 8px; line-height: 1.5; }
+.checklist { margin-top: 8px; }
+.check-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.check-item:last-child { border-bottom: none; }
+.check-box {
+  width: 20px; height: 20px; border-radius: 4px;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.check-item.checked .check-box { background: #4CAF50; border-color: #4CAF50; }
+.check-label { font-size: 0.8rem; color: #CCC; flex: 1; }
+.check-item.checked .check-label { text-decoration: line-through; color: var(--lgray); }
+
+/* ── METRONOME ── */
+.metronome {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 12px 16px 0;
+  padding: 16px;
+}
+.metro-display {
+  text-align: center; margin-bottom: 16px;
+}
+.metro-bpm {
+  font-family: var(--font-display);
+  font-size: 4rem; font-weight: 700;
+  color: var(--gold); line-height: 1;
+}
+.metro-label { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; }
+.metro-beat-vis {
+  display: flex; gap: 6px; justify-content: center; margin: 12px 0;
+}
+.beat-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--surface2); border: 2px solid var(--border);
+  transition: all 0.05s;
+}
+.beat-dot.active { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+.beat-dot.accent { background: var(--red); border-color: var(--red); }
+.metro-controls {
+  display: flex; align-items: center; gap: 10px;
+}
+.metro-btn {
+  background: none; border: 2px solid var(--border);
+  border-radius: 8px; padding: 10px 16px;
+  color: var(--cream); font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+.metro-btn:active { background: var(--surface2); }
+.metro-btn.play { background: var(--gold); border-color: var(--gold); color: #000; flex: 1; }
+.metro-btn.play.running { background: var(--red); border-color: var(--red); color: white; }
+.metro-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 4px; border-radius: 2px; background: var(--border); outline: none; }
+.metro-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); cursor: pointer; }
+.metro-sig { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.metro-sig button {
+  flex: 1; min-width: 60px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px; color: var(--cream);
+  font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.metro-sig button.active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+/* ── FRETBOARD ── */
+.fretboard-wrap {
+  overflow-x: auto;
+  background: #FFFDF5;
+  border-radius: 8px;
+  margin: 8px 0;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.fretboard {
+  display: grid;
+  grid-template-columns: 28px repeat(13, 38px);
+  grid-template-rows: repeat(6, 32px);
+  min-width: fit-content;
+  padding: 0 8px;
+  position: relative;
+}
+.fb-label {
+  font-size: 0.7rem; font-weight: 800; color: #8B6914;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 6px;
+}
+.fb-cell {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  border-right: 1px solid #C0A050;
+}
+.fb-cell::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0; height: 1px;
+  background: #C8A060;
+}
+.fb-cell:last-child { border-right: 2px solid #8B6914; }
+.fb-note {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 800;
+  z-index: 1; position: relative;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.fb-note.root { background: #C0392B; color: white; }
+.fb-note.scale { background: #2E7D32; color: white; }
+.fb-note.scale2 { background: #4A90D9; color: white; }
+.fb-note.blues { background: #8B4513; color: white; }
+.fb-nut { border-left: 4px solid #5C3A00; }
+.fb-fret-num {
+  font-size: 0.6rem; color: #8B6914;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 2px;
+}
+.inlay {
+  position: absolute; width: 8px; height: 8px;
+  border-radius: 50%; background: #E8D080;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+/* ── SCALE SELECTOR ── */
+.scale-selector {
+  display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0;
+}
+.scale-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 12px;
+  font-size: 0.75rem; color: var(--cream); cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+.scale-btn.active { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 700; }
+
+/* ── TYPOGRAPHY ── */
+h2 { font-size: 1.1rem; font-weight: 700; color: var(--gold); padding: 16px 16px 4px; }
+h3 { font-size: 0.95rem; font-weight: 700; color: var(--cream); margin: 12px 0 6px; }
+p { font-size: 0.82rem; color: #CCC; line-height: 1.5; margin: 6px 0; }
+.tag {
+  display: inline-block;
+  font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 20px; margin: 2px 2px 2px 0;
+}
+.tag-gold { background: #2A1E00; color: var(--gold); border: 1px solid var(--gold); }
+.tag-slate { background: #05101A; color: var(--slate); border: 1px solid var(--slate); }
+.tag-red { background: #150400; color: var(--red); border: 1px solid var(--red); }
+
+/* ── SCROLL HINT ── */
+.scroll-hint { font-size: 0.65rem; color: var(--lgray); padding: 4px 0 0; text-align: right; }
+
+/* ── HERO ── */
+.hero {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+.hero h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem; padding: 0; margin-bottom: 4px;
+  color: var(--cream);
+}
+.hero h2 span { color: var(--gold); }
+.hero p { font-size: 0.82rem; color: var(--gray); }
+.hero-badges { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.hero-badge {
+  font-size: 0.65rem; font-weight: 700;
+  padding: 4px 10px; border-radius: 20px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--gray);
+}
+
+/* ── DIVIDER ── */
+.divider {
+  border: none; border-top: 1px solid var(--border);
+  margin: 14px 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header class="app-header">
+  <h1>🥁 Bateria & 🎸 Guitarra</h1>
+  <span class="phase-badge" id="currentPhase">Fase 1</span>
+</header>
+
+<!-- ══════════════ PAGES ══════════════ -->
+
+<!-- ── PAGE: HOME ── -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <h2>Seu curso <span>interativo</span></h2>
+    <p>Exercícios, teoria, metrônomo e plano — tudo no celular.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">🥁 D-Tech Nexus</span>
+      <span class="hero-badge">🎸 Telecaster LH</span>
+      <span class="hero-badge">📅 12 semanas</span>
+    </div>
+  </div>
+
+  <!-- Quick access -->
+  <h2>Acesso Rápido</h2>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 16px;">
+    <button onclick="goToTab('metronomepage')" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;color:var(--cream);font-size:0.85rem;font-weight:700;cursor:pointer;text-align:left;">
+      🎵 Metrônomo<br><span style="font-size:0.7rem;color:var(--gray);font-weight:400;">Praticar agora</span>
+    </button>
+    <button onclick="goToTab('progresspage')" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;color:var(--cream);font-size:0.85rem;font-weight:700;cursor:pointer;text-align:left;">
+      ✅ Progresso<br><span style="font-size:0.7rem;color:var(--gray);font-weight:400;">Ver semana atual</span>
+    </button>
+    <button onclick="goToTab('bateriapage')" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;color:var(--cream);font-size:0.85rem;font-weight:700;cursor:pointer;text-align:left;">
+      🥁 Bateria<br><span style="font-size:0.7rem;color:var(--gray);font-weight:400;">Grooves & Fills</span>
+    </button>
+    <button onclick="goToTab('guitarrapage')" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;color:var(--cream);font-size:0.85rem;font-weight:700;cursor:pointer;text-align:left;">
+      🎸 Guitarra<br><span style="font-size:0.7rem;color:var(--gray);font-weight:400;">Teoria & Escalas</span>
+    </button>
+  </div>
+
+  <!-- Rotina diária -->
+  <h2>Rotina de Hoje</h2>
+  <div class="module-card" style="margin:0 16px 8px;">
+    <div style="padding:12px 14px;">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+        <span style="font-size:1.2rem;">⏱️</span>
+        <span style="font-size:0.9rem;font-weight:700;">45 minutos</span>
+      </div>
+      <div id="routineItems"></div>
+    </div>
+  </div>
+
+  <!-- Blues tip -->
+  <div class="callout gold" style="margin:12px 16px 0;">
+    <div class="callout-title">🎵 Dica do Dia — Blues</div>
+    <ul>
+      <li>O blues usa o padrão I–IV–V em 12 compassos. Em Lá: <strong>A7 – D7 – E7</strong></li>
+      <li>No groove de bateria: o shuffle é obrigatório — colcheias "balançadas"</li>
+      <li>Ouça: Stevie Ray Vaughan "Pride and Joy" — 5 minutos antes de praticar</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── PAGE: BATERIA ── -->
+<div class="page" id="page-bateria">
+  <div class="phase-banner gold">
+    <div class="ph-num">1</div>
+    <div class="ph-info">
+      <h3>FASE 1 — Iniciante</h3>
+      <p>Semanas 1–4 · Rock básico</p>
+    </div>
+  </div>
+
+  <!-- MÓDULO BLUES -->
+  <div class="module-card">
+    <div class="module-header" onclick="toggleModule(this)">
+      <div class="module-num" style="background:var(--red);">B</div>
+      <div>
+        <div class="module-title">MÓDULO BLUES — Teoria e Prática</div>
+        <div class="module-sub">Shuffle, 12 compassos, Swing</div>
+      </div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="module-body">
+      <h3>O que é o Blues na Bateria?</h3>
+      <p>O blues se baseia em 3 elementos: o <strong>shuffle rítmico</strong> (colcheias "balançadas"), o <strong>12-bar form</strong> (estrutura de 12 compassos) e a <strong>dinâmica expressiva</strong>. O baterista de blues é o coração emocional da banda.</p>
+
+      <div class="theory-card">
+        <h4>A Estrutura dos 12 Compassos</h4>
+        <p>O blues padrão em Lá (A) repete esta sequência:</p>
+        <div class="formula">
+ C1–4:  A7  A7  A7  A7  (Tônica — 4 comp.)
+ C5–6:  D7  D7          (Subdominante — 2 comp.)
+ C7–8:  A7  A7          (Tônica — 2 comp.)
+ C9:    E7              (Dominante)
+ C10:   D7              (Subdominante)
+ C11–12: A7  E7         (Tônica + turnaround)
+        </div>
+        <p>Na bateria: você toca 12 compassos de shuffle e recomeça. A estrutura se repete várias vezes.</p>
+      </div>
+
+      <h3>Groove de Blues Shuffle</h3>
+      <p>O shuffle usa tripletos: a colcheia fica longa-curta em vez de igual. Conte: <strong>"1-la-li 2-la-li 3-la-li 4-la-li"</strong>. Você toca no "1" e no "li".</p>
+
+      <div id="tab-blues-shuffle"></div>
+
+      <div class="music-box">
+        <div class="music-box-header">🎵 MÚSICAS ESSENCIAIS DE BLUES</div>
+        <div class="music-item">
+          <span class="music-note">♪</span>
+          <div class="music-info">
+            <div class="music-song">Pride and Joy</div>
+            <div class="music-artist">Stevie Ray Vaughan</div>
+            <div class="music-tip">Shuffle médio perfeito para estudar</div>
+          </div>
+        </div>
+        <div class="music-item">
+          <span class="music-note">♪</span>
+          <div class="music-info">
+            <div class="music-song">Sweet Home Chicago</div>
+            <div class="music-artist">Robert Johnson / Blues Brothers</div>
+            <div class="music-tip">Shuffle lento — ideal para iniciante</div>
+          </div>
+        </div>
+        <div class="music-item">
+          <span class="music-note">♪</span>
+          <div class="music-info">
+            <div class="music-song">Hound Dog</div>
+            <div class="music-artist">Elvis Presley</div>
+            <div class="music-tip">Shuffle simples e direto</div>
+          </div>
+        </div>
+        <div class="music-item">
+          <span class="music-note">♪</span>
+          <div class="music-info">
+            <div class="music-song">The Thrill is Gone</div>
+            <div class="music-artist">B.B. King</div>
+            <div class="music-tip">Blues lento — dinâmica e expressão</div>
+          </div>
+        </div>
+        <div class="music-item">
+          <span class="music-note">♪</span>
+          <div class="music-info">
+            <div class="music-song">Boom Boom</div>
+            <div class="music-artist">John Lee Hooker</div>
+            <div class="music-tip">Groove pesado, bumbo forte</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Groove de Blues Rápido (Uptempo)</h3>
+      <div id="tab-blues-up"></div>
+
+      <h3>Blues em 6/8 — Slow Blues</h3>
+      <p>O slow blues usa compasso 6/8. Cada tempo tem 3 colcheias. Sensação de balanço mais lento e pesado:</p>
+      <div id="tab-blues-68"></div>
+
+      <div class="callout red">
+        <div class="callout-title">⚠️ Erro Comum no Shuffle</div>
+        <ul>
+          <li>Não toque colcheias iguais — o shuffle DEVE ser desigual (longo-curto)</li>
+          <li>O hihat não fecha completamente entre os tripletos — deixe "respirar"</li>
+          <li>Ouça MUITO blues antes de tocar — o groove entra pelo ouvido, não pela cabeça</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÓDULO GROOVES -->
+  <div class="module-card">
+    <div class="module-header" onclick="toggleModule(this)">
+      <div class="module-num">1</div>
+      <div>
+        <div class="module-title">Grooves Essenciais</div>
+        <div class="module-sub">Rock, Half-time, Funk básico</div>
+      </div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="module-body">
+      <h3>G01 — Rock Básico</h3>
+      <p>HH constante, caixa nos tempos 2 e 4, bumbo nos tempos 1 e 3.</p>
+      <div id="tab-g01"></div>
+      <div class="music-box">
+        <div class="music-box-header">🎵 TOQUE COM ESTAS MÚSICAS</div>
+        <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song">Back in Black</div><div class="music-artist">AC/DC</div><div class="music-tip">Rock puro</div></div></div>
+        <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song">We Will Rock You</div><div class="music-artist">Queen</div><div class="music-tip">Groove simplificado</div></div></div>
+      </div>
+      <hr class="divider">
+      <h3>G06 — Half-Time Feel</h3>
+      <p>Caixa apenas no tempo 3. Sensação de câmera lenta.</p>
+      <div id="tab-g06"></div>
+      <div class="music-box">
+        <div class="music-box-header">🎵 HALF-TIME</div>
+        <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song">In the Air Tonight</div><div class="music-artist">Phil Collins</div><div class="music-tip">Entrada icônica da caixa</div></div></div>
+      </div>
+      <hr class="divider">
+      <h3>G10 — Funk Básico</h3>
+      <p>Semicolcheias no HH, ghost notes (parênteses) na caixa.</p>
+      <div id="tab-g10"></div>
+      <div class="music-box">
+        <div class="music-box-header">🎵 FUNK</div>
+        <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song">Superstition</div><div class="music-artist">Stevie Wonder</div><div class="music-tip">Funk icônico</div></div></div>
+        <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song">Sex Machine</div><div class="music-artist">James Brown</div><div class="music-tip">O groove de funk original</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÓDULO RUDIMENTOS -->
+  <div class="module-card">
+    <div class="module-header" onclick="toggleModule(this)">
+      <div class="module-num">2</div>
+      <div>
+        <div class="module-title">Rudimentos</div>
+        <div class="module-sub">Single, Double, Paradiddle, Flam</div>
+      </div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="module-body">
+      <h3>R1 — Single Stroke</h3>
+      <p>RLRL alternado. Base de tudo. Metrônomo: 60→120 BPM.</p>
+      <div id="tab-r1"></div>
+      <h3>R3 — Paradiddle</h3>
+      <p>RLRR LRLL. Acente o primeiro toque (^). 60→110 BPM.</p>
+      <div id="tab-r3"></div>
+      <div class="callout gold">
+        <div class="callout-title">⏱️ Regra dos Rudimentos</div>
+        <ul>
+          <li>Metrônomo SEMPRE — sem ele não é prática</li>
+          <li>Aumente 5 BPM só após 3 sessões perfeitas</li>
+          <li>15 min/dia > 1 hora por semana</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÓDULO FILLS -->
+  <div class="module-card">
+    <div class="module-header" onclick="toggleModule(this)">
+      <div class="module-num">3</div>
+      <div>
+        <div class="module-title">Fills (Viradas)</div>
+        <div class="module-sub">Integração com o groove</div>
+      </div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="module-body">
+      <h3>F01 — Descida nos Toms</h3>
+      <div id="tab-f01"></div>
+      <div class="callout slate">
+        <div class="callout-title">Como Integrar</div>
+        <ul>
+          <li>Fórmula: 3 compassos de groove + 1 fill. Repita 10x.</li>
+          <li>Crash no tempo 1 APÓS o fill — marca nova seção</li>
+          <li>Conte internamente: "1-2-3-FILL"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE: GUITARRA ── -->
+<div class="page" id="page-guitarra">
+  <h2>Teoria Musical</h2>
+
+  <div class="module-card">
+    <div class="module-header" onclick="toggleModule(this)">
+      <div class="module-num" style="background:var(--slate);">T</div>
+      <div>
+        <div class="module-title">As 12 Notas</div>
+        <div class="module-sub">Cromático, tons e semitons</div>
+      </div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="module-body">
+      <p>O sistema ocidental usa <strong>12 notas</strong>. Cada casa na guitarra = 1 semitom. 12 casas = 1 oitava.</p>
+      <p class="scroll-hint">← deslize para ver todas →</p>
+      <div class="chromatic" id="chromaticRow"></div>
+      <div class="theory-card">
+        <h4>⚠️ Regra Crítica</h4>
+        <p>Entre <strong>E→F</strong> e <strong>B→C</strong> NÃO há nota. São semitons diretos sem # entre eles. Isso define o padrão de todas as escalas.</p>
+      </div>
+      <h3>Intervalos Fundamentais</h3>
+      <div class="interval-grid" id="intervalGrid"></div>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <div class="module-header" onclick="toggleModule(this)">
+      <div class="module-num" style="background:var(--slate);">E</div>
+      <div>
+        <div class="module-title">Escalas no Braço</div>
+        <div class="module-sub">Pentatônica, Maior, Blues</div>
+      </div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="module-body">
+      <div class="scale-selector" id="scaleSelector"></div>
+      <p class="scroll-hint">← deslize o braço →</p>
+      <div class="fretboard-wrap">
+        <div class="fretboard" id="fretboard"></div>
+      </div>
+      <div id="scaleLegend" class="theory-card" style="margin-top:8px;"></div>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <div class="module-header" onclick="toggleModule(this)">
+      <div class="module-num" style="background:var(--red);">🎵</div>
+      <div>
+        <div class="module-title">Blues na Guitarra</div>
+        <div class="module-sub">Escala, licks e progressão</div>
+      </div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="module-body">
+      <div class="theory-card">
+        <h4>A Escala de Blues em Lá</h4>
+        <p>Pentatônica menor + a <strong>blue note</strong> (Eb/D# — o trítono). Em Lá:</p>
+        <div class="formula">A – C – D – Eb – E – G</div>
+        <p>A blue note (Eb) é o que dá o "sabor" do blues. Ela cria tensão que resolve para E.</p>
+      </div>
+      <div class="music-box">
+        <div class="music-box-header">🎵 IMPROVISAR SOBRE BLUES EM LÁ</div>
+        <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song">Use Am Pentatônica + blue note</div><div class="music-artist">Busque: "A blues backing track 12 bar" no YouTube</div><div class="music-tip">Toque livremente sobre a progressão I–IV–V em Lá</div></div></div>
+      </div>
+      <div class="theory-card">
+        <h4>Progressão I–IV–V em Lá</h4>
+        <div class="formula">
+I   = A7   (Lá com 7ª dominante)
+IV  = D7   (Ré com 7ª dominante)
+V   = E7   (Mi com 7ª dominante)
+        </div>
+        <p>Os acordes de blues usam a 7ª dominante — soa mais "azul" que o acorde maior simples.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <div class="module-header" onclick="toggleModule(this)">
+      <div class="module-num" style="background:var(--slate);">A</div>
+      <div>
+        <div class="module-title">Acordes e Cifras</div>
+        <div class="module-sub">Teoria + Diagramas</div>
+      </div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="module-body">
+      <div class="theory-card">
+        <h4>Como Funciona um Acorde</h4>
+        <p>Todo acorde = raiz + terça + quinta. O que muda é a terça:</p>
+        <div class="formula">
+Maior = Raiz + 4st + 3st  → alegre
+Menor = Raiz + 3st + 4st  → triste
+Power = Raiz + 7st        → neutro (rock)
+        </div>
+      </div>
+      <div class="theory-card">
+        <h4>Progressão I–V–vi–IV</h4>
+        <p>A progressão mais usada do pop moderno:</p>
+        <div class="formula">G – D – Em – C</div>
+        <p>Centenas de músicas usam esta progressão. Experimente tocar os 4 acordes em loop.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE: METRÔNOMO ── -->
+<div class="page" id="page-metronomo">
+  <h2>Metrônomo</h2>
+  <div class="metronome">
+    <div class="metro-display">
+      <div class="metro-bpm" id="metroBpm">80</div>
+      <div class="metro-label">BPM</div>
+    </div>
+    <div class="metro-beat-vis" id="beatVis"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+      <button class="metro-btn" onclick="changeBpm(-5)">−5</button>
+      <input type="range" class="metro-slider" id="bpmSlider" min="40" max="220" value="80" oninput="setBpm(this.value)">
+      <button class="metro-btn" onclick="changeBpm(5)">+5</button>
+    </div>
+    <button class="metro-btn play" id="metroPlayBtn" onclick="toggleMetro()">▶ TOCAR</button>
+    <div class="metro-sig" id="metroSig"></div>
+  </div>
+
+  <h2>Referências de BPM</h2>
+  <div class="module-card" style="margin:0 16px 8px;">
+    <div style="padding:10px 14px;">
+      <div id="bpmRefs"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE: PROGRESSO ── -->
+<div class="page" id="page-progresso">
+  <h2>Plano 12 Semanas</h2>
+  <div class="progress-section" id="weekList"></div>
+</div>
+
+<!-- ══════════════ BOTTOM NAV ══════════════ -->
+<nav class="bottom-nav">
+  <button class="nav-tab active" onclick="goToTab('home')" id="tab-home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Início
+  </button>
+  <button class="nav-tab" onclick="goToTab('bateria')" id="tab-bateria">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="3" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="21"/></svg>
+    Bateria
+  </button>
+  <button class="nav-tab" onclick="goToTab('guitarra')" id="tab-guitarra">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    Guitarra
+  </button>
+  <button class="nav-tab" onclick="goToTab('metronomo')" id="tab-metronomo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 22 22 22"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
+    Metrônomo
+  </button>
+  <button class="nav-tab" onclick="goToTab('progresso')" id="tab-progresso">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Plano
+  </button>
+</nav>
+
+<script>
+// ══════════════ NAVIGATION ══════════════
+const pages = { home:'page-home', bateria:'page-bateria', guitarra:'page-guitarra', metronomo:'page-metronomo', progresso:'page-progresso' };
+const tabIds = { home:'tab-home', bateria:'tab-bateria', guitarra:'tab-guitarra', metronomo:'tab-metronomo', progresso:'tab-progresso' };
+
+function goToTab(name) {
+  Object.values(pages).forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('active'); });
+  Object.values(tabIds).forEach(id => { const el = document.getElementById(id); if(el) el.classList.remove('active'); });
+  const page = document.getElementById(pages[name]);
+  const tab = document.getElementById(tabIds[name]);
+  if(page) { page.classList.add('active'); page.scrollTop = 0; window.scrollTo(0,0); }
+  if(tab) tab.classList.add('active');
+}
+
+function toggleModule(header) {
+  header.parentElement.classList.toggle('open');
+}
+
+// ══════════════ DRUM TAB BUILDER ══════════════
+function buildTab(containerId, tracks, title, bpm, beats) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  const beatLabels8  = ['1','+','2','+','3','+','4','+'];
+  const beatLabels16 = ['1','e','+','a','2','e','+','a','3','e','+','a','4','e','+','a'];
+  const beatLabels12 = ['1','la','li','2','la','li','3','la','li','4','la','li'];
+  let labels = beats===16 ? beatLabels16 : beats===12 ? beatLabels12 : beatLabels8;
+
+  let html = `<div class="dtab-wrap">`;
+  if(title) html += `<div class="dtab-title">${title}<span class="dtab-bpm">♩= ${bpm}</span></div>`;
+  html += `<div class="dtab">`;
+
+  // beat-count row
+  html += `<div class="dtab-beat-row"><div class="dtab-beat-label"></div><div class="dtab-beat-cells"><div class="dtab-beat-cells-inner">`;
+  for(let i=0; i<beats; i++) {
+    const isBar = (beats===8 && i%2===0) || (beats===16 && i%4===0) || (beats===12 && i%3===0);
+    html += `<div class="dtab-beat-cell" style="${isBar?'font-weight:700;color:#AAA':''}">${labels[i]}</div>`;
+  }
+  html += `</div></div></div>`;
+
+  // track rows
+  tracks.forEach(([label, pattern]) => {
+    const syms = pattern.split(' ').filter(s=>s!=='');
+    html += `<div class="dtab-row"><div class="dtab-label">${label}</div><div class="dtab-cells"><div class="dtab-cells-inner">`;
+    for(let i=0; i<beats; i++) {
+      const sym = syms[i] || '-';
+      const isBar = (beats===8 && i%2===0)||(beats===16 && i%4===0)||(beats===12 && i%3===0);
+      let inner = '';
+      if(sym==='x') inner = `<span class="sym-x">×</span>`;
+      else if(sym==='X') inner = `<span class="sym-X">×</span>`;
+      else if(sym==='o') inner = `<span class="sym-o">○</span>`;
+      else if(sym==='s') inner = `<div class="sym-s"></div>`;
+      else if(sym==='S') inner = `<div class="sym-S"></div>`;
+      else if(sym==='b') inner = `<div class="sym-b"></div>`;
+      else if(sym==='g') inner = `<span class="sym-g">(×)</span>`;
+      else if(sym==='+') inner = `<span class="sym-plus">+</span>`;
+      else if(sym==='-') inner = `<span class="sym-dot">–</span>`;
+      html += `<div class="dtab-cell${isBar?' beat-start':''}">${inner}</div>`;
+    }
+    html += `</div></div></div>`;
+  });
+
+  html += `</div></div>`;
+  el.innerHTML = html;
+}
+
+// ══════════════ TABS DATA ══════════════
+function initTabs() {
+  buildTab('tab-blues-shuffle',
+    [['HH','x - x x - x x - x x - x'],
+     ['SN','- - - s - - - - - s - -'],
+     ['BD','b - - - - - b - - - - -']],
+    'Blues Shuffle — 12 subdivisões (tripletos)', '70–95', 12);
+
+  buildTab('tab-blues-up',
+    [['HH','x - x x - x x - x x - x'],
+     ['SN','- - - s - - - - - s - -'],
+     ['BD','b - - - - - b - x - - -']],
+    'Blues Uptempo — bumbo mais ativo', '90–120', 12);
+
+  buildTab('tab-blues-68',
+    [['HH','x x x x x x'],
+     ['SN','- - - s - -'],
+     ['BD','b - - - - -']],
+    'Slow Blues 6/8 — 6 colcheias por compasso', '50–70', 6);
+
+  buildTab('tab-g01',
+    [['HH','x x x x x x x x'],
+     ['SN','- - s - - - s -'],
+     ['BD','b - - - b - - -']],
+    'G01 — Rock Básico', '60→100', 8);
+
+  buildTab('tab-g06',
+    [['HH','x x x x x x x x'],
+     ['SN','- - - - s - - -'],
+     ['BD','b - b - - - b -']],
+    'G06 — Half-Time (caixa no tempo 3)', '70→110', 8);
+
+  buildTab('tab-g10',
+    [['HH','x x x x x x x x x x x x x x x x'],
+     ['SN','- - - - s - g - - - - - s - - g'],
+     ['BD','b - - x - - - - b - - - - - - -']],
+    'G10 — Funk (g = ghost note, quase inaudível)', '50→80', 16);
+
+  buildTab('tab-r1',
+    [['MÃO','R L R L R L R L'],
+     ['SN','x x x x x x x x']],
+    'R1 — Single Stroke (RLRL)', '60→120', 8);
+
+  buildTab('tab-r3',
+    [['MÃO','R L R R L R L L'],
+     ['SN','S x x x S x x x']],
+    'R3 — Paradiddle (S = acento)', '60→110', 8);
+
+  buildTab('tab-f01',
+    [['HH','x x x x x x - -'],
+     ['T1','- - - - - x - -'],
+     ['FT','- - - - - - x -'],
+     ['SN','- - s - - - - -'],
+     ['BD','b - - - - - - b']],
+    'F01 — Descida nos Toms + Crash no início do próximo', '70→90', 8);
+}
+
+// ══════════════ CHROMATIC KEYBOARD ══════════════
+function initChromatic() {
+  const notes = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  const naturals = new Set(['C','D','E','F','G','A','B']);
+  const el = document.getElementById('chromaticRow');
+  if(!el) return;
+  el.innerHTML = notes.map((n,i) => {
+    const nat = naturals.has(n);
+    const label = n.includes('#') ? n[0]+'#' : n;
+    return `<div class="key ${nat?'natural':'sharp'}">${label}<br><span style="font-size:0.5rem;color:#888">${i}</span></div>`;
+  }).join('');
+}
+
+// ══════════════ INTERVAL GRID ══════════════
+function initIntervals() {
+  const intervals = [
+    {name:'Uníssono',note:'C',st:0,imp:false,root:true},
+    {name:'2ª M',note:'D',st:2,imp:false},
+    {name:'3ª m',note:'Eb',st:3,imp:true},
+    {name:'3ª M',note:'E',st:4,imp:true},
+    {name:'4ª J',note:'F',st:5,imp:false},
+    {name:'Trítono',note:'F#',st:6,imp:true},
+    {name:'5ª J',note:'G',st:7,imp:true},
+    {name:'6ª M',note:'A',st:9,imp:false},
+    {name:'7ª m',note:'Bb',st:10,imp:false},
+    {name:'7ª M',note:'B',st:11,imp:false},
+    {name:'Oitava',note:'C\'',st:12,imp:false},
+  ];
+  const el = document.getElementById('intervalGrid');
+  if(!el) return;
+  el.style.gridTemplateColumns = `repeat(${Math.min(intervals.length,6)}, 1fr)`;
+  el.innerHTML = intervals.map(iv =>
+    `<div class="interval-box${iv.root?' root':iv.imp?' important':''}">
+      <div class="interval-name">${iv.name}</div>
+      <div class="interval-note">${iv.note}</div>
+      <div class="interval-st">+${iv.st}st</div>
+    </div>`
+  ).join('');
+}
+
+// ══════════════ FRETBOARD ══════════════
+const SCALES = {
+  'Am Pent.': {
+    name:'Am Pentatônica — A C D E G',
+    notes: {1:[5,8],2:[5,8],3:[5,7],4:[5,7],5:[5,7],6:[5,8]},
+    root:[5], color:'scale'
+  },
+  'Blues': {
+    name:'Blues Scale em Lá — A C D Eb E G',
+    notes: {1:[5,8],2:[5,8],3:[4,5,7],4:[5,7],5:[5,7],6:[5,8]},
+    root:[5], blues:[4,4], color:'scale', blueNotes:{3:[4]}
+  },
+  'Dó Maior': {
+    name:'Escala de Dó Maior — C D E F G A B',
+    notes: {1:[0,1,3],2:[0,1,3],3:[0,2],4:[0,2,3],5:[0,2,3],6:[0,1,3]},
+    root:[0], color:'scale2'
+  },
+  'Am Natural': {
+    name:'Lá Menor Natural — A B C D E F G',
+    notes: {1:[5,7,8],2:[5,6,8],3:[5,7],4:[5,7,8],5:[5,7,8],6:[5,7,8]},
+    root:[5], color:'scale'
+  },
+};
+
+let currentScale = 'Am Pent.';
+
+function initFretboard() {
+  const sel = document.getElementById('scaleSelector');
+  if(!sel) return;
+  sel.innerHTML = Object.keys(SCALES).map(k =>
+    `<button class="scale-btn${k===currentScale?' active':''}" onclick="selectScale('${k}')">${k}</button>`
+  ).join('');
+  renderFretboard();
+}
+
+function selectScale(name) {
+  currentScale = name;
+  document.querySelectorAll('.scale-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent===name);
+  });
+  renderFretboard();
+}
+
+function renderFretboard() {
+  const fb = document.getElementById('fretboard');
+  const legend = document.getElementById('scaleLegend');
+  if(!fb) return;
+  const scale = SCALES[currentScale];
+  const stringNames = ['e','B','G','D','A','E'];
+  const allNotes = [
+    ['E','F','F#','G','G#','A','A#','B','C','C#','D','D#','E'],
+    ['B','C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],
+    ['G','G#','A','A#','B','C','C#','D','D#','E','F','F#','G'],
+    ['D','D#','E','F','F#','G','G#','A','A#','B','C','C#','D'],
+    ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#','A'],
+    ['E','F','F#','G','G#','A','A#','B','C','C#','D','D#','E'],
+  ];
+  const inlays = [3,5,7,9,12];
+
+  let html = '';
+  // fret number row
+  html += `<div class="fb-label"></div>`;
+  for(let f=0;f<=12;f++) html += `<div class="fb-fret-num">${f}</div>`;
+
+  // string rows (high e to low E)
+  for(let si=0;si<6;si++) {
+    const snum = si+1;
+    const scaleNotes = scale.notes[snum] || [];
+    const blueNotes = (scale.blueNotes && scale.blueNotes[snum]) || [];
+    html += `<div class="fb-label">${stringNames[si]}</div>`;
+    for(let f=0;f<=12;f++) {
+      const isRoot = scale.root && scale.root.includes(f) && scaleNotes.includes(f);
+      const isBlue = blueNotes.includes(f);
+      const isScale = scaleNotes.includes(f);
+      const hasInlay = inlays.includes(f) && si===2;
+      const noteName = allNotes[si][f];
+      let inner = hasInlay ? `<div class="inlay"></div>` : '';
+      if(isScale || isRoot) {
+        const cls = isRoot ? 'root' : isBlue ? 'blues' : scale.color;
+        inner += `<div class="fb-note ${cls}">${noteName}</div>`;
+      }
+      html += `<div class="fb-cell${f===0?' fb-nut':''}">${inner}</div>`;
+    }
+  }
+  fb.innerHTML = html;
+  fb.style.gridTemplateColumns = `28px repeat(13, 38px)`;
+
+  if(legend) legend.innerHTML = `<h4>${scale.name}</h4><p>🔴 = raiz &nbsp; 🟢 = notas da escala &nbsp; 🟤 = blue note</p>`;
+}
+
+// ══════════════ METRONOME ══════════════
+let metroInterval = null;
+let metroBeat = 0;
+let metroBpm = 80;
+let metroBeats = 4;
+let metroRunning = false;
+
+function initMetro() {
+  updateBeatVis();
+  const sigs = ['2/4','3/4','4/4','6/8','12/8'];
+  const sigEl = document.getElementById('metroSig');
+  if(sigEl) sigEl.innerHTML = sigs.map(s =>
+    `<button onclick="setTimeSig('${s}')" ${s==='4/4'?'class="active"':''}>${s}</button>`
+  ).join('');
+}
+
+function updateBeatVis() {
+  const el = document.getElementById('beatVis');
+  if(!el) return;
+  el.innerHTML = Array.from({length:metroBeats}, (_,i) =>
+    `<div class="beat-dot${i===metroBeat?' active':''}${i===0?' accent':''}"></div>`
+  ).join('');
+}
+
+function toggleMetro() {
+  metroRunning = !metroRunning;
+  const btn = document.getElementById('metroPlayBtn');
+  if(metroRunning) {
+    btn.textContent = '⏹ PARAR'; btn.classList.add('running');
+    metroBeat = 0;
+    tick();
+    const interval = Math.round(60000 / metroBpm);
+    metroInterval = setInterval(tick, interval);
+  } else {
+    btn.textContent = '▶ TOCAR'; btn.classList.remove('running');
+    clearInterval(metroInterval);
+    metroBeat = 0;
+    updateBeatVis();
+  }
+}
+
+function tick() {
+  updateBeatVis();
+  // Web Audio beep
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = metroBeat===0 ? 1000 : 800;
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+    osc.start(); osc.stop(ctx.currentTime + 0.08);
+  } catch(e){}
+  metroBeat = (metroBeat + 1) % metroBeats;
+}
+
+function setBpm(v) {
+  metroBpm = parseInt(v);
+  document.getElementById('metroBpm').textContent = metroBpm;
+  document.getElementById('bpmSlider').value = metroBpm;
+  if(metroRunning) { clearInterval(metroInterval); metroInterval = setInterval(tick, Math.round(60000/metroBpm)); }
+}
+
+function changeBpm(delta) { setBpm(Math.min(220, Math.max(40, metroBpm + delta))); }
+
+function setTimeSig(sig) {
+  const map = {'2/4':2,'3/4':3,'4/4':4,'6/8':6,'12/8':12};
+  metroBeats = map[sig] || 4; metroBeat = 0;
+  document.querySelectorAll('.metro-sig button').forEach(b => b.classList.toggle('active', b.textContent===sig));
+  updateBeatVis();
+}
+
+function initBpmRefs() {
+  const refs = [
+    {range:'40–60',desc:'Lento — estudo de rudimentos'},
+    {range:'60–80',desc:'Moderado — aprender novos grooves'},
+    {range:'80–100',desc:'Médio — consolidar o groove'},
+    {range:'100–120',desc:'Animado — Rock básico confortável'},
+    {range:'120–140',desc:'Rápido — Metal e rock pesado'},
+    {range:'140+',desc:'Muito rápido — avançado'},
+  ];
+  const el = document.getElementById('bpmRefs');
+  if(!el) return;
+  el.innerHTML = refs.map(r =>
+    `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div style="font-family:monospace;font-size:0.85rem;color:var(--gold);font-weight:700;width:80px;">${r.range}</div>
+      <div style="font-size:0.8rem;color:#CCC;">${r.desc}</div>
+      <button onclick="setBpm(${r.range.split('–')[0]})" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--cream);font-size:0.7rem;cursor:pointer;white-space:nowrap;">Usar</button>
+    </div>`
+  ).join('');
+}
+
+// ══════════════ PROGRESS TRACKER ══════════════
+const weeks = [
+  {n:1,phase:'gold',title:'Base e Postura',focus:'G01 parcial',content:'Postura, grip e bounce. R1 a 60 BPM. G01: HH+SN sem bumbo ainda.',tasks:['Estudar anatomia da bateria','Praticar bounce 15 min','R1 a 60 BPM — 10 min','G01 HH+SN sem bumbo']},
+  {n:2,phase:'gold',title:'G01 Completo',focus:'Primeiro groove',content:'G01 completo a 70 BPM. R1+R2. F01 (descida nos toms).',tasks:['G01 completo a 70 BPM','R2 (Double Stroke) iniciando','F01: descida nos toms']},
+  {n:3,phase:'gold',title:'Variações de Bumbo',focus:'G02 + G03',content:'G02 e G03 a 75 BPM. R3 (Paradiddle). F02.',tasks:['G02 bumbo no +2','G03 HH aberto','R3 Paradiddle a 60 BPM','F02 semicolcheias']},
+  {n:4,phase:'gold',title:'Música Real',focus:'Tocar com faixas',content:'G04–G06. R4 (Flam). Tocar junto com música pela 1ª vez.',tasks:['G04 bumbo duplo','G06 half-time','Tocar com música real 10 min','R4 Flam']},
+  {n:5,phase:'slate',title:'Semicolcheias',focus:'16th notes',content:'G07 (HH em semicolcheias). G08 dinâmica. R5+R6. F03.',tasks:['G07 HH em 16 notas','G08 dinâmica forte/piano','R5 Five Stroke','F03 compasso completo']},
+  {n:6,phase:'slate',title:'Blues Shuffle',focus:'Shuffle rítmico',content:'G09 Blues Shuffle. R7+R8 (acentos). F04 paradiddle fill.',tasks:['Estudar teoria do shuffle','G09 Blues Shuffle a 70 BPM','Ouvir SRV "Pride and Joy"','R8 Accent Tap']},
+  {n:7,phase:'slate',title:'Funk Básico',focus:'Ghost notes',content:'G10 Funk. Ghost notes (R8). F05+F06.',tasks:['G10 Funk com ghost notes','Estudar 12-bar blues','Tocar shuffle com backing track']},
+  {n:8,phase:'slate',title:'Avaliação',focus:'Gravar vídeo',content:'G11–G14. R9+R10. Gravar vídeo e comparar com semana 1.',tasks:['Gravar vídeo de 5 minutos','G01–G10 fluentes a 85+ BPM','Identificar pontos fracos']},
+  {n:9,phase:'red',title:'Independência',focus:'4 membros',content:'IND-01 a IND-04. G15–G16. F07–F08.',tasks:['IND-01 a 04 (só pés)','G15 Groove avançado','F07 fill 2 compassos']},
+  {n:10,phase:'red',title:'HH Pedal',focus:'4º membro',content:'IND-05 a IND-06 (HH pedal). G17–G18.',tasks:['HH pedal nos tempos 2 e 4','IND-05 + G01 completo','G17–G18 novos grooves']},
+  {n:11,phase:'red',title:'Improv.',focus:'Improvisação',content:'IND-07+IND-08. G19 Funk avançado. Fills de 2 compassos.',tasks:['Improvisar fills livremente','G19 Funk com 4 membros','Criar groove próprio']},
+  {n:12,phase:'red',title:'Conclusão',focus:'Gravar vídeo final',content:'Revisão geral. Vídeo final. Próximo plano.',tasks:['Gravar vídeo final','Comparar com semana 1','Definir próximo objetivo']},
+];
+
+let checkedItems = JSON.parse(localStorage.getItem('drumChecks') || '{}');
+let openWeeks = JSON.parse(localStorage.getItem('openWeeks') || '{}');
+
+function initProgress() {
+  const el = document.getElementById('weekList');
+  if(!el) return;
+  el.innerHTML = weeks.map(w => {
+    const allDone = w.tasks.every((_,i) => checkedItems[`${w.n}-${i}`]);
+    const anyDone = w.tasks.some((_,i) => checkedItems[`${w.n}-${i}`]);
+    const numClass = allDone ? 'done' : anyDone ? 'current' : 'future';
+    const icon = allDone ? '✓' : w.n;
+    return `
+    <div class="week-card${openWeeks[w.n]?' open':''}" id="week-${w.n}">
+      <div class="week-header" onclick="toggleWeek(${w.n})">
+        <div class="week-num ${numClass}">${icon}</div>
+        <div class="week-info">
+          <div class="week-title">Semana ${w.n} — ${w.title}</div>
+          <div class="week-focus"><span class="tag tag-${w.phase}">${w.phase==='gold'?'Fase 1':w.phase==='slate'?'Fase 2':'Fase 3'}</span> ${w.focus}</div>
+        </div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="week-body">
+        <p>${w.content}</p>
+        <div class="checklist">
+          ${w.tasks.map((t,i) => `
+            <div class="check-item${checkedItems[`${w.n}-${i}`]?' checked':''}" onclick="toggleCheck(${w.n},${i})">
+              <div class="check-box">${checkedItems[`${w.n}-${i}`]?'✓':''}</div>
+              <div class="check-label">${t}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleWeek(n) {
+  const el = document.getElementById(`week-${n}`);
+  if(!el) return;
+  const isOpen = el.classList.toggle('open');
+  openWeeks[n] = isOpen;
+  localStorage.setItem('openWeeks', JSON.stringify(openWeeks));
+}
+
+function toggleCheck(week, idx) {
+  const key = `${week}-${idx}`;
+  checkedItems[key] = !checkedItems[key];
+  localStorage.setItem('drumChecks', JSON.stringify(checkedItems));
+  initProgress();
+}
+
+// ══════════════ ROTINA ══════════════
+function initRoutine() {
+  const items = [
+    {emoji:'🤸',dur:'05 min',text:'Aquecimento — rotação de pulsos'},
+    {emoji:'🥁',dur:'10 min',text:'Rudimentos com metrônomo'},
+    {emoji:'🎵',dur:'15 min',text:'Groove do módulo atual'},
+    {emoji:'🔀',dur:'10 min',text:'Fill integrado ao groove'},
+    {emoji:'🎧',dur:'05 min',text:'Tocar com música real'},
+  ];
+  const el = document.getElementById('routineItems');
+  if(!el) return;
+  el.innerHTML = items.map(i =>
+    `<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:1.1rem;">${i.emoji}</span>
+      <span style="font-size:0.75rem;color:var(--gold);font-weight:700;width:42px;">${i.dur}</span>
+      <span style="font-size:0.8rem;color:#CCC;">${i.text}</span>
+    </div>`
+  ).join('');
+}
+
+// ══════════════ INIT ══════════════
+document.addEventListener('DOMContentLoaded', () => {
+  initTabs();
+  initChromatic();
+  initIntervals();
+  initFretboard();
+  initMetro();
+  initBpmRefs();
+  initProgress();
+  initRoutine();
+});
+</script>
+</body>
+</html>
