@@ -23,6 +23,8 @@
   --white: #FFFFFF;
   --font-display: 'Georgia', 'Times New Roman', serif;
   --font-body: -apple-system, 'Helvetica Neue', sans-serif;
+  --font-mono: 'SF Mono', 'Roboto Mono', 'Courier New', monospace;
+  --led: #3ECF6B;
   --radius: 10px;
   --tab-height: 56px;
   /* text-on-bg defaults (dark theme) */
@@ -67,6 +69,7 @@
   --gray: #756B5C;
   --lgray: #9A9080;
   --white: #1A1610;
+  --led: #1F9D4C;
   --text-main: #2A2420;
   --text-dim: #756B5C;
   --card-shadow: 0 1px 3px rgba(60,40,10,0.08);
@@ -760,6 +763,163 @@ p { font-size: 0.82rem; color: var(--text-main); line-height: 1.5; margin: 6px 0
   padding: 6px 6px 2px; font-size: 0.6rem; color: #8B6914;
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   HOME DASHBOARD — header sticky, hero progresso, grid de trilhas, sidebar
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── DASHBOARD HEADER (sticky, busca, perfil) ── */
+.dash-header {
+  position: sticky; top: 0; z-index: 95;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px; background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.dash-logo { font-family: var(--font-display); font-weight: 800; font-size: 1rem; color: var(--gold); flex-shrink: 0; }
+.dash-search-wrap { flex: 1; position: relative; max-width: 320px; }
+.dash-search {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 8px 14px 8px 32px;
+  font-size: 0.78rem; color: var(--cream); outline: none;
+}
+.dash-search:focus { border-color: var(--gold); }
+.dash-search-icon {
+  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; color: var(--gray); pointer-events: none;
+}
+.dash-search-results {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  max-height: 240px; overflow-y: auto; z-index: 50; display: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+.dash-search-results.show { display: block; }
+.dash-search-result {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; font-size: 0.76rem; color: var(--cream);
+  border-bottom: 1px solid var(--border); cursor: pointer;
+}
+.dash-search-result:last-child { border-bottom: none; }
+.dash-search-result:active { background: var(--surface2); }
+.dash-search-result .res-track { font-size: 0.6rem; color: var(--gold); flex-shrink: 0; font-weight: 700; }
+.dash-search-empty { padding: 14px 12px; font-size: 0.74rem; color: var(--gray); text-align: center; }
+.dash-profile {
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: auto;
+}
+.dash-profile-pct {
+  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; color: var(--gold);
+}
+.dash-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--gold); color: #000; font-weight: 800; font-size: 0.78rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.dash-menu-btn {
+  display: none; width: 30px; height: 30px; border-radius: 8px;
+  background: var(--surface2); border: 1px solid var(--border);
+  align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer;
+}
+.dash-menu-btn svg { width: 16px; height: 16px; color: var(--cream); }
+
+/* ── HERO / PROGRESS SUMMARY ── */
+.dash-hero {
+  padding: 20px 16px; border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+}
+.dash-hero-greeting { font-size: 1.3rem; font-weight: 800; color: var(--cream); font-family: var(--font-display); margin-bottom: 2px; }
+.dash-hero-sub { font-size: 0.78rem; color: var(--gray); margin-bottom: 16px; }
+.dash-progress-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 14px 16px; margin-bottom: 14px;
+}
+.dash-progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.dash-progress-label { font-size: 0.78rem; color: var(--gray); font-weight: 600; }
+.dash-progress-pct { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 800; color: var(--gold); }
+.dash-progress-track { height: 8px; border-radius: 4px; background: var(--surface2); overflow: hidden; }
+.dash-progress-fill {
+  height: 100%; border-radius: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  transition: width 1s cubic-bezier(.22,1,.36,1);
+}
+.dash-progress-next { font-size: 0.72rem; color: var(--gray); margin-top: 8px; }
+.dash-progress-next b { color: var(--cream); }
+.dash-continue-btn {
+  width: 100%; padding: 12px; border-radius: 10px; border: none;
+  background: var(--gold); color: #000; font-size: 0.84rem; font-weight: 800;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.dash-continue-btn:active { transform: scale(0.98); }
+.dash-continue-btn svg { width: 16px; height: 16px; }
+
+/* ── LAYOUT: sidebar + main grid ── */
+.dash-body { display: flex; align-items: flex-start; }
+.dash-sidebar {
+  width: 0; overflow: hidden; flex-shrink: 0;
+  background: var(--surface); border-right: 1px solid var(--border);
+  transition: width 0.2s ease;
+}
+.dash-sidebar.open { width: 188px; }
+.dash-sidebar-inner { width: 188px; padding: 16px 14px; }
+.dash-sidebar-title { font-size: 0.62rem; font-weight: 800; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; margin: 14px 0 8px; }
+.dash-sidebar-title:first-child { margin-top: 0; }
+.dash-filter-chip {
+  display: block; width: 100%; text-align: left;
+  font-size: 0.76rem; color: var(--cream); padding: 7px 10px; border-radius: 7px;
+  background: none; border: none; cursor: pointer; margin-bottom: 2px;
+}
+.dash-filter-chip.active { background: var(--gold); color: #000; font-weight: 700; }
+.dash-filter-chip:not(.active):active { background: var(--surface2); }
+.dash-main { flex: 1; min-width: 0; padding: 18px 16px 24px; }
+.dash-section-title {
+  font-size: 1.05rem; font-weight: 800; color: var(--cream); font-family: var(--font-display);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+.dash-section-title .count { font-family: var(--font-mono); font-size: 0.65rem; color: var(--gray); font-weight: 400; }
+
+/* ── TRACK CARDS GRID ── */
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dash-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; text-align: left; cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.dash-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); border-color: var(--gold); }
+.dash-card:active { transform: scale(0.98); }
+.dash-card-thumb {
+  height: 64px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.7rem; position: relative;
+}
+.dash-card-badge {
+  position: absolute; top: 8px; right: 8px;
+  font-family: var(--font-mono); font-size: 0.56rem; font-weight: 800;
+  padding: 2px 7px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.dash-card-badge.status-done { background: #1A5C1A; color: #6FE08A; }
+.dash-card-badge.status-progress { background: var(--gold); color: #000; }
+.dash-card-badge.status-new { background: var(--surface2); color: var(--gray); border: 1px solid var(--border); }
+.dash-card-body { padding: 10px 12px 12px; }
+.dash-card-title { font-size: 0.8rem; font-weight: 700; color: var(--cream); line-height: 1.25; margin-bottom: 4px; }
+.dash-card-meta { font-family: var(--font-mono); font-size: 0.6rem; color: var(--gray); margin-bottom: 8px; }
+.dash-card-btn {
+  width: 100%; padding: 6px; border-radius: 7px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--cream); font-size: 0.68rem; font-weight: 700;
+  cursor: pointer;
+}
+.dash-card-btn:active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+@media (min-width: 720px) {
+  .dash-menu-btn { display: none !important; }
+  .dash-sidebar { width: 188px; }
+  .dash-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 719px) {
+  .dash-menu-btn { display: flex; }
+  .dash-sidebar { position: fixed; top: 0; left: 0; bottom: 0; z-index: 150; width: 0; }
+  .dash-sidebar.open { width: 220px; box-shadow: 8px 0 24px rgba(0,0,0,0.4); }
+  .dash-sidebar-inner { width: 220px; }
+  .dash-sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 140; }
+  .dash-sidebar-overlay.show { display: block; }
+}
+
 /* ── STRUM VISUALIZATION (padrões de rasqueado) ── */
 .sv { display: flex; gap: 4px; flex-wrap: wrap; }
 .sc {
@@ -859,62 +1019,84 @@ p { font-size: 0.82rem; color: var(--text-main); line-height: 1.5; margin: 6px 0
 <!-- ── PAGE: HOME ── -->
 <!-- ══════════════════════════════ HOME PAGE ══ -->
 <!-- ══════════════════════════════ HOME PAGE ══ -->
+<!--
+  ════════════════════════════════════════════════════════════════════════
+  HOME DASHBOARD — onde trocar dados reais:
+  - Nome do usuário: variável DASH_USER_NAME no script principal (perto de DASH_TRACKS)
+  - % de progresso: calculado automaticamente a partir de WEEKS/checkedItems
+    (mesmo sistema usado na aba Plano) — não precisa editar à mão
+  - Lista de trilhas/lições: array DASH_TRACKS no script principal,
+    função buildDashboard() — já populado com os módulos reais do site
+  ════════════════════════════════════════════════════════════════════════
+-->
 <div class="page active" id="page-home">
-  <div style="padding:40px 20px 32px;border-bottom:1px solid var(--border);background:linear-gradient(165deg, var(--surface) 0%, var(--bg) 70%);position:relative;overflow:hidden;text-align:center">
-    <div style="position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:200px;height:200px;border-radius:50%;background:radial-gradient(circle, rgba(200,151,26,0.14) 0%, transparent 70%)"></div>
-    <div style="font-size:0.65rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.18em;margin-bottom:14px;position:relative">Seu curso personalizado</div>
-    <div style="font-size:2.3rem;font-weight:900;color:var(--cream);line-height:1.18;margin-bottom:14px;font-family:var(--font-display);position:relative">Toque como<br><span style="color:var(--gold)">você imagina</span></div>
-    <div style="width:40px;height:2px;background:var(--gold);margin:0 auto 14px;position:relative;border-radius:2px"></div>
-    <div style="font-size:0.82rem;color:var(--gray);line-height:1.6;margin-bottom:18px;position:relative;max-width:320px;margin-left:auto;margin-right:auto">Teoria, exercícios, metrônomo e plano — tudo num lugar. Cada coisa explicada do zero.</div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;position:relative;justify-content:center">
-      <span style="font-size:0.65rem;font-weight:700;padding:5px 12px;border-radius:20px;background:rgba(200,151,26,0.12);border:1px solid var(--gold);color:var(--gold)">🥁 D-Tech Nexus</span>
-      <span style="font-size:0.65rem;font-weight:700;padding:5px 12px;border-radius:20px;background:rgba(200,151,26,0.12);border:1px solid var(--gold);color:var(--gold)">🎸 Telecaster LH</span>
-      <span style="font-size:0.65rem;font-weight:700;padding:5px 12px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);color:var(--gray)">📅 12 semanas</span>
-    </div>
-  </div>
 
-  <div style="padding:28px 16px 10px"><h2 style="font-size:1.3rem;font-weight:800;color:var(--cream);font-family:var(--font-display)">Acesso rápido</h2></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;margin-top:4px">
-    <button onclick="go('bateria')" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:left;cursor:pointer;transition:border-color .15s">
-      <div style="font-size:1.5rem;margin-bottom:8px">🥁</div>
-      <div style="font-size:0.82rem;font-weight:700;color:var(--cream)">Bateria</div>
-      <div style="font-size:0.68rem;color:var(--gray);margin-top:2px">Grooves & Fills</div>
+  <header class="dash-header" role="banner">
+    <button class="dash-menu-btn" id="dashMenuBtn" aria-label="Abrir menu de filtros" aria-expanded="false" aria-controls="dashSidebar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
-    <button onclick="go('guitarra')" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:left;cursor:pointer;transition:border-color .15s">
-      <div style="font-size:1.5rem;margin-bottom:8px">🎸</div>
-      <div style="font-size:0.82rem;font-weight:700;color:var(--cream)">Guitarra</div>
-      <div style="font-size:0.68rem;color:var(--gray);margin-top:2px">Teoria & Escalas</div>
-    </button>
-    <button onclick="go('metronomo')" style="background:var(--surface);border:1px solid var(--gold);border-radius:14px;padding:16px;text-align:left;cursor:pointer">
-      <div style="font-size:1.5rem;margin-bottom:8px">🎵</div>
-      <div style="font-size:0.82rem;font-weight:700;color:var(--gold)">Metrônomo</div>
-      <div style="font-size:0.68rem;color:var(--gray);margin-top:2px">Praticar agora</div>
-    </button>
-    <button onclick="go('progresso')" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:left;cursor:pointer">
-      <div style="font-size:1.5rem;margin-bottom:8px">✅</div>
-      <div style="font-size:0.82rem;font-weight:700;color:var(--cream)">Plano</div>
-      <div style="font-size:0.68rem;color:var(--gray);margin-top:2px">12 semanas</div>
-    </button>
-  </div>
-
-  <div style="padding:30px 16px 10px;display:flex;align-items:center;gap:8px">
-    <h2 style="font-size:1.3rem;font-weight:800;color:var(--cream);font-family:var(--font-display)">Rotina de hoje</h2>
-    <span style="font-size:0.62rem;font-weight:700;padding:3px 9px;border-radius:10px;background:var(--gold);color:#000;text-transform:uppercase;letter-spacing:.06em">45 min</span>
-  </div>
-  <div class="module-card" style="margin:0 16px 8px">
-    <div style="padding:12px 14px" id="routineList"></div>
-  </div>
-
-  <div style="padding:30px 16px 10px"><h2 style="font-size:1.3rem;font-weight:800;color:var(--cream);font-family:var(--font-display)">Progresso</h2></div>
-  <div class="module-card" style="margin:0 16px 20px;padding:16px">
-    <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-      <span style="font-size:0.78rem;color:var(--gray)">Semanas concluídas</span>
-      <span style="font-size:0.78rem;font-weight:700;color:var(--gold)" id="homeProgLabel">0 / 12</span>
+    <div class="dash-logo">🎵 Bateria &amp; Guitarra</div>
+    <div class="dash-search-wrap" role="search">
+      <svg class="dash-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="dash-search" id="dashSearch" placeholder="Buscar aula, escala, ritmo..." aria-label="Buscar conteúdo" autocomplete="off">
+      <div class="dash-search-results" id="dashSearchResults" role="listbox" aria-label="Resultados da busca"></div>
     </div>
-    <div style="background:var(--border);border-radius:4px;height:7px;margin:6px 0;overflow:hidden">
-      <div style="height:100%;border-radius:4px;background:linear-gradient(90deg, var(--gold), var(--gold2));width:0%;transition:width .4s" id="homeProgBar"></div>
+    <div class="dash-profile">
+      <span class="dash-profile-pct" id="dashHeaderPct">0%</span>
+      <div class="dash-avatar" aria-hidden="true" id="dashAvatarInitial">I</div>
     </div>
-    <div style="margin-top:10px;font-size:0.68rem;color:var(--gray)">Marque tarefas na aba Plano para avançar</div>
+  </header>
+
+  <div class="dash-sidebar-overlay" id="dashSidebarOverlay"></div>
+
+  <div class="dash-body">
+    <!-- Sidebar: filtros simulados por trilha/nível -->
+    <aside class="dash-sidebar" id="dashSidebar" aria-label="Filtros">
+      <div class="dash-sidebar-inner">
+        <div class="dash-sidebar-title">Instrumento</div>
+        <button class="dash-filter-chip active" data-filter="all" onclick="setDashFilter('all',this)">Tudo</button>
+        <button class="dash-filter-chip" data-filter="bateria" onclick="setDashFilter('bateria',this)">🥁 Bateria</button>
+        <button class="dash-filter-chip" data-filter="guitarra" onclick="setDashFilter('guitarra',this)">🎸 Guitarra</button>
+        <button class="dash-filter-chip" data-filter="ferramentas" onclick="setDashFilter('ferramentas',this)">🛠️ Ferramentas</button>
+
+        <div class="dash-sidebar-title">Nível</div>
+        <button class="dash-filter-chip active" data-level="all" onclick="setDashLevel('all',this)">Todos</button>
+        <button class="dash-filter-chip" data-level="iniciante" onclick="setDashLevel('iniciante',this)">Iniciante</button>
+        <button class="dash-filter-chip" data-level="intermediario" onclick="setDashLevel('intermediario',this)">Intermediário</button>
+        <button class="dash-filter-chip" data-level="avancado" onclick="setDashLevel('avancado',this)">Avançado</button>
+      </div>
+    </aside>
+
+    <!-- Main: hero de progresso + grid de trilhas -->
+    <main class="dash-main" role="main">
+      <section class="dash-hero" style="margin:-18px -16px 18px;padding:20px 16px">
+        <div class="dash-hero-greeting" id="dashGreeting">Olá, Ina 👋</div>
+        <div class="dash-hero-sub">Aqui está o seu progresso no plano de 12 semanas.</div>
+
+        <div class="dash-progress-card">
+          <div class="dash-progress-top">
+            <span class="dash-progress-label">Progresso geral</span>
+            <span class="dash-progress-pct" id="dashProgressPct" data-progress="0">0%</span>
+          </div>
+          <div class="dash-progress-track">
+            <div class="dash-progress-fill" id="dashProgressFill"></div>
+          </div>
+          <div class="dash-progress-next" id="dashProgressNext">Carregando seu próximo passo...</div>
+        </div>
+
+        <button class="dash-continue-btn" id="dashContinueBtn" onclick="dashContinue()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Continuar de onde parei
+        </button>
+      </section>
+
+      <section aria-labelledby="dashGridTitle">
+        <div class="dash-section-title" id="dashGridTitle">
+          Suas trilhas <span class="count" id="dashGridCount"></span>
+        </div>
+        <div class="dash-grid" id="dashGrid" role="list"></div>
+      </section>
+    </main>
   </div>
 </div>
 
@@ -3300,6 +3482,249 @@ function initProgress() {
     html += '</div></div></div>';
   });
   el.innerHTML = html;
+  buildDashboard();
+}
+
+// ══ DASHBOARD: dados reais das trilhas/lições ════════════════════════════════
+// Cada item: id (usado pelo onclick), title, track (bateria/guitarra/ferramentas),
+// level (iniciante/intermediario/avancado), icon, duration (estimativa), nav (como abrir)
+var DASH_TRACKS = [
+  {id:'bat-geral', title:'Bateria — Aprendizado Geral', track:'bateria', level:'iniciante',
+   icon:'🥁', duration:'~45 min', go:'bateria', sub:'bat-geral', subFn:'showBatTab'},
+  {id:'bat-blues', title:'Bateria — Módulo Blues', track:'bateria', level:'intermediario',
+   icon:'🎷', duration:'~30 min', go:'bateria', sub:'bat-blues', subFn:'showBatTab'},
+  {id:'bat-teoria', title:'Bateria — Teoria Rítmica', track:'bateria', level:'iniciante',
+   icon:'📖', duration:'~25 min', go:'bateria', sub:'bat-teoria', subFn:'showBatTab'},
+  {id:'bat-rudimentos', title:'Bateria — Rudimentos', track:'bateria', level:'iniciante',
+   icon:'✊', duration:'~20 min', go:'bateria', sub:'bat-rudimentos', subFn:'showBatTab'},
+  {id:'bat-fills', title:'Bateria — Fills (Viradas)', track:'bateria', level:'intermediario',
+   icon:'🔀', duration:'~20 min', go:'bateria', sub:'bat-fills', subFn:'showBatTab'},
+  {id:'guit-teoria', title:'Guitarra — Teoria Musical', track:'guitarra', level:'iniciante',
+   icon:'📖', duration:'~30 min', go:'guitarra', sub:'guit-teoria', subFn:'showGuitTab'},
+  {id:'guit-harmonia', title:'Guitarra — Harmonia e Acordes', track:'guitarra', level:'intermediario',
+   icon:'🎵', duration:'~35 min', go:'guitarra', sub:'guit-harmonia', subFn:'showGuitTab'},
+  {id:'guit-escalas', title:'Guitarra — Escalas no Braço', track:'guitarra', level:'intermediario',
+   icon:'🎸', duration:'~30 min', go:'guitarra', sub:'guit-escalas', subFn:'showGuitTab'},
+  {id:'guit-avancado', title:'Guitarra — Intermediário-Avançado', track:'guitarra', level:'avancado',
+   icon:'🔥', duration:'~40 min', go:'guitarra', sub:'guit-avancado', subFn:'showGuitTab'},
+  {id:'guit-ritmo', title:'Guitarra — Ritmo (Rock, Blues, Jazz, Samba...)', track:'guitarra', level:'intermediario',
+   icon:'🥁', duration:'~25 min', go:'guitarra', sub:'guit-ritmo', subFn:'showGuitTab'},
+  {id:'guit-exercicios', title:'Guitarra — Exercícios Práticos', track:'guitarra', level:'iniciante',
+   icon:'✊', duration:'~20 min', go:'guitarra', sub:'guit-exercicios', subFn:'showGuitTab'},
+  {id:'metronomo', title:'Metrônomo Interativo', track:'ferramentas', level:'iniciante',
+   icon:'🎵', duration:'Livre', go:'metronomo', sub:null, subFn:null},
+  {id:'progresso', title:'Plano de 12 Semanas', track:'ferramentas', level:'iniciante',
+   icon:'✅', duration:'12 sem.', go:'progresso', sub:null, subFn:null},
+];
+
+var dashState = { trackFilter: 'all', levelFilter: 'all', searchTerm: '' };
+var DASH_USER_NAME = 'Ina'; // <- troque o nome do usuário aqui
+
+function dashItemStatus(item) {
+  // status calculado: 'done' se a semana correspondente do plano estiver completa,
+  // 'progress' se for a trilha sugerida atual, senão 'new'
+  if (item.go === 'progresso') {
+    var allDone = WEEKS.length > 0 && WEEKS.every(function(w){ return w.tasks.every(function(_,i){ return checkedItems[w.n+'-'+i]; }); });
+    return allDone ? 'done' : 'progress';
+  }
+  if (item.go === 'metronomo') return 'progress';
+  var current = dashCurrentItemId();
+  if (item.id === current) return 'progress';
+  return 'new';
+}
+
+function dashCurrentItemId() {
+  // sugere a trilha de bateria ou guitarra ligada à fase atual do plano (1a semana incompleta)
+  var firstIncomplete = WEEKS.find(function(w){ return !w.tasks.every(function(_,i){ return checkedItems[w.n+'-'+i]; }); });
+  if (!firstIncomplete) return 'progresso';
+  // semanas 1-4 = geral iniciante, 5-8 = blues/teoria, 9-12 = avançado (heurística simples)
+  if (firstIncomplete.n <= 4) return 'bat-geral';
+  if (firstIncomplete.n <= 8) return 'guit-harmonia';
+  return 'guit-avancado';
+}
+
+function dashBadgeLabel(status) {
+  if (status === 'done') return 'Concluído';
+  if (status === 'progress') return 'Em andamento';
+  return 'Não iniciado';
+}
+
+function buildDashboard() {
+  updateDashProgress();
+  renderDashGrid();
+}
+
+function updateDashProgress() {
+  var total = WEEKS.length;
+  var done = WEEKS.filter(function(w) {
+    return w.tasks.every(function(_, i) { return checkedItems[w.n+'-'+i]; });
+  }).length;
+  var pct = total ? Math.round((done/total)*100) : 0;
+
+  var greet = document.getElementById('dashGreeting');
+  if (greet) greet.textContent = 'Olá, ' + DASH_USER_NAME + ' 👋';
+  var avatar = document.getElementById('dashAvatarInitial');
+  if (avatar) avatar.textContent = DASH_USER_NAME.charAt(0).toUpperCase();
+
+  var headerPct = document.getElementById('dashHeaderPct');
+  if (headerPct) headerPct.textContent = pct + '%';
+
+  var pctEl = document.getElementById('dashProgressPct');
+  if (pctEl) { pctEl.textContent = pct + '%'; pctEl.setAttribute('data-progress', pct); }
+
+  var fill = document.getElementById('dashProgressFill');
+  if (fill) {
+    // anima após um pequeno delay para garantir transição visível
+    setTimeout(function() { fill.style.width = pct + '%'; }, 80);
+  }
+
+  var nextEl = document.getElementById('dashProgressNext');
+  if (nextEl) {
+    var firstIncomplete = WEEKS.find(function(w){ return !w.tasks.every(function(_,i){ return checkedItems[w.n+'-'+i]; }); });
+    if (firstIncomplete) {
+      nextEl.innerHTML = 'Próximo passo: <b>Semana ' + firstIncomplete.n + ' — ' + firstIncomplete.title + '</b>';
+    } else if (total > 0) {
+      nextEl.innerHTML = '<b>Plano de 12 semanas concluído!</b> Hora de revisar ou criar um novo objetivo.';
+    } else {
+      nextEl.textContent = 'Carregando plano...';
+    }
+  }
+}
+
+function renderDashGrid() {
+  var grid = document.getElementById('dashGrid');
+  if (!grid) return;
+  var term = dashState.searchTerm.trim().toLowerCase();
+  var items = DASH_TRACKS.filter(function(it) {
+    if (dashState.trackFilter !== 'all' && it.track !== dashState.trackFilter) return false;
+    if (dashState.levelFilter !== 'all' && it.level !== dashState.levelFilter) return false;
+    if (term && it.title.toLowerCase().indexOf(term) === -1) return false;
+    return true;
+  });
+
+  var countEl = document.getElementById('dashGridCount');
+  if (countEl) countEl.textContent = '(' + items.length + ')';
+
+  if (items.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:20px;text-align:center;font-size:0.78rem;color:var(--gray)">Nenhuma trilha encontrada com esses filtros.</div>';
+    return;
+  }
+
+  var thumbColors = {bateria:'#1A0E00', guitarra:'#001018', ferramentas:'#1A1200'};
+
+  grid.innerHTML = items.map(function(it) {
+    var status = dashItemStatus(it);
+    var badgeCls = status === 'done' ? 'status-done' : status === 'progress' ? 'status-progress' : 'status-new';
+    var bg = thumbColors[it.track] || 'var(--surface2)';
+    return '<article class="dash-card" role="listitem" tabindex="0" onclick="dashCardClick(\'' + it.id + '\')" onkeydown="if(event.key===\'Enter\')dashCardClick(\'' + it.id + '\')">' +
+      '<div class="dash-card-thumb" style="background:' + bg + '">' +
+        '<span aria-hidden="true">' + it.icon + '</span>' +
+        '<span class="dash-card-badge ' + badgeCls + '" id="badge-' + it.id + '">' + dashBadgeLabel(status) + '</span>' +
+      '</div>' +
+      '<div class="dash-card-body">' +
+        '<div class="dash-card-title">' + it.title + '</div>' +
+        '<div class="dash-card-meta">' + it.duration + ' · ' + it.level.charAt(0).toUpperCase() + it.level.slice(1) + '</div>' +
+        '<button class="dash-card-btn" onclick="event.stopPropagation();dashCardClick(\'' + it.id + '\')">Continuar</button>' +
+      '</div>' +
+    '</article>';
+  }).join('');
+}
+
+function dashCardClick(itemId) {
+  var item = DASH_TRACKS.find(function(t){ return t.id === itemId; });
+  if (!item) return;
+  console.log('Continuar: ' + itemId);
+
+  // atualiza badge visualmente para "Em andamento" antes de navegar
+  var badge = document.getElementById('badge-' + itemId);
+  if (badge) { badge.textContent = 'Em andamento'; badge.className = 'dash-card-badge status-progress'; }
+
+  go(item.go);
+  if (item.sub && item.subFn === 'showBatTab' && typeof showBatTab === 'function') {
+    setTimeout(function(){ showBatTab(item.sub); }, 50);
+  } else if (item.sub && item.subFn === 'showGuitTab' && typeof showGuitTab === 'function') {
+    setTimeout(function(){ showGuitTab(item.sub); }, 50);
+  }
+}
+
+function dashContinue() {
+  var currentId = dashCurrentItemId();
+  // tenta achar um card "em andamento" primeiro
+  var progressItem = DASH_TRACKS.find(function(it){ return dashItemStatus(it) === 'progress'; });
+  var target = progressItem ? progressItem.id : (DASH_TRACKS[0] && DASH_TRACKS[0].id);
+  if (!target) return;
+
+  // foca/rola até o card no grid (a home já mostra o grid, então scroll suave até ele)
+  var card = document.querySelector('[onclick*="dashCardClick(\'' + target + '\'"]');
+  if (card) {
+    card.scrollIntoView({behavior:'smooth', block:'center'});
+    card.style.outline = '2px solid var(--gold)';
+    setTimeout(function(){ card.style.outline = 'none'; }, 1400);
+  } else {
+    dashCardClick(target);
+  }
+}
+
+// ── Busca simulada (filtra título dos cards em tempo real) ──
+function dashSearchInput(val) {
+  dashState.searchTerm = val;
+  renderDashGrid();
+
+  var resultsBox = document.getElementById('dashSearchResults');
+  if (!resultsBox) return;
+  var term = val.trim().toLowerCase();
+  if (!term) { resultsBox.classList.remove('show'); resultsBox.innerHTML = ''; return; }
+
+  var matches = DASH_TRACKS.filter(function(it){ return it.title.toLowerCase().indexOf(term) >= 0; }).slice(0, 6);
+  if (matches.length === 0) {
+    resultsBox.innerHTML = '<div class="dash-search-empty">Nada encontrado para "' + val + '"</div>';
+  } else {
+    resultsBox.innerHTML = matches.map(function(it) {
+      var trackLabel = it.track === 'bateria' ? 'BAT' : it.track === 'guitarra' ? 'GUI' : 'FER';
+      return '<div class="dash-search-result" role="option" onclick="dashCardClick(\'' + it.id + '\');document.getElementById(\'dashSearchResults\').classList.remove(\'show\')">' +
+        '<span class="res-track">' + trackLabel + '</span><span>' + it.title + '</span></div>';
+    }).join('');
+  }
+  resultsBox.classList.add('show');
+}
+
+document.addEventListener('click', function(e) {
+  var wrap = document.querySelector('.dash-search-wrap');
+  var results = document.getElementById('dashSearchResults');
+  if (wrap && results && !wrap.contains(e.target)) results.classList.remove('show');
+});
+
+// ── Filtros da sidebar ──
+function setDashFilter(track, btn) {
+  dashState.trackFilter = track;
+  document.querySelectorAll('[data-filter]').forEach(function(b){ b.classList.toggle('active', b === btn); });
+  renderDashGrid();
+}
+function setDashLevel(level, btn) {
+  dashState.levelFilter = level;
+  document.querySelectorAll('[data-level]').forEach(function(b){ b.classList.toggle('active', b === btn); });
+  renderDashGrid();
+}
+
+// ── Toggle sidebar (mobile) ──
+function toggleDashSidebar() {
+  var sb = document.getElementById('dashSidebar');
+  var overlay = document.getElementById('dashSidebarOverlay');
+  var btn = document.getElementById('dashMenuBtn');
+  if (!sb) return;
+  var isOpen = sb.classList.toggle('open');
+  if (overlay) overlay.classList.toggle('show', isOpen);
+  if (btn) btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+function initDashboard() {
+  buildDashboard();
+  var searchInput = document.getElementById('dashSearch');
+  if (searchInput) searchInput.addEventListener('input', function(e){ dashSearchInput(e.target.value); });
+  var menuBtn = document.getElementById('dashMenuBtn');
+  if (menuBtn) menuBtn.addEventListener('click', toggleDashSidebar);
+  var overlay = document.getElementById('dashSidebarOverlay');
+  if (overlay) overlay.addEventListener('click', toggleDashSidebar);
 }
 
 function toggleWeek(n) {
@@ -3717,6 +4142,7 @@ document.addEventListener('DOMContentLoaded', function() {
   buildTeoriaBat();
   buildTeoriaGuit();
   initStaffExamples();
+  initDashboard();
 });
 </script>
 </body>
