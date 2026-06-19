@@ -25,7 +25,108 @@
   --font-body: -apple-system, 'Helvetica Neue', sans-serif;
   --radius: 10px;
   --tab-height: 56px;
+  /* text-on-bg defaults (dark theme) */
+  --text-main: var(--cream);
+  --text-dim: var(--gray);
+  --card-shadow: none;
+  /* compatibility aliases used throughout content blocks */
+  --amber: var(--gold);
+  --amber-dim: rgba(200,151,26,0.14);
+  --silver: var(--gray);
+  --panel: var(--surface2);
+  --card: var(--surface);
+  --blues-c: #8B5FBF;
+  --guit-c: var(--slate);
+  --drum-c: var(--red);
+  /* tinted highlight boxes - dark theme defaults */
+  --tint-gold: rgba(200,151,26,0.14);
+  --tint-gold-border: rgba(200,151,26,0.45);
+  --tint-blue: rgba(74,144,217,0.14);
+  --tint-blue-border: rgba(74,144,217,0.45);
+  --tint-red: rgba(192,57,43,0.14);
+  --tint-red-border: rgba(192,57,43,0.45);
+  --tint-purple: rgba(139,95,191,0.14);
+  --tint-purple-border: rgba(139,95,191,0.45);
+  --tint-green: rgba(76,175,80,0.14);
+  --tint-green-border: rgba(76,175,80,0.45);
+  --text-on-tint: var(--cream);
+  --subblock-bg: #1A1A1A;
 }
+
+/* ── LIGHT THEME ── */
+[data-theme="light"] {
+  --bg: #F7F3EC;
+  --surface: #FFFFFF;
+  --surface2: #FBF6EC;
+  --border: #E3D8BE;
+  --gold: #A87412;
+  --gold2: #C8971A;
+  --red: #B5392B;
+  --slate: #2E6FB0;
+  --cream: #2A2420;
+  --gray: #756B5C;
+  --lgray: #9A9080;
+  --white: #1A1610;
+  --text-main: #2A2420;
+  --text-dim: #756B5C;
+  --card-shadow: 0 1px 3px rgba(60,40,10,0.08);
+  --amber: var(--gold);
+  --amber-dim: rgba(168,116,18,0.12);
+  --silver: var(--gray);
+  --panel: var(--surface2);
+  --card: var(--surface);
+  --blues-c: #6E4A9E;
+  --guit-c: var(--slate);
+  --drum-c: var(--red);
+  /* tinted highlight boxes - light theme: pale tint + dark text, always readable */
+  --tint-gold: rgba(168,116,18,0.10);
+  --tint-gold-border: rgba(168,116,18,0.35);
+  --tint-blue: rgba(46,111,176,0.10);
+  --tint-blue-border: rgba(46,111,176,0.35);
+  --tint-red: rgba(181,57,43,0.10);
+  --tint-red-border: rgba(181,57,43,0.35);
+  --tint-purple: rgba(110,74,158,0.10);
+  --tint-purple-border: rgba(110,74,158,0.35);
+  --tint-green: rgba(46,125,50,0.10);
+  --tint-green-border: rgba(46,125,50,0.35);
+  --text-on-tint: var(--text-main);
+  --subblock-bg: #F0E9DA;
+}
+[data-theme="light"] body { background: var(--bg); color: var(--text-main); }
+[data-theme="light"] .module-card,
+[data-theme="light"] .card,
+[data-theme="light"] .week-card,
+[data-theme="light"] .metronome,
+[data-theme="light"] .theory-card,
+[data-theme="light"] .music-box,
+[data-theme="light"] .t-block { box-shadow: var(--card-shadow); }
+[data-theme="light"] .dtab-wrap,
+[data-theme="light"] .gtab-wrap,
+[data-theme="light"] .fretboard-wrap,
+[data-theme="light"] .chromatic { background: #FFFCF5; border-color: #D8C078; }
+
+/* ── THEME TOGGLE SWITCH ── */
+.theme-toggle {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px; cursor: pointer;
+  flex-shrink: 0;
+}
+.theme-toggle-track {
+  position: relative; width: 44px; height: 24px;
+  background: var(--border); border-radius: 12px;
+  transition: background 0.25s;
+}
+[data-theme="light"] .theme-toggle-track { background: var(--gold); }
+.theme-toggle-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--gold); color: #000;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem;
+  transition: transform 0.25s, background 0.25s;
+}
+[data-theme="light"] .theme-toggle-knob { transform: translateX(20px); background: #FFF; color: var(--gold); }
 
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,6 +136,2499 @@ body {
   color: var(--cream);
   font-family: var(--font-body);
   min-height: 100vh;
+  padding-bottom: calc(var(--tab-height) + env(safe-area-inset-bottom));
+  overflow-x: hidden;
+  transition: background 0.25s, color 0.25s;
+}
+
+/* ── HEADER ── */
+.app-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px 8px;
+  display: flex; align-items: center; gap: 10px;
+}
+.app-header h1 {
+  font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--gold);
+  flex: 1;
+}
+.app-header .phase-badge {
+  font-size: 0.65rem; font-weight: 700;
+  background: var(--gold); color: #000;
+  padding: 2px 8px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  height: calc(var(--tab-height) + env(safe-area-inset-bottom));
+  background: #111;
+  border-top: 1px solid var(--border);
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-tab {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  background: none; border: none; color: var(--lgray);
+  font-size: 0.6rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.04em; cursor: pointer;
+  transition: color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-tab.active { color: var(--gold); }
+.nav-tab svg { width: 22px; height: 22px; }
+
+/* ── PAGES ── */
+.page { display: none; padding: 0 0 16px; }
+.page.active { display: block; }
+
+/* ── SECTION ── */
+.section { padding: 16px 16px 0; }
+.section + .section { padding-top: 0; }
+
+/* ── MODULE CARD ── */
+.module-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 12px 16px 0;
+  overflow: hidden;
+}
+.module-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.module-header:active { background: var(--surface2); }
+.module-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--gold); color: #000;
+  font-weight: 800; font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.module-title { flex: 1; font-size: 0.9rem; font-weight: 600; }
+.module-sub { font-size: 0.7rem; color: var(--gray); margin-top: 1px; }
+.chevron {
+  color: var(--lgray); font-size: 1rem;
+  transition: transform 0.25s; flex-shrink: 0;
+}
+.module-card.open .chevron { transform: rotate(90deg); }
+.module-body {
+  display: none; padding: 0 14px 14px;
+  border-top: 1px solid var(--border);
+}
+.module-card.open .module-body { display: block; }
+
+/* ── PHASE BANNER ── */
+.phase-banner {
+  margin: 16px 16px 0;
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.phase-banner.gold { background: linear-gradient(135deg,#3A2800,#1A1200); border: 1px solid var(--gold); }
+.phase-banner.slate { background: linear-gradient(135deg,#0A1A30,#050E1A); border: 1px solid var(--slate); }
+.phase-banner.red { background: linear-gradient(135deg,#2A0800,#150400); border: 1px solid var(--red); }
+.phase-banner .ph-num { font-family: var(--font-display); font-size: 2rem; font-weight: 700; line-height: 1; }
+.phase-banner.gold .ph-num { color: var(--gold); }
+.phase-banner.slate .ph-num { color: var(--slate); }
+.phase-banner.red .ph-num { color: var(--red); }
+.phase-banner .ph-info h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 2px; }
+.phase-banner .ph-info p { font-size: 0.7rem; color: var(--gray); }
+
+/* ── DRUM TAB ── */
+.dtab-wrap {
+  background: #FFFDF5;
+  border: 1px solid #D4C080;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 10px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.dtab-title {
+  font-size: 0.75rem; font-weight: 700; color: #1A1A1A;
+  padding: 6px 8px 2px;
+  border-bottom: 1px solid #E8D88A;
+}
+.dtab-bpm { font-weight: 400; color: #888; float: right; }
+.dtab {
+  display: table;
+  min-width: 100%;
+  border-collapse: collapse;
+  padding: 4px 0;
+}
+.dtab-row {
+  display: table-row;
+}
+.dtab-label {
+  display: table-cell;
+  font-size: 0.65rem; font-weight: 700; color: #2C3E50;
+  padding: 0 6px;
+  white-space: nowrap;
+  vertical-align: middle;
+  width: 32px;
+}
+.dtab-cells {
+  display: table-cell;
+  vertical-align: middle;
+}
+.dtab-cells-inner {
+  display: flex;
+}
+.dtab-cell {
+  width: 28px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  border-right: 1px solid #F0E8C0;
+  flex-shrink: 0;
+  position: relative;
+}
+.dtab-cell::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 1px;
+  background: #D8C878;
+  pointer-events: none;
+}
+.dtab-cell.beat-start { border-right-color: #C8A840; }
+.dtab-cell.bar-start { border-left: 2px solid #B89030; }
+.sym-x { color: #1A1A1A; font-weight: 800; z-index: 1; position: relative; }
+.sym-X { color: #C0392B; font-weight: 800; z-index: 1; position: relative; }
+.sym-o { color: #C8971A; font-weight: 800; z-index: 1; position: relative; }
+.sym-s { width: 14px; height: 14px; border-radius: 50%; background: #2C3E50; z-index: 1; position: relative; }
+.sym-S { width: 14px; height: 14px; border-radius: 50%; background: #C0392B; z-index: 1; position: relative; }
+.sym-b { width: 14px; height: 14px; border-radius: 50%; background: #1A1A1A; z-index: 1; position: relative; }
+.sym-g { color: #999; font-size: 0.65rem; z-index: 1; position: relative; }
+.sym-dot { color: #C8B880; font-size: 0.7rem; z-index: 1; position: relative; }
+.sym-plus { color: #2C3E50; font-weight: 800; z-index: 1; position: relative; }
+.dtab-beat-row {
+  display: table-row;
+}
+.dtab-beat-label { display: table-cell; width: 32px; }
+.dtab-beat-cells { display: table-cell; }
+.dtab-beat-cells-inner { display: flex; }
+.dtab-beat-cell {
+  width: 28px; height: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.55rem; color: #AAA; flex-shrink: 0;
+}
+
+/* ── MUSIC BOX ── */
+.music-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; margin: 10px 0; overflow: hidden;
+}
+.music-box-header {
+  background: var(--gold); color: #000;
+  font-size: 0.7rem; font-weight: 800;
+  padding: 5px 10px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.music-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.music-item:last-child { border-bottom: none; }
+.music-note { font-size: 1rem; }
+.music-info { flex: 1; }
+.music-song { font-size: 0.8rem; font-weight: 700; color: var(--text-main); }
+.music-song a:hover { color: var(--gold); text-decoration: underline; }
+.music-artist { font-size: 0.7rem; color: var(--gray); }
+.music-tip { font-size: 0.65rem; color: var(--gold); margin-top: 1px; }
+
+/* ── CALLOUT ── */
+.callout {
+  border-radius: 8px; margin: 10px 0;
+  padding: 10px 12px;
+  border-left: 3px solid;
+}
+.callout.gold { background: var(--tint-gold); border-color: var(--gold); }
+.callout.slate { background: var(--tint-blue); border-color: var(--slate); }
+.callout.red { background: var(--tint-red); border-color: var(--red); }
+.callout.amber { background: var(--tint-gold); border-color: var(--gold); }
+.callout.drum { background: var(--tint-red); border-color: var(--drum-c); }
+.callout.guit { background: var(--tint-blue); border-color: var(--guit-c); }
+.callout.blues { background: var(--tint-purple); border-color: var(--blues-c); }
+.callout-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; }
+.callout.gold .callout-title, .callout.amber .callout-title { color: var(--gold); }
+.callout.slate .callout-title, .callout.guit .callout-title { color: var(--slate); }
+.callout.red .callout-title, .callout.drum .callout-title { color: var(--red); }
+.callout.blues .callout-title { color: var(--blues-c); }
+.callout ul { padding-left: 14px; }
+.callout li { font-size: 0.78rem; color: var(--text-on-tint); margin-bottom: 4px; line-height: 1.4; }
+
+/* ── THEORY CARD ── */
+.theory-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+}
+.theory-card h4 { font-size: 0.85rem; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+.theory-card p, .theory-card li { font-size: 0.8rem; color: var(--text-main); line-height: 1.5; }
+.theory-card ul { padding-left: 16px; }
+.theory-card .formula {
+  background: var(--bg); border: 1px solid var(--gold);
+  border-radius: 6px; padding: 8px 12px;
+  font-family: monospace; font-size: 0.85rem;
+  color: var(--gold2); margin: 8px 0;
+  letter-spacing: 0.05em;
+}
+
+/* ── CHROMATIC KEYBOARD ── */
+.chromatic {
+  display: flex; margin: 8px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  gap: 2px;
+  padding: 4px;
+  background: #111; border-radius: 8px;
+}
+.key {
+  min-width: 32px; height: 56px;
+  border-radius: 4px; border: 1px solid #333;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding-bottom: 4px;
+  font-size: 0.6rem; font-weight: 700;
+  flex-shrink: 0; cursor: pointer;
+  transition: transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.key:active { transform: scaleY(0.95); }
+.key.natural { background: var(--cream); color: #222; }
+.key.sharp { background: #1A1A1A; color: #CCC; height: 36px; }
+.key.highlight { background: var(--gold) !important; color: #000 !important; }
+.key.highlight2 { background: var(--slate) !important; color: white !important; }
+
+/* ── INTERVAL GRID ── */
+.interval-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 3px; margin: 8px 0;
+}
+.interval-box {
+  background: var(--surface2);
+  border-radius: 6px; padding: 6px 4px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.interval-box.root { background: var(--red); border-color: var(--red); }
+.interval-box.important { border-color: var(--gold); }
+.interval-name { font-size: 0.55rem; color: var(--gray); }
+.interval-note { font-size: 0.9rem; font-weight: 800; color: var(--cream); }
+.interval-box.root .interval-note, .interval-box.root .interval-name { color: white; }
+.interval-st { font-size: 0.55rem; color: var(--gold); margin-top: 1px; }
+
+/* ── PROGRESS TRACKER ── */
+.progress-section {
+  padding: 16px;
+}
+.week-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.week-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.week-header:active { background: var(--surface2); }
+.week-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.85rem; flex-shrink: 0;
+}
+.week-num.done { background: #1A3A1A; color: #4CAF50; border: 2px solid #4CAF50; }
+.week-num.current { background: var(--gold); color: #000; }
+.week-num.future { background: var(--surface2); color: var(--gray); border: 2px solid var(--border); }
+.week-info { flex: 1; }
+.week-title { font-size: 0.85rem; font-weight: 600; }
+.week-focus { font-size: 0.7rem; color: var(--gray); margin-top: 1px; }
+.week-body {
+  display: none; padding: 0 12px 12px;
+  border-top: 1px solid var(--border);
+}
+.week-card.open .week-body { display: block; }
+.week-body p { font-size: 0.8rem; color: var(--text-main); margin-top: 8px; line-height: 1.5; }
+.checklist { margin-top: 8px; }
+.check-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.check-item:last-child { border-bottom: none; }
+.check-box {
+  width: 20px; height: 20px; border-radius: 4px;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.check-item.checked .check-box { background: #4CAF50; border-color: #4CAF50; }
+.check-label { font-size: 0.8rem; color: var(--text-main); flex: 1; }
+.check-item.checked .check-label { text-decoration: line-through; color: var(--lgray); }
+
+/* ── METRONOME ── */
+.metronome {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 12px 16px 0;
+  padding: 16px;
+}
+.metro-display {
+  text-align: center; margin-bottom: 16px;
+}
+.metro-bpm {
+  font-family: var(--font-display);
+  font-size: 4rem; font-weight: 700;
+  color: var(--gold); line-height: 1;
+}
+.metro-label { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.1em; }
+.metro-beat-vis {
+  display: flex; gap: 6px; justify-content: center; margin: 12px 0;
+}
+.beat-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--surface2); border: 2px solid var(--border);
+  transition: all 0.05s;
+}
+.beat-dot.active { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+.beat-dot.accent { background: var(--red); border-color: var(--red); }
+.metro-controls {
+  display: flex; align-items: center; gap: 10px;
+}
+.metro-btn {
+  background: none; border: 2px solid var(--border);
+  border-radius: 8px; padding: 10px 16px;
+  color: var(--cream); font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+.metro-btn:active { background: var(--surface2); }
+.metro-btn.play { background: var(--gold); border-color: var(--gold); color: #000; flex: 1; }
+.metro-btn.play.running { background: var(--red); border-color: var(--red); color: white; }
+.metro-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 4px; border-radius: 2px; background: var(--border); outline: none; }
+.metro-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); cursor: pointer; }
+.metro-sig { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.metro-sig button {
+  flex: 1; min-width: 60px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px; color: var(--cream);
+  font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.metro-sig button.active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+/* ── FRETBOARD ── */
+.fretboard-wrap {
+  overflow-x: auto;
+  background: #FFFDF5;
+  border-radius: 8px;
+  margin: 8px 0;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.fretboard {
+  display: grid;
+  grid-template-columns: 28px repeat(13, 38px);
+  grid-template-rows: repeat(6, 32px);
+  min-width: fit-content;
+  padding: 0 8px;
+  position: relative;
+}
+.fb-label {
+  font-size: 0.7rem; font-weight: 800; color: #8B6914;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 6px;
+}
+.fb-cell {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  border-right: 1px solid #C0A050;
+}
+.fb-cell::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0; height: 1px;
+  background: #C8A060;
+}
+.fb-cell:last-child { border-right: 2px solid #8B6914; }
+.fb-note {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 800;
+  z-index: 1; position: relative;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.fb-note.root { background: #C0392B; color: white; }
+.fb-note.scale { background: #2E7D32; color: white; }
+.fb-note.scale2 { background: #4A90D9; color: white; }
+.fb-note.blues { background: #8B4513; color: white; }
+.fb-nut { border-left: 4px solid #5C3A00; }
+.fb-fret-num {
+  font-size: 0.6rem; color: #8B6914;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 2px;
+}
+.inlay {
+  position: absolute; width: 8px; height: 8px;
+  border-radius: 50%; background: #E8D080;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+/* ── SCALE SELECTOR ── */
+.scale-selector {
+  display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0;
+}
+.scale-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 12px;
+  font-size: 0.75rem; color: var(--cream); cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s;
+}
+.scale-btn.active { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 700; }
+
+/* ── TYPOGRAPHY ── */
+h2 { font-size: 1.1rem; font-weight: 700; color: var(--gold); padding: 16px 16px 4px; }
+h3 { font-size: 0.95rem; font-weight: 700; color: var(--cream); margin: 12px 0 6px; }
+p { font-size: 0.82rem; color: var(--text-main); line-height: 1.5; margin: 6px 0; }
+.tag {
+  display: inline-block;
+  font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 20px; margin: 2px 2px 2px 0;
+}
+.tag-gold { background: #2A1E00; color: var(--gold); border: 1px solid var(--gold); }
+.tag-slate { background: #05101A; color: var(--slate); border: 1px solid var(--slate); }
+.tag-red { background: #150400; color: var(--red); border: 1px solid var(--red); }
+
+/* ── BAT INNER TABS ── */
+.bat-section { padding-bottom: 8px; }
+.bat-tab { -webkit-tap-highlight-color: transparent; transition: color 0.15s, border-color 0.15s; }
+.bat-tab:active { opacity: 0.7; }
+/* ── SCROLL HINT ── */
+.scroll-hint { font-size: 0.65rem; color: var(--lgray); padding: 4px 0 0; text-align: right; }
+
+/* ── HERO ── */
+.hero {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+.hero h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem; padding: 0; margin-bottom: 4px;
+  color: var(--cream);
+}
+.hero h2 span { color: var(--gold); }
+.hero p { font-size: 0.82rem; color: var(--gray); }
+.hero-badges { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.hero-badge {
+  font-size: 0.65rem; font-weight: 700;
+  padding: 4px 10px; border-radius: 20px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--gray);
+}
+
+/* ── DIVIDER ── */
+.divider {
+  border: none; border-top: 1px solid var(--border);
+  margin: 14px 0;
+}
+</style>
+<script>
+// Apply saved theme immediately to avoid flash of wrong theme
+(function() {
+  try {
+    var t = localStorage.getItem('theme');
+    if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  } catch(e) {}
+})();
+</script>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header class="app-header">
+  <h1>🥁 Bateria & 🎸 Guitarra</h1>
+  <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn" aria-label="Alternar tema">
+    <span style="font-size:0.85rem">☀️</span>
+    <div class="theme-toggle-track"><div class="theme-toggle-knob" id="themeKnob">🌙</div></div>
+  </button>
+  <span class="phase-badge" id="currentPhase">Fase 1</span>
+</header>
+
+<!-- ══════════════ PAGES ══════════════ -->
+
+<!-- ── PAGE: HOME ── -->
+<!-- ══════════════════════════════ HOME PAGE ══ -->
+<!-- ══════════════════════════════ HOME PAGE ══ -->
+<div class="page active" id="page-home">
+  <div style="padding:24px 16px 20px;border-bottom:1px solid var(--border);background:linear-gradient(165deg, var(--surface) 0%, var(--bg) 70%);position:relative;overflow:hidden">
+    <div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle, rgba(200,151,26,0.12) 0%, transparent 70%)"></div>
+    <div style="font-size:0.65rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px;position:relative">Seu curso personalizado</div>
+    <div style="font-size:1.9rem;font-weight:900;color:var(--cream);line-height:1.15;margin-bottom:10px;font-family:var(--font-display);position:relative">Toque como<br><span style="color:var(--gold)">você imagina</span></div>
+    <div style="font-size:0.8rem;color:var(--gray);line-height:1.5;margin-bottom:14px;position:relative">Teoria, exercícios, metrônomo e plano — tudo num lugar. Cada coisa explicada do zero.</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;position:relative">
+      <span style="font-size:0.65rem;font-weight:700;padding:5px 12px;border-radius:20px;background:rgba(200,151,26,0.12);border:1px solid var(--gold);color:var(--gold)">🥁 D-Tech Nexus</span>
+      <span style="font-size:0.65rem;font-weight:700;padding:5px 12px;border-radius:20px;background:rgba(200,151,26,0.12);border:1px solid var(--gold);color:var(--gold)">🎸 Telecaster LH</span>
+      <span style="font-size:0.65rem;font-weight:700;padding:5px 12px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);color:var(--gray)">📅 12 semanas</span>
+    </div>
+  </div>
+
+  <div style="padding:20px 16px 8px"><h2 style="font-size:1.3rem;font-weight:800;color:var(--cream);font-family:var(--font-display)">Acesso rápido</h2></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;margin-top:4px">
+    <button onclick="go('bateria')" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:left;cursor:pointer;transition:border-color .15s">
+      <div style="font-size:1.5rem;margin-bottom:8px">🥁</div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--cream)">Bateria</div>
+      <div style="font-size:0.68rem;color:var(--gray);margin-top:2px">Grooves & Fills</div>
+    </button>
+    <button onclick="go('guitarra')" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:left;cursor:pointer;transition:border-color .15s">
+      <div style="font-size:1.5rem;margin-bottom:8px">🎸</div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--cream)">Guitarra</div>
+      <div style="font-size:0.68rem;color:var(--gray);margin-top:2px">Teoria & Escalas</div>
+    </button>
+    <button onclick="go('metronomo')" style="background:var(--surface);border:1px solid var(--gold);border-radius:14px;padding:16px;text-align:left;cursor:pointer">
+      <div style="font-size:1.5rem;margin-bottom:8px">🎵</div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--gold)">Metrônomo</div>
+      <div style="font-size:0.68rem;color:var(--gray);margin-top:2px">Praticar agora</div>
+    </button>
+    <button onclick="go('progresso')" style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:left;cursor:pointer">
+      <div style="font-size:1.5rem;margin-bottom:8px">✅</div>
+      <div style="font-size:0.82rem;font-weight:700;color:var(--cream)">Plano</div>
+      <div style="font-size:0.68rem;color:var(--gray);margin-top:2px">12 semanas</div>
+    </button>
+  </div>
+
+  <div style="padding:22px 16px 8px;display:flex;align-items:center;gap:8px">
+    <h2 style="font-size:1.3rem;font-weight:800;color:var(--cream);font-family:var(--font-display)">Rotina de hoje</h2>
+    <span style="font-size:0.62rem;font-weight:700;padding:3px 9px;border-radius:10px;background:var(--gold);color:#000;text-transform:uppercase;letter-spacing:.06em">45 min</span>
+  </div>
+  <div class="module-card" style="margin:0 16px 8px">
+    <div style="padding:12px 14px" id="routineList"></div>
+  </div>
+
+  <div style="padding:22px 16px 8px"><h2 style="font-size:1.3rem;font-weight:800;color:var(--cream);font-family:var(--font-display)">Progresso</h2></div>
+  <div class="module-card" style="margin:0 16px 20px;padding:16px">
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+      <span style="font-size:0.78rem;color:var(--gray)">Semanas concluídas</span>
+      <span style="font-size:0.78rem;font-weight:700;color:var(--gold)" id="homeProgLabel">0 / 12</span>
+    </div>
+    <div style="background:var(--border);border-radius:4px;height:7px;margin:6px 0;overflow:hidden">
+      <div style="height:100%;border-radius:4px;background:linear-gradient(90deg, var(--gold), var(--gold2));width:0%;transition:width .4s" id="homeProgBar"></div>
+    </div>
+    <div style="margin-top:10px;font-size:0.68rem;color:var(--gray)">Marque tarefas na aba Plano para avançar</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ BATERIA PAGE ══ -->
+<div class="page" id="page-bateria">
+  <!-- Tab bar -->
+  <div id="bat-tabs" style="display:flex;overflow-x:auto;background:var(--subblock-bg);border-bottom:1px solid var(--border);position:sticky;top:49px;z-index:90;scrollbar-width:none">
+    <button class="bat-tab active" onclick="showBatTab('bat-geral')" id="btab-geral" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid var(--gold);color:var(--gold);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">🥁 GERAL</button>
+    <button class="bat-tab" onclick="showBatTab('bat-blues')" id="btab-blues" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--gray);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">🎸 BLUES</button>
+    <button class="bat-tab" onclick="showBatTab('bat-teoria')" id="btab-teoria" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--gray);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">📖 TEORIA</button>
+    <button class="bat-tab" onclick="showBatTab('bat-rudimentos')" id="btab-rudimentos" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--gray);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">✊ RUDIMENTOS</button>
+    <button class="bat-tab" onclick="showBatTab('bat-fills')" id="btab-fills" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--gray);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">🔀 FILLS</button>
+  </div>
+
+  <!-- ═══ GERAL ═══ -->
+  <div id="bat-geral" class="bat-section">
+    <!-- LEGEND PERMANENTE -->
+    <div style="margin:10px 16px 0;background:var(--tint-gold);border:1px solid var(--gold);border-radius:10px;padding:12px 14px">
+      <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:8px">📖 COMO LER A TABLATURA DE BATERIA</div>
+      <div style="font-size:0.78rem;color:var(--cream);margin-bottom:6px">Cada linha = uma peça da bateria. Leia da <strong>esquerda para a direita</strong>.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+        <div style="background:var(--subblock-bg);border-radius:6px;padding:6px 8px">
+          <div style="font-size:0.65rem;color:var(--gold);font-weight:700;margin-bottom:4px">LINHAS (o que é cada peça)</div>
+          <div style="font-size:0.72rem;color:var(--cream)">🥁 <b>HH</b> = Hi-Hat (prato de cima)</div>
+          <div style="font-size:0.72rem;color:var(--cream)">🥁 <b>SN</b> = Caixa (snare drum)</div>
+          <div style="font-size:0.72rem;color:var(--cream)">🥁 <b>BD</b> = Bumbo (bass drum)</div>
+          <div style="font-size:0.72rem;color:var(--cream)">🥁 <b>T1</b> = Tom 1 (tom alto)</div>
+          <div style="font-size:0.72rem;color:var(--cream)">🥁 <b>FT</b> = Floor Tom (tom baixo)</div>
+          <div style="font-size:0.72rem;color:var(--cream)">🥁 <b>HH(p)</b> = Hi-Hat com o pé</div>
+        </div>
+        <div style="background:var(--subblock-bg);border-radius:6px;padding:6px 8px">
+          <div style="font-size:0.65rem;color:var(--gold);font-weight:700;margin-bottom:4px">SÍMBOLOS (o que fazer)</div>
+          <div style="font-size:0.72rem;color:var(--cream)">× = toque normal</div>
+          <div style="font-size:0.72rem;color:var(--cream)">× <span style="color:#C0392B">(vermelho)</span> = toque FORTE</div>
+          <div style="font-size:0.72rem;color:var(--cream)">○ = hi-hat ABERTO</div>
+          <div style="font-size:0.72rem;color:var(--cream)">● <span style="color:#2C3E50">(azul)</span> = toque normal</div>
+          <div style="font-size:0.72rem;color:var(--cream)">● <span style="color:#C0392B">(vermelho)</span> = toque FORTE</div>
+          <div style="font-size:0.72rem;color:var(--cream)">(×) = ghost note (quase silencioso)</div>
+          <div style="font-size:0.72rem;color:var(--cream)">– = silêncio (não toca)</div>
+          <div style="font-size:0.72rem;color:var(--cream)">+ = pé no hi-hat</div>
+        </div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--silver);background:var(--subblock-bg);border-radius:6px;padding:8px">
+        <b style="color:var(--gold)">Como contar:</b> cada coluna = 1 subdivisão. Os números <b style="color:#CCC">1 2 3 4</b> são os tempos. Leia como: "tempo 1 — tempo 2 — tempo 3 — tempo 4" e repita.
+      </div>
+    </div>
+
+    <div style="padding:14px 16px 4px"><span style="font-size:0.65rem;font-weight:700;background:var(--amber-dim);color:var(--amber);padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em">🟡 Iniciante — Semanas 1 a 4</span></div>
+
+    <!-- G01 -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num">G1</div>
+        <div><div class="module-title">Rock Básico — O Primeiro Groove</div><div class="module-sub">O ritmo mais tocado do mundo</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-gold);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:6px">🧠 O QUE VOCÊ VAI APRENDER</div>
+          <p style="font-size:0.82rem;color:var(--cream)">Você vai tocar 3 peças ao mesmo tempo: <b>hi-hat</b> (prato) em todos os tempos, <b>caixa</b> nos tempos 2 e 4, e <b>bumbo</b> nos tempos 1 e 3. Parece difícil, mas o segredo é aprender uma por vez.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:6px">📋 COMO PRATICAR — PASSO A PASSO</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:8px;display:flex;gap:10px;align-items:flex-start">
+              <div style="min-width:24px;height:24px;border-radius:50%;background:var(--gold);color:#000;font-weight:800;font-size:0.78rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+              <div><div style="font-size:0.78rem;font-weight:700;color:var(--text-on-tint)">Só o Hi-Hat — 2 minutos</div><div style="font-size:0.72rem;color:var(--gray);margin-top:2px">Toque o prato com a mão direita em todos os 4 tempos. Conte em voz alta: "1 — 2 — 3 — 4 — 1 — 2..."</div></div>
+            </div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:8px;display:flex;gap:10px;align-items:flex-start">
+              <div style="min-width:24px;height:24px;border-radius:50%;background:var(--slate);color:white;font-weight:800;font-size:0.78rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+              <div><div style="font-size:0.78rem;font-weight:700;color:var(--text-on-tint)">Hi-Hat + Caixa — 2 minutos</div><div style="font-size:0.72rem;color:var(--gray);margin-top:2px">Agora, nos tempos 2 e 4, bata a caixa com a mão esquerda junto com o hi-hat. "1 — 2(caixa) — 3 — 4(caixa)"</div></div>
+            </div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:8px;display:flex;gap:10px;align-items:flex-start">
+              <div style="min-width:24px;height:24px;border-radius:50%;background:var(--red);color:white;font-weight:800;font-size:0.78rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+              <div><div style="font-size:0.78rem;font-weight:700;color:var(--text-on-tint)">Tudo junto — Groove completo</div><div style="font-size:0.72rem;color:var(--gray);margin-top:2px">Adicione o bumbo com o pé direito nos tempos 1 e 3. "1(bumbo) — 2(caixa) — 3(bumbo) — 4(caixa)"</div></div>
+            </div>
+          </div>
+        </div>
+        <div id="tab-g01"></div>
+        <div style="background:var(--tint-green);border:1px solid #2E5C2E;border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:#4CAF50;margin-bottom:4px">✅ Você está pronto para o próximo quando:</div>
+          <div style="font-size:0.72rem;color:var(--silver)">Conseguir tocar 2 minutos seguidos a 80 BPM sem parar e sem pensar em cada mão.</div>
+        </div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 OUÇA E TOQUE JUNTO — Rock Básico</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Back%20in%20Black%20%E2%80%94%20AC/DC" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Back in Black — AC/DC <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">94 BPM · Rock direto, groove clarissimo</div><div class="music-tip">Ouça 1 minuto antes de tocar. Identifique o bumbo e a caixa.</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=We%20Will%20Rock%20You%20%E2%80%94%20Queen" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">We Will Rock You — Queen <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">81 BPM · Começa com bumbo — fácil de ouvir</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Wonderwall%20%E2%80%94%20Oasis" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Wonderwall — Oasis <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">87 BPM · Hi-hat bem marcado</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Knockin%27%20on%20Heaven%27s%20Door%20%E2%80%94%20Bob%20Dylan" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Knockin' on Heaven's Door — Bob Dylan <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">72 BPM · Muito lento, ótimo para começar</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- G02 Half-time -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num">G2</div>
+        <div><div class="module-title">Half-Time Feel — Câmera Lenta</div><div class="module-sub">Caixa só no tempo 3</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-gold);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:6px">🧠 O QUE É ISSO?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">No groove normal, a caixa bate nos tempos 2 <em>e</em> 4. No half-time, a caixa bate <strong>só no tempo 3</strong>. Isso cria a sensação de câmera lenta — a música parece mais pesada e dramática, mesmo no mesmo andamento.</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px"><b>Normal:</b> "1 — CAIXA — 3 — CAIXA"<br><b>Half-time:</b> "1 — — — CAIXA — — —"</p>
+        </div>
+        <div id="tab-g02-ht"></div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 MÚSICAS com Half-Time</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=In%20the%20Air%20Tonight%20%E2%80%94%20Phil%20Collins" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">In the Air Tonight — Phil Collins <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">103 BPM · A entrada icônica da caixa no meio da música</div><div class="music-tip">Conte até o 3 esperando a caixa — você vai sentir a tensão!</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Creep%20%E2%80%94%20Radiohead" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Creep — Radiohead <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">92 BPM · Verso suave (half-time), refrão explode</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- G03 16th -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num">G3</div>
+        <div><div class="module-title">Pop Rock — Hi-Hat Acelerado</div><div class="module-sub">16 batidas por compasso no prato</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-gold);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:6px">🧠 O QUE É ISSO?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">Em vez de bater o hi-hat 4 vezes por compasso (uma por tempo), você bate <strong>16 vezes</strong> — quatro vezes por tempo. Isso cria aquela sensação de energia e urgência do pop rock.</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px"><b>Dica:</b> Use movimento de pulso (não o braço todo). Alterne: palheta para baixo (↓) e para cima (↑) sem parar.</p>
+        </div>
+        <div id="tab-g03-16"></div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 MÚSICAS — Comece lento!</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Mr.%20Brightside%20%E2%80%94%20The%20Killers" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Mr. Brightside — The Killers <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">148 BPM original · Comece em 70 BPM no metrônomo</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Blinding%20Lights%20%E2%80%94%20The%20Weeknd" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Blinding Lights — The Weeknd <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">171 BPM original · Comece em 80 BPM</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 16px 4px"><span style="font-size:0.65rem;font-weight:700;background:var(--tint-blue);color:#4A90D9;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em">🔵 Intermediário — Semanas 5 a 8</span></div>
+
+    <!-- G04 Rock pesado -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">G4</div>
+        <div><div class="module-title">Rock Pesado — Bumbo Duplo</div><div class="module-sub">Hard rock e metal básico</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:6px">🧠 O QUE É BUMBO DUPLO?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">Em vez do bumbo bater só no tempo 1 e 3, ele bate <strong>duas vezes seguidas</strong> (1-e ou 3-e). Isso cria mais energia. A caixa também fica mais forte — use <em>rim shot</em>: bata na borda e no centro ao mesmo tempo para mais volume.</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px"><b>Rim Shot:</b> Incline a baqueta levemente para bater no aro + pele ao mesmo tempo. Som mais estalo, mais pesado.</p>
+        </div>
+        <div id="tab-g04-rock"></div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 MÚSICAS — Rock Pesado</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Highway%20to%20Hell%20%E2%80%94%20AC/DC" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Highway to Hell — AC/DC <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">116 BPM · Bumbo limpo e pesado</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Smells%20Like%20Teen%20Spirit%20%E2%80%94%20Nirvana" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Smells Like Teen Spirit — Nirvana <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">117 BPM · Verso suave, refrão EXPLODE</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Enter%20Sandman%20%E2%80%94%20Metallica" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Enter Sandman — Metallica <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">123 BPM · Groove pesado clássico</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- G05 Reggae -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">G5</div>
+        <div><div class="module-title">Reggae — O Ritmo Invertido</div><div class="module-sub">O oposto do rock</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:6px">🧠 POR QUE É DIFERENTE?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">No rock, a caixa bate nos tempos 2 e 4 (os tempos "fracos"). No reggae, o hi-hat <strong>abre</strong> nos contratempos (o "e" entre os tempos) e o bumbo é quase inexistente. Isso cria aquela sensação de balanço e flutuação única do reggae.</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px"><b>Hi-hat aberto (○):</b> Levante o pé esquerdo do pedal — o prato fica aberto e faz um som "tchiii" em vez de "tick".</p>
+        </div>
+        <div id="tab-g05-reggae"></div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 MÚSICAS — Reggae</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=No%20Woman%20No%20Cry%20%E2%80%94%20Bob%20Marley" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">No Woman No Cry — Bob Marley <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">76 BPM · Reggae clássico, lento e relaxado</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Is%20This%20Love%20%E2%80%94%20Bob%20Marley" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Is This Love — Bob Marley <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">82 BPM · Balanço suave</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- G06 Funk -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">G6</div>
+        <div><div class="module-title">Funk — Ghost Notes</div><div class="module-sub">O segredo da textura</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:6px">🧠 O QUE SÃO GHOST NOTES?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">Ghost notes são toques <strong>quase silenciosos</strong> na caixa. Você toca mas quase não se ouve — é só uma textura, um sussurro. Na tablatura aparecem como <b>(×)</b>. No funk a caixa está quase sempre tocando, mas só alguns toques são audíveis.</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px"><b>Como fazer:</b> Deixe a baqueta a 2 centímetros da pele. Quase não toque — só encosta. A diferença entre ghost note e toque normal é enorme em volume.</p>
+        </div>
+        <div id="tab-g06-funk"></div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 MÚSICAS — Funk</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Superstition%20%E2%80%94%20Stevie%20Wonder" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Superstition — Stevie Wonder <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">100 BPM · Ouça a caixa — dá para ouvir as ghost notes</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Give%20It%20Away%20%E2%80%94%20RHCP" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Give It Away — RHCP <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">Funk-rock · Ghost notes evidentes</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- G07 Pop -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">G7</div>
+        <div><div class="module-title">Pop Moderno — Precisão Total</div><div class="module-sub">Constância acima de expressividade</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:6px">🧠 POR QUE O POP É DIFERENTE?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">Em estúdio de pop, o baterista toca com um <em>click track</em> (metrônomo nos fones). Cada batida precisa ser <strong>exatamente no tempo</strong>. Não existe imprecisão. O pop exige menos criatividade e mais estabilidade absoluta.</p>
+        </div>
+        <div id="tab-g07-pop"></div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 MÚSICAS — Pop</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Levitating%20%E2%80%94%20Dua%20Lipa" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Levitating — Dua Lipa <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">103 BPM · Pop dançante, groove limpo</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Billie%20Jean%20%E2%80%94%20Michael%20Jackson" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Billie Jean — Michael Jackson <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">117 BPM · Um dos grooves de pop mais perfeitos já gravados</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 16px 4px"><span style="font-size:0.65rem;font-weight:700;background:var(--tint-red);color:#E05030;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em">🔴 Avançado — Semanas 9 a 12</span></div>
+
+    <!-- G08 Independência -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">G8</div>
+        <div><div class="module-title">Independência — 4 Membros ao Mesmo Tempo</div><div class="module-sub">O maior desafio da bateria</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-red);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--red);margin-bottom:6px">🧠 O QUE É INDEPENDÊNCIA?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">Você tem 4 membros: mão direita (hi-hat), mão esquerda (caixa), pé direito (bumbo), pé esquerdo (hi-hat pedal). Independência é fazer cada um tocar um ritmo diferente ao mesmo tempo. O seu cérebro precisa criar um "piloto automático" para cada membro — isso leva semanas, e é normal.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--red);margin-bottom:6px">📋 APRENDA NESTA ORDEM — não pule etapas!</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:7px 10px;border-radius:6px"><b style="color:var(--gold)">Passo 1:</b> Só os dois pés — bumbo no 1 e 3, hi-hat pedal no 2 e 4. Sem as mãos.</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:7px 10px;border-radius:6px"><b style="color:var(--gold)">Passo 2:</b> Adicione o hi-hat com a mão direita em todos os tempos.</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:7px 10px;border-radius:6px"><b style="color:var(--gold)">Passo 3:</b> Adicione a caixa com a mão esquerda nos tempos 2 e 4.</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:7px 10px;border-radius:6px"><b style="color:var(--gold)">Passo 4:</b> O hi-hat pedal entra nos tempos 2 e 4 junto com a caixa.</div>
+          </div>
+        </div>
+        <div id="tab-g08-ind"></div>
+        <div style="background:var(--tint-red);border:1px solid var(--red);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--red);margin-bottom:4px">⚠️ QUANDO TRAVAR (vai acontecer):</div>
+          <div style="font-size:0.72rem;color:var(--silver)">Reduza para 40 BPM. Se ainda travar, tire 1 membro. Se ainda travar, fale em voz alta "1-2-3-4" enquanto toca — isso ativa mais áreas do cérebro. O cérebro consolida habilidades motoras <b>durante o sono</b> — durma bem!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- G09 Ghost notes avançado -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">G9</div>
+        <div><div class="module-title">Dinâmica — 3 Volumes ao Mesmo Tempo</div><div class="module-sub">O que separa bom de ótimo</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-red);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--red);margin-bottom:6px">🧠 3 CAMADAS DE VOLUME</div>
+          <p style="font-size:0.82rem;color:var(--cream)">Bateristas avançados tocam com 3 volumes distintos ao mesmo tempo:</p>
+          <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px">
+            <div style="font-size:0.78rem;color:var(--cream);padding:6px 10px;background:var(--subblock-bg);border-radius:6px;display:flex;gap:8px"><span style="color:#C0392B;font-weight:800">S</span><span>= FORTE (accent) — ouça claramente, enérgico</span></div>
+            <div style="font-size:0.78rem;color:var(--cream);padding:6px 10px;background:var(--subblock-bg);border-radius:6px;display:flex;gap:8px"><span style="color:var(--silver);font-weight:800">s</span><span>= normal — o toque padrão da caixa</span></div>
+            <div style="font-size:0.78rem;color:var(--cream);padding:6px 10px;background:var(--subblock-bg);border-radius:6px;display:flex;gap:8px"><span style="color:var(--gray);font-weight:800">(×)</span><span>= ghost note — quase silencioso, só textura</span></div>
+          </div>
+        </div>
+        <div id="tab-g09-dyn"></div>
+      </div>
+    </div>
+
+    <!-- G10 Polirritmo -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">G10</div>
+        <div><div class="module-title">Polirritmo — Dois Ritmos ao Mesmo Tempo</div><div class="module-sub">Avançado</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-red);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--red);margin-bottom:6px">🧠 O QUE É POLIRRITMO?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">O hi-hat conta em grupos de 4 (1-2-3-4), enquanto o bumbo conta em grupos de 3 (1-2-3). Os dois acontecem ao mesmo tempo dentro do mesmo compasso. Eles só se encontram depois de 12 subdivisões. Isso cria a sensação de que a música "flutua".</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px"><b>Onde você ouve isso:</b> Take Five (Dave Brubeck) · Money (Pink Floyd) · Schism (Tool)</p>
+        </div>
+        <div id="tab-g10-poly"></div>
+      </div>
+    </div>
+
+    <!-- G11 Total -->
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">G11</div>
+        <div><div class="module-title">Groove Total — Tudo Junto</div><div class="module-sub">O groove final do programa</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">Este groove combina hi-hat com aberturas variadas, ghost notes na caixa, bumbo sincopado (em lugares inesperados) e hi-hat pedal independente. É a soma de tudo que você aprendeu.</p>
+        <div id="tab-g11-full"></div>
+        <div style="background:var(--tint-green);border:1px solid #2E5C2E;border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:#4CAF50;margin-bottom:4px">✅ Marco Final — Semana 12</div>
+          <div style="font-size:0.72rem;color:var(--silver)">Grave um vídeo tocando este groove e G01 a 100 BPM. Compare com sua primeira semana. Você vai se surpreender.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rotina -->
+    <div style="margin:12px 16px 16px;background:var(--tint-gold);border:1px solid var(--gold);border-radius:10px;padding:12px 14px">
+      <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:8px">📅 ROTINA DIÁRIA — 45 MINUTOS</div>
+      <div id="routineList2"></div>
+    </div>
+  </div>
+
+  <!-- ═══ BLUES ═══ -->
+  <div id="bat-blues" class="bat-section" style="display:none">
+    <div style="margin:12px 16px 0;background:linear-gradient(135deg,#180020,#0A0010);border:1px solid var(--blues-c);border-radius:12px;padding:12px 14px">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--blues-c);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Módulo Especial</div>
+      <div style="font-size:1rem;font-weight:800;color:white">Blues na Bateria</div>
+      <div style="font-size:0.75rem;color:var(--gray);margin-top:3px">Shuffle · 12 compassos · Slow Blues · Swing · Expressão</div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--blues-c)">B1</div>
+        <div><div class="module-title">O que é o Blues?</div><div class="module-sub">Estrutura e feeling</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-purple);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--blues-c);margin-bottom:6px">🧠 O BLUES EM UMA FRASE</div>
+          <p style="font-size:0.82rem;color:var(--cream)">O blues é um estilo musical baseado em <strong>3 acordes que se repetem em 12 compassos</strong>. A bateria usa um ritmo especial chamado <em>shuffle</em> (colcheias desiguais) e muita expressividade dinâmica.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--blues-c);margin-bottom:6px">📋 ESTRUTURA DOS 12 COMPASSOS (em Lá / A)</div>
+          <p style="font-size:0.78rem;color:var(--silver);margin-bottom:6px">A estrutura abaixo se repete várias vezes em toda música de blues. Cada letra é um acorde. Cada coluna = 1 compasso.</p>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px">
+            <div style="background:var(--tint-gold);border:1px solid #A07000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 1</div><div style="font-size:1rem;font-weight:800;color:var(--gold)">A7</div><div style="font-size:0.55rem;color:var(--gray)">Tônica</div></div>
+            <div style="background:var(--tint-gold);border:1px solid #A07000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 2</div><div style="font-size:1rem;font-weight:800;color:var(--gold)">A7</div><div style="font-size:0.55rem;color:var(--gray)">Tônica</div></div>
+            <div style="background:var(--tint-gold);border:1px solid #A07000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 3</div><div style="font-size:1rem;font-weight:800;color:var(--gold)">A7</div><div style="font-size:0.55rem;color:var(--gray)">Tônica</div></div>
+            <div style="background:var(--tint-gold);border:1px solid #A07000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 4</div><div style="font-size:1rem;font-weight:800;color:var(--gold)">A7</div><div style="font-size:0.55rem;color:var(--gray)">Tônica</div></div>
+            <div style="background:var(--tint-green);border:1px solid #00A000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 5</div><div style="font-size:1rem;font-weight:800;color:#4CAF50">D7</div><div style="font-size:0.55rem;color:var(--gray)">Subdom.</div></div>
+            <div style="background:var(--tint-green);border:1px solid #00A000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 6</div><div style="font-size:1rem;font-weight:800;color:#4CAF50">D7</div><div style="font-size:0.55rem;color:var(--gray)">Subdom.</div></div>
+            <div style="background:var(--tint-gold);border:1px solid #A07000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 7</div><div style="font-size:1rem;font-weight:800;color:var(--gold)">A7</div><div style="font-size:0.55rem;color:var(--gray)">Tônica</div></div>
+            <div style="background:var(--tint-gold);border:1px solid #A07000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 8</div><div style="font-size:1rem;font-weight:800;color:var(--gold)">A7</div><div style="font-size:0.55rem;color:var(--gray)">Tônica</div></div>
+            <div style="background:var(--tint-red);border:1px solid #A00000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 9</div><div style="font-size:1rem;font-weight:800;color:#E05050">E7</div><div style="font-size:0.55rem;color:var(--gray)">Tensão</div></div>
+            <div style="background:var(--tint-green);border:1px solid #00A000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 10</div><div style="font-size:1rem;font-weight:800;color:#4CAF50">D7</div><div style="font-size:0.55rem;color:var(--gray)">Subdom.</div></div>
+            <div style="background:var(--tint-gold);border:1px solid #A07000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 11</div><div style="font-size:1rem;font-weight:800;color:var(--gold)">A7</div><div style="font-size:0.55rem;color:var(--gray)">Tônica</div></div>
+            <div style="background:var(--tint-red);border:1px solid #A00000;border-radius:4px;padding:5px;text-align:center"><div style="font-size:0.6rem;color:var(--gray)">comp. 12</div><div style="font-size:1rem;font-weight:800;color:#E05050">E7</div><div style="font-size:0.55rem;color:var(--gray)">Volta</div></div>
+          </div>
+          <p style="font-size:0.72rem;color:var(--gray);margin-top:6px">No compasso 12 (E7) você "volta" para o 1 e repete tudo do começo.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--blues-c)">B2</div>
+        <div><div class="module-title">O Shuffle — O Coração do Blues</div><div class="module-sub">Colcheias desiguais · 70 a 100 BPM</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-purple);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--blues-c);margin-bottom:6px">🧠 O QUE É SHUFFLE?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">No ritmo normal, cada tempo é dividido em partes iguais. No shuffle, cada tempo é dividido em 3 partes — e você toca na 1ª e na 3ª, pulando a do meio. Isso cria um balanço de "longa-curta, longa-curta".</p>
+          <div style="background:var(--subblock-bg);border-radius:6px;padding:8px;margin-top:8px">
+            <div style="font-size:0.72rem;font-weight:800;color:var(--blues-c);margin-bottom:4px">Como contar em voz alta:</div>
+            <div style="font-size:0.9rem;color:var(--text-on-tint);font-weight:700;letter-spacing:0.05em">"cho-CO-la-TE  cho-CO-la-TE"</div>
+            <div style="font-size:0.72rem;color:var(--gray);margin-top:4px">Você toca no "<b style="color:var(--gold)">CHO</b>" e no "<b style="color:var(--gold)">LA</b>" de cada grupo. O CO e o TE ficam vazios.</div>
+          </div>
+        </div>
+        <div id="tab-blues-sh"></div>
+        <div style="background:var(--tint-purple);border:1px solid var(--blues-c);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--blues-c);margin-bottom:4px">⚠️ ERRO MAIS COMUM</div>
+          <div style="font-size:0.72rem;color:var(--silver)">Tocar o hi-hat em colcheias iguais. O shuffle PRECISA ser desigual. Se não balançar, não é shuffle. <b>Ouça 10 minutos de blues antes de tocar</b> — o feel entra pelos ouvidos.</div>
+        </div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 OUÇA ANTES DE TOCAR</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Pride%20and%20Joy%20%E2%80%94%20Stevie%20Ray%20Vaughan" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Pride and Joy — Stevie Ray Vaughan <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">119 BPM · Shuffle médio perfeito para estudar</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Sweet%20Home%20Chicago%20%E2%80%94%20Robert%20Johnson" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Sweet Home Chicago — Robert Johnson <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">Shuffle lento · ótimo para começar</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Hound%20Dog%20%E2%80%94%20Elvis%20Presley" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Hound Dog — Elvis Presley <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">Shuffle simples e direto</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--blues-c)">B3</div>
+        <div><div class="module-title">Slow Blues — Compasso 6/8</div><div class="module-sub">6 tempos em vez de 4</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-purple);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--blues-c);margin-bottom:6px">🧠 O QUE É 6/8?</div>
+          <p style="font-size:0.82rem;color:var(--cream)">No 4/4 você conta "1-2-3-4". No 6/8 você conta "1-2-3 / 4-5-6" — 6 tempos agrupados em 2 grupos de 3. A sensação é de balanço mais lento e pesado. Imagine uma balança oscilando: "1-2-3 / 4-5-6, 1-2-3 / 4-5-6..."</p>
+        </div>
+        <div id="tab-blues-68"></div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 MÚSICAS — Slow Blues</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=The%20Thrill%20is%20Gone%20%E2%80%94%20B.B.%20King" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">The Thrill is Gone — B.B. King <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">Slow blues · expressivo e melancólico</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Red%20House%20%E2%80%94%20Jimi%20Hendrix" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Red House — Jimi Hendrix <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">Blues lento, muito expressivo</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--blues-c)">B4</div>
+        <div><div class="module-title">Blues Rápido e Swing</div><div class="module-sub">Chicago style · 90 a 130 BPM</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">O blues Chicago (anos 50-60) é mais rápido e energético. O bumbo fica mais ativo. No swing (blues para jazz), o groove migra do hi-hat para o <b>ride</b> (prato maior) e a caixa fica levíssima.</p>
+        <div id="tab-blues-up"></div>
+        <div id="tab-blues-swing"></div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 MÚSICAS</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Johnny%20B.%20Goode%20%E2%80%94%20Chuck%20Berry" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Johnny B. Goode — Chuck Berry <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">Shuffle rápido · base do rock and roll</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Freddie%20Freeloader%20%E2%80%94%20Miles%20Davis" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Freddie Freeloader — Miles Davis <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-artist">Swing de jazz blues</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TEORIA ═══ -->
+  <div id="bat-teoria" class="bat-section" style="display:none">
+    <div class="section-label"><h2>Teoria Rítmica</h2></div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--amber-dim);color:var(--amber)">T1</div>
+        <div><div class="module-title">O que é Pulso e BPM?</div><div class="module-sub">A base de tudo</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-gold);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)"><b>Pulso</b> é a batida constante que você sente numa música — o que faz você bater o pé sem perceber. É sempre igual, como um relógio. Se acelerar ou desacelerar, a música "desafinou no tempo".</p>
+          <p style="font-size:0.82rem;color:var(--cream);margin-top:8px"><b>BPM</b> (Batidas Por Minuto) é a velocidade do pulso. 60 BPM = 1 batida por segundo. 120 BPM = 2 batidas por segundo.</p>
+        </div>
+        <div id="compasso-vis"></div>
+        <div style="background:var(--tint-gold);border:1px solid var(--gold);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:4px">🎯 Exercício prático agora</div>
+          <div style="font-size:0.72rem;color:var(--silver)">Vá ao metrônomo (aba 🎵). Coloque em 60 BPM. Bata palma junto com cada clique por 1 minuto. Depois feche os olhos e continue batendo palma sem ouvir. Isso treina o seu tempo interno.</div>
+        </div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--amber-dim);color:var(--amber)">T2</div>
+        <div><div class="module-title">Figuras Rítmicas — Quanto Tempo Dura Cada Nota</div><div class="module-sub">Semibreve, mínima, semínima, colcheia</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">Em música, cada nota tem uma duração. Pense assim: se um compasso de 4/4 tem 4 "fatias", cada figura ocupa um número diferente de fatias:</p>
+        <div id="figuras-vis"></div>
+        <div style="background:var(--tint-gold);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:6px">📋 COMO CONTAR EM VOZ ALTA</div>
+          <div style="font-size:0.82rem;color:var(--cream);display:flex;flex-direction:column;gap:4px">
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:6px 10px"><b style="color:var(--gold)">Semínimas</b> (4 por compasso): conte <b>"1 · 2 · 3 · 4"</b></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:6px 10px"><b style="color:var(--gold)">Colcheias</b> (8 por compasso): conte <b>"1 e 2 e 3 e 4 e"</b></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:6px 10px"><b style="color:var(--gold)">Semicolcheias</b> (16 por compasso): conte <b>"1 e + a 2 e + a 3 e + a 4 e + a"</b></div>
+          </div>
+        </div>
+        <div id="subdiv-vis"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--amber-dim);color:var(--amber)">T3</div>
+        <div><div class="module-title">Tripletos — A Base do Blues e do Swing</div><div class="module-sub">3 em vez de 2</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-gold);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">Normalmente dividimos cada tempo em 2 partes iguais (colcheias). No blues, dividimos em <b>3 partes</b> (tripletos). Isso cria aquela sensação de balanço que é a essência do blues e do jazz.</p>
+          <div style="background:var(--subblock-bg);border-radius:6px;padding:8px;margin-top:8px">
+            <div style="font-size:0.72rem;color:var(--gold);font-weight:700;margin-bottom:4px">Comparação visual:</div>
+            <div style="font-size:0.8rem;color:var(--cream)"><b>Normal (2):</b> ♩ = ♪ ♪</div>
+            <div style="font-size:0.8rem;color:var(--cream);margin-top:3px"><b>Tripleto (3):</b> ♩ = ♪ ♪ ♪ <span style="color:var(--blues-c)">(sendo a 1ª mais longa)</span></div>
+          </div>
+        </div>
+        <div style="background:var(--tint-gold);border:1px solid var(--gold);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:4px">🎯 Sentindo o tripleto na prática</div>
+          <div style="font-size:0.78rem;color:var(--cream)">Diga em voz alta várias vezes: <b>"cho-CO-la-TE cho-CO-la-TE"</b></div>
+          <div style="font-size:0.72rem;color:var(--silver);margin-top:4px">Cada "cho-co-la-te" = 1 tempo dividido em 4 sílabas. No shuffle você toca no "CHO" e no "LA". Simples assim.</div>
+        </div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--amber-dim);color:var(--amber)">T4</div>
+        <div><div class="module-title">Exercícios de Teoria na Prática</div><div class="module-sub">Conte enquanto toca</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0"><b>Exercício 1:</b> Toque o G01 contando em voz alta "1-2-3-4" enquanto toca. Cada número = 1 batida do metrônomo.</p>
+        <div id="tab-ex-cont"></div>
+        <p style="font-size:0.82rem;color:var(--silver);margin:12px 0 8px"><b>Exercício 2:</b> Toque mais FORTE no tempo 1 de cada compasso. O "X" maiúsculo = acento forte.</p>
+        <div id="tab-ex-acento"></div>
+        <p style="font-size:0.82rem;color:var(--silver);margin:12px 0 8px"><b>Exercício 3:</b> Toque 1 compasso, pare 1 compasso completo em silêncio, retome. Mantenha o tempo interno durante o silêncio.</p>
+        <div id="tab-ex-silencio"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RUDIMENTOS ═══ -->
+  <div id="bat-rudimentos" class="bat-section" style="display:none">
+    <div class="section-label"><h2>Rudimentos</h2></div>
+    <div style="margin:0 16px 12px;background:var(--tint-gold);border:1px solid var(--gold);border-radius:10px;padding:12px">
+      <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:6px">O QUE SÃO RUDIMENTOS?</div>
+      <p style="font-size:0.78rem;color:var(--cream)">Rudimentos são exercícios básicos de baqueta — como a escala musical é para o pianista. São padrões de mão direita (R) e esquerda (L) que você pratica lento até virar automático. Faça <b>10-15 minutos por dia</b> com metrônomo.</p>
+      <div style="background:var(--subblock-bg);border-radius:6px;padding:8px;margin-top:8px">
+        <div style="font-size:0.72rem;color:var(--gold);font-weight:700;margin-bottom:4px">Regra de ouro:</div>
+        <div style="font-size:0.72rem;color:var(--silver)">Comece lento (60 BPM) e só aumente quando estiver perfeito. Velocidade sem precisão não serve.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--amber-dim);color:var(--amber)">R1</div>
+        <div><div class="module-title">Single Stroke Roll</div><div class="module-sub">R-L-R-L alternado · 60 a 120 BPM</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">O mais simples e o mais fundamental. Alterne direita e esquerda em sequência. O segredo é que o <b>volume e a posição</b> das duas mãos sejam idênticos — a esquerda costuma ser mais fraca no início, é normal.</p>
+        <div id="tab-r1"></div>
+        <div style="background:var(--tint-gold);border-radius:8px;padding:8px;margin:8px 0">
+          <div style="font-size:0.72rem;color:var(--silver)"><b style="color:var(--gold)">Na tablatura:</b> R = mão direita · L = mão esquerda. O × abaixo = onde bater (caixa ou pad de prática).</div>
+        </div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--amber-dim);color:var(--amber)">R2</div>
+        <div><div class="module-title">Double Stroke Roll</div><div class="module-sub">R-R-L-L · o segredo é o bounce</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-gold);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">Dois toques por mão: direita-direita, esquerda-esquerda. O 2º toque <b>não vem de força</b> — vem do ricochete natural da baqueta. Bata e deixe a baqueta voltar sozinha, apenas controlando o segundo toque.</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px"><b>Teste:</b> Segure a baqueta levemente e bata na mesa. Ela vai ricochetear. Esse ricochete é o segundo toque. Não brigue com ele — use-o.</p>
+        </div>
+        <div id="tab-r2"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--amber-dim);color:var(--amber)">R3</div>
+        <div><div class="module-title">Single Paradiddle</div><div class="module-sub">R-L-R-R / L-R-L-L · 60 a 110 BPM</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-gold);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">O paradiddle alterna qual mão "lidera" cada grupo. Soletra-se: <b>R-L-R-R / L-R-L-L</b>. O primeiro toque de cada grupo (<b>S</b> na tablatura) deve ser mais forte.</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px">Por que é importante: prepara os tendões para grooves complexos e cria independência entre as mãos.</p>
+        </div>
+        <div id="tab-r3"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--amber-dim);color:var(--amber)">R4</div>
+        <div><div class="module-title">Flam — A Nota Fantasma</div><div class="module-sub">Grace note + nota principal</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-gold);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">O flam é um toque levíssimo imediatamente <b>antes</b> da nota principal. Parece quase um único toque, mas são dois muito próximos. Na tablatura aparece como <b>l R</b> — o "l" minúsculo é a grace note (bem suave), o "R" maiúsculo é a nota principal.</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px">Imagine o som "fla-DUM" em vez de apenas "DUM". Esse é o flam.</p>
+        </div>
+        <div id="tab-r4"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--amber-dim);color:var(--amber)">R5</div>
+        <div><div class="module-title">Accent Tap — Forte e Fraco</div><div class="module-sub">Controle de dinâmica</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">Alterne toque forte (<b>S</b>) e toque piano (<b>x</b>). A diferença de volume deve ser <em>óbvia</em> — exagere no começo. Isso treina o controle de dinâmica que separa bateristas amadores de profissionais.</p>
+        <div id="tab-r5"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FILLS ═══ -->
+  <div id="bat-fills" class="bat-section" style="display:none">
+    <div class="section-label"><h2>Fills (Viradas)</h2></div>
+    <div style="margin:0 16px 12px;background:var(--tint-gold);border:1px solid var(--gold);border-radius:10px;padding:12px">
+      <div style="font-size:0.72rem;font-weight:800;color:var(--gold);margin-bottom:6px">O QUE É UM FILL?</div>
+      <p style="font-size:0.78rem;color:var(--cream)">Fill (ou "virada") é quando o baterista sai do groove por alguns tempos para "preencher" o espaço entre seções da música — geralmente antes de um refrão ou de uma mudança. Depois do fill, a música recomeça.</p>
+      <div style="background:var(--subblock-bg);border-radius:6px;padding:8px;margin-top:8px">
+        <div style="font-size:0.72rem;color:var(--gold);font-weight:700;margin-bottom:4px">Fórmula básica:</div>
+        <div style="font-size:0.78rem;color:var(--cream)">Toque <b>3 compassos de groove</b> + <b>1 compasso de fill</b>. Repita 10 vezes. O fill deve caber exatamente no compasso — nem antes, nem depois.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">F1</div>
+        <div><div class="module-title">Descida nos Toms — O Fill Clássico</div><div class="module-sub">O fill mais tocado do mundo</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-red);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">Nos tempos 3 e 4, desça pelos toms: <b>T1</b> (tom alto) → <b>FT</b> (floor tom, o tom grande). Termine com um <b>crash</b> no primeiro tempo do próximo compasso. Esse crash marca que uma nova seção começou.</p>
+        </div>
+        <div id="tab-f01"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">F2</div>
+        <div><div class="module-title">Semicolcheias na Caixa</div><div class="module-sub">Fill simples e eficaz</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">8 pancadas rápidas na caixa nos tempos 3 e 4. Simples, limpo, funciona em qualquer estilo. Pratique devagar primeiro — cada pancada deve ter o mesmo volume.</p>
+        <div id="tab-f02"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">F3</div>
+        <div><div class="module-title">Compasso Completo de Toms</div><div class="module-sub">Percorrendo toda a bateria</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">Agora o fill toma o compasso inteiro (4 tempos). Caixa → Tom 1 → Floor Tom — 2 batidas em cada. Bumbo no final antes do próximo compasso.</p>
+        <div id="tab-f03"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">F4</div>
+        <div><div class="module-title">Fill Rock Pesado</div><div class="module-sub">Toms + bumbo duplo</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">Combina toms com bumbo duplo no final. Muito usado em hard rock para criar impacto antes do refrão.</p>
+        <div id="tab-f04"></div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 MÚSICAS COM FILLS FAMOSOS</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=In%20the%20Air%20Tonight%20%E2%80%94%20Phil%20Collins" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">In the Air Tonight — Phil Collins <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-tip">O fill de caixa mais famoso da história — espere o minuto 3:30</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Tom%20Sawyer%20%E2%80%94%20Rush" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Tom Sawyer — Rush <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-tip">Neil Peart — maestria de fills técnicos</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ══════════════════════════════ GUITARRA PAGE ══ -->
+<div class="page" id="page-guitarra">
+  <div style="display:flex;overflow-x:auto;background:var(--subblock-bg);border-bottom:1px solid var(--border);position:sticky;top:49px;z-index:90;scrollbar-width:none">
+    <button class="guit-tab active" onclick="showGuitTab('guit-teoria')" id="gtab-teoria" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid var(--slate);color:var(--slate);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">📖 TEORIA</button>
+    <button class="guit-tab" onclick="showGuitTab('guit-harmonia')" id="gtab-harmonia" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--gray);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">🎵 HARMONIA</button>
+    <button class="guit-tab" onclick="showGuitTab('guit-escalas')" id="gtab-escalas" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--gray);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">🎸 ESCALAS</button>
+    <button class="guit-tab" onclick="showGuitTab('guit-avancado')" id="gtab-avancado" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--gray);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">🔥 AVANÇADO</button>
+    <button class="guit-tab" onclick="showGuitTab('guit-ritmo')" id="gtab-ritmo" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--gray);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">🥁 RITMO</button>
+    <button class="guit-tab" onclick="showGuitTab('guit-exercicios')" id="gtab-exercicios" style="flex-shrink:0;padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--gray);font-size:0.72rem;font-weight:700;white-space:nowrap;cursor:pointer">✊ EXERCÍCIOS</button>
+  </div>
+
+  <!-- ═══ TEORIA ═══ -->
+  <div id="guit-teoria" class="bat-section">
+    <div class="section-label"><h2>Teoria Musical</h2></div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">12</div>
+        <div><div class="module-title">As 12 Notas — O Alfabeto da Música</div><div class="module-sub">Tudo começa aqui</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">A música ocidental usa apenas <b>12 notas</b> que se repetem em ciclos. Na guitarra, cada casa do braço = 1 nota. Ande 12 casas e você volta à mesma nota, só que mais aguda.</p>
+        </div>
+        <p style="font-size:0.78rem;color:var(--gray);text-align:right;margin-bottom:4px">← deslize para ver todas →</p>
+        <div class="chromatic" id="chromaticRow"></div>
+        <div style="background:var(--tint-blue);border:1px solid var(--slate);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:4px">⚠️ A única irregularidade que você precisa saber</div>
+          <p style="font-size:0.78rem;color:var(--silver)">Entre <b>Mi e Fá</b> (E→F) e entre <b>Si e Dó</b> (B→C) não existe nenhuma nota no meio. Em todos os outros pares de notas vizinhas existe uma nota "sustenido" (#) no meio. Essa é a única regra "estranha" — decore ela e o resto é fácil.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">IV</div>
+        <div><div class="module-title">Intervalos — A Distância Entre Notas</div><div class="module-sub">Por que alguns sons soam "bem juntos"</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">Intervalo é simplesmente a <b>distância entre duas notas</b>, medida em casas (semitons). Cada distância tem um nome e um "sabor" sonoro próprio.</p>
+        </div>
+        <div class="interval-grid" id="intervalGrid"></div>
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:8px">🎯 OS 3 INTERVALOS QUE VOCÊ PRECISA MEMORIZAR</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:8px"><b style="color:var(--red)">3ª Menor</b> <span style="color:var(--gray);font-size:0.7rem">(3 casas de distância)</span><br><span style="font-size:0.75rem;color:var(--silver)">É o que faz um acorde soar MENOR (triste, melancólico)</span></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:8px"><b style="color:var(--amber)">3ª Maior</b> <span style="color:var(--gray);font-size:0.7rem">(4 casas de distância)</span><br><span style="font-size:0.75rem;color:var(--silver)">É o que faz um acorde soar MAIOR (alegre, brilhante)</span></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:8px"><b style="color:var(--guit-c)">5ª Justa</b> <span style="color:var(--gray);font-size:0.7rem">(7 casas de distância)</span><br><span style="font-size:0.75rem;color:var(--silver)">A base do "power chord" — neutro, usado em rock pesado</span></div>
+          </div>
+        </div>
+        <div style="background:var(--tint-blue);border:1px solid var(--slate);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:4px">🎯 Teste agora na sua guitarra</div>
+          <div style="font-size:0.78rem;color:var(--silver)">1. Toque um acorde de <b>Am</b> (Lá menor) — ouça: soa triste<br>2. Agora levante o dedo que está na 2ª corda — vira <b>A</b> (Lá maior)<br>3. Ouça: agora soa alegre!<br>Essa mudança de 1 casa é a diferença entre 3ª menor e 3ª maior — toda a teoria de acordes nasce daqui.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">ES</div>
+        <div><div class="module-title">Escalas — Como Elas São Feitas</div><div class="module-sub">A receita por trás de cada escala</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">Uma escala é só uma <b>receita</b>: uma sequência de "pula 1 casa" (semitom) e "pula 2 casas" (tom) que sempre dá o mesmo resultado sonoro, não importa de qual nota você comece.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:8px">📋 RECEITA DA ESCALA MAIOR</div>
+          <div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:8px">
+            <div style="background:var(--amber);color:#000;border-radius:6px;padding:6px 10px;font-weight:800;font-size:0.85rem">Dó</div>
+            <div style="display:flex;align-items:center;font-size:0.65rem;color:var(--gray)">+2 casas</div>
+            <div style="background:var(--amber);color:#000;border-radius:6px;padding:6px 10px;font-weight:800;font-size:0.85rem">Ré</div>
+            <div style="display:flex;align-items:center;font-size:0.65rem;color:var(--gray)">+2 casas</div>
+            <div style="background:var(--amber);color:#000;border-radius:6px;padding:6px 10px;font-weight:800;font-size:0.85rem">Mi</div>
+            <div style="display:flex;align-items:center;font-size:0.65rem;color:var(--gray)">+1 casa</div>
+            <div style="background:var(--amber);color:#000;border-radius:6px;padding:6px 10px;font-weight:800;font-size:0.85rem">Fá</div>
+          </div>
+          <p style="font-size:0.72rem;color:var(--silver)">...e assim por diante. A "fórmula" é: 2-2-1-2-2-2-1 casas. Comece em qualquer nota, siga essa fórmula, e você terá uma escala maior naquele tom.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--blues-c);margin-bottom:6px">🎸 Comparando 3 escalas em Lá (A)</div>
+          <p style="font-size:0.78rem;color:var(--silver);margin-bottom:6px">Veja como cada escala é uma "versão" diferente das mesmas 7 notas:</p>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px;margin-bottom:4px"><b style="color:var(--amber)">Lá menor (completa):</b> A B C D E F G — 7 notas</div>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px;margin-bottom:4px"><b style="color:var(--guit-c)">Pentatônica (a mais usada):</b> A C D E G — só 5 notas (mais fácil de improvisar)</div>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px"><b style="color:var(--blues-c)">Blues (a mais expressiva):</b> A C D Eb E G — pentatônica + 1 nota extra "tensa"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ HARMONIA ═══ -->
+  <div id="guit-harmonia" class="bat-section" style="display:none">
+    <div class="section-label"><h2>Harmonia (Acordes)</h2></div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">AC</div>
+        <div><div class="module-title">Como um Acorde é Construído</div><div class="module-sub">A receita de 3 ingredientes</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">Todo acorde básico tem <b>3 notas</b>: a raiz (a nota que dá nome ao acorde), a terça (define se é maior ou menor) e a quinta (dá estabilidade). É como uma receita de bolo com 3 ingredientes.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:8px">📋 OS 2 TIPOS BÁSICOS</div>
+          <div style="background:var(--tint-gold);border-radius:6px;padding:10px;margin-bottom:6px">
+            <div style="font-size:0.85rem;font-weight:800;color:var(--amber)">Acorde MAIOR = alegre</div>
+            <div style="font-size:0.75rem;color:var(--silver);margin-top:2px">Raiz + 3ª Maior (4 casas) + 5ª Justa (7 casas)</div>
+          </div>
+          <div style="background:var(--tint-purple);border-radius:6px;padding:10px">
+            <div style="font-size:0.85rem;font-weight:800;color:var(--blues-c)">Acorde MENOR = triste</div>
+            <div style="font-size:0.75rem;color:var(--silver);margin-top:2px">Raiz + 3ª Menor (3 casas) + 5ª Justa (7 casas)</div>
+          </div>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:8px">📖 GLOSSÁRIO DE CIFRAS — o que cada letra significa</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px"><b>C</b> = Dó Maior · <b>Cm</b> = Dó Menor</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px"><b>C7</b> = Dó com uma 4ª nota "tensa" extra — muito usado no blues</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px"><b>Cmaj7</b> = Dó com 4ª nota suave extra — usado em jazz/bossa nova</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px"><b>C5</b> = "Power chord" — só raiz + 5ª, sem terça — usado em rock/metal</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px"><b>Csus4</b> = "Suspenso" — sem terça, cria tensão que quer resolver</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">CH</div>
+        <div><div class="module-title">Campo Harmônico — Os Acordes "da Família"</div><div class="module-sub">Quais acordes combinam entre si</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">Imagine que cada tonalidade (tom) tem uma "família" de 7 acordes que sempre soam bem juntos. Esses são os acordes "nativos" daquele tom — quando você compõe uma música em Dó Maior, geralmente usa só esses 7.</p>
+        </div>
+        <div id="campo-harmonico"></div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:8px">📋 OS 3 ACORDES MAIS IMPORTANTES DE UM TOM</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="background:var(--tint-gold);border-radius:6px;padding:8px"><b style="color:var(--amber)">I (Tônica)</b> = "casa" — onde a música quer terminar, sensação de repouso</div>
+            <div style="background:var(--tint-gold);border-radius:6px;padding:8px"><b style="color:var(--slate)">IV (Subdominante)</b> = "passeio" — sai de casa mas não muito longe</div>
+            <div style="background:var(--tint-gold);border-radius:6px;padding:8px"><b style="color:var(--red)">V (Dominante)</b> = "tensão" — quer MUITO voltar para casa (I)</div>
+          </div>
+        </div>
+        <div style="background:var(--tint-blue);border:1px solid var(--slate);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:4px">🎯 Ouça a tensão e a resolução agora</div>
+          <div style="font-size:0.78rem;color:var(--silver)">1. Toque <b>G</b> (Sol) — sensação de "estou em casa"<br>2. Toque <b>D</b> (Ré) — sensação de "preciso continuar, algo está pendente"<br>3. Volte para <b>G</b> — alívio! Resolveu. Esse movimento V→I é o motor da maioria das músicas que você ouve.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">PG</div>
+        <div><div class="module-title">Progressões Famosas — Receitas Prontas</div><div class="module-sub">Sequências de acordes usadas em centenas de músicas</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">Uma progressão é só uma <b>sequência de acordes que se repete</b>. Algumas sequências são tão boas que centenas de músicas as usam. Aqui estão as mais importantes — toque cada uma e você vai reconhecer na hora.</p>
+        <div id="progressoes-list"></div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--blues-c)">BL</div>
+        <div><div class="module-title">Os Acordes do Blues</div><div class="module-sub">Por que soam diferentes de tudo</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-purple);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">O blues usa acordes com uma <b>4ª nota extra</b> (a 7ª dominante) que cria uma tensão constante — o acorde nunca "resolve" completamente, ficando sempre meio "azul" e melancólico. Por isso o nome blues.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--amber)">A (Lá Maior comum):</b> 3 notas — A, C#, E</div>
+          <div style="font-size:0.78rem;color:var(--cream);margin-top:4px"><b style="color:var(--blues-c)">A7 (Lá com o "tempero" do blues):</b> 4 notas — A, C#, E, <span style="color:var(--blues-c);font-weight:800">G</span></div>
+          <div style="font-size:0.72rem;color:var(--gray);margin-top:6px">Essa nota G extra é o que dá o "sabor blues" — toque os dois acordes e compare o som.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ESCALAS ═══ -->
+  <div id="guit-escalas" class="bat-section" style="display:none">
+    <div class="section-label"><h2>Escalas no Braço</h2></div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">FB</div>
+        <div><div class="module-title">Mapa Visual das Escalas</div><div class="module-sub">Veja exatamente onde colocar os dedos</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:10px;margin:8px 0">
+          <p style="font-size:0.78rem;color:var(--cream)">Toque nos botões abaixo para trocar de escala. As bolinhas <span style="color:#C0392B">vermelhas</span> são a nota raiz (a mais importante), as <span style="color:#2E7D32">verdes/azuis</span> são as outras notas da escala.</p>
+        </div>
+        <div class="scale-selector" id="scaleSelector"></div>
+        <p style="font-size:0.72rem;color:var(--gray);text-align:right">← deslize o braço →</p>
+        <div class="fretboard-wrap"><div class="fretboard" id="fretboard"></div></div>
+        <div id="scaleLegend" class="theory-card" style="margin-top:8px"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">CX</div>
+        <div><div class="module-title">As 5 "Caixas" da Pentatônica</div><div class="module-sub">Como cobrir o braço inteiro</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">A pentatônica que você aprendeu numa posição se repete em outras 4 posições no braço, formando 5 "caixas" que juntas cobrem a guitarra inteira. Pense como 5 salas conectadas de uma mesma casa.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:8px">📋 AS 5 CAIXAS (Am Pentatônica)</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px;font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Caixa 1</b> — 5ª casa (comece sempre por aqui!)</div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px;font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Caixa 2</b> — 8ª casa</div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px;font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Caixa 3</b> — 10ª casa</div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px;font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Caixa 4</b> — 12ª casa</div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px;font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Caixa 5</b> — 2ª casa (perto da cabeça do braço)</div>
+          </div>
+        </div>
+        <div style="background:var(--tint-blue);border:1px solid var(--slate);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:4px">🎯 Como conectar as caixas</div>
+          <div style="font-size:0.78rem;color:var(--silver)">A última nota que você toca na Caixa 1 é exatamente a primeira nota da Caixa 2. Aprenda bem as 2 primeiras, depois pratique deslizar de uma para a outra — isso já é mais que suficiente para improvisar bem.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ AVANÇADO ═══ -->
+  <div id="guit-avancado" class="bat-section" style="display:none">
+    <div class="section-label"><h2>Intermediário-Avançado</h2></div>
+    <div style="margin:0 16px 12px;background:linear-gradient(135deg,#001018,#000A10);border:1px solid var(--slate);border-radius:12px;padding:12px 14px">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Nível Avançado</div>
+      <div style="font-size:1rem;font-weight:800;color:white">Modos · Arpejos · Improvisação · Técnicas</div>
+      <div style="font-size:0.72rem;color:var(--gray);margin-top:4px">Esta seção é mais densa — releia quantas vezes precisar, é normal.</div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">M1</div>
+        <div><div class="module-title">Modos — Variações da Escala Maior</div><div class="module-sub">7 "personalidades" diferentes</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">Pegue a escala de Dó Maior (C D E F G A B). Agora, em vez de começar e terminar em Dó, comece e termine em <b>Ré</b> usando as mesmas 7 notas: D E F G A B C. Você acabou de tocar um <b>modo</b> diferente! Mesmas notas, ponto de partida diferente, "personalidade" sonora diferente.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:8px">📋 OS 7 MODOS E SUAS "PERSONALIDADES"</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px"><span style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Jônico</b> (igual à escala maior comum) — alegre, brilhante</span></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px"><span style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Dórico</b> — menor mas com um toque "jazzístico"</span></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px"><span style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Frígio</b> — soa espanhol, meio sombrio (flamenco)</span></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px"><span style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Lídio</b> — flutuante, mágico (trilhas de filme)</span></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px"><span style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Mixolídio</b> — o som do rock e do blues</span></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px"><span style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Eólio</b> (igual à escala menor comum) — triste e natural</span></div>
+            <div style="background:var(--subblock-bg);border-radius:6px;padding:7px 10px"><span style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--gold)">Lócrio</b> — muito tenso, raramente usado sozinho</span></div>
+          </div>
+        </div>
+        <div style="background:var(--tint-blue);border:1px solid var(--slate);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:4px">🎯 Experimente o Dórico agora</div>
+          <div style="font-size:0.78rem;color:var(--silver)">Você já sabe tocar Am Pentatônica. O modo Dórico é quase igual, só que com 1 nota diferente: em vez do F, use <b>F#</b>. Toque a escala normal e troque só essa nota — já está tocando Dórico! Ouça: ficou mais "jazz".</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">M2</div>
+        <div><div class="module-title">Arpejos — Tocando o Acorde Nota por Nota</div><div class="module-sub">A técnica que faz solos soarem "certos"</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)">Um arpejo é simplesmente tocar as notas de um acorde <b>uma de cada vez</b>, em vez de tocar todas juntas. Se o acorde Am tem as notas A-C-E, o arpejo de Am é tocar A, depois C, depois E, separadamente.</p>
+          <p style="font-size:0.78rem;color:var(--silver);margin-top:6px">Por que usar isso ao improvisar? Porque essas notas <b>são</b> o acorde que está tocando naquele momento — então elas sempre vão "encaixar" perfeitamente.</p>
+        </div>
+        <div id="tab-arpejo-am"></div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">M3</div>
+        <div><div class="module-title">Como Improvisar de Verdade</div><div class="module-sub">Não é aleatório — tem lógica</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:6px">🧠 "TARGET NOTES" — NOTAS ALVO</div>
+          <p style="font-size:0.82rem;color:var(--cream)">Em vez de tocar notas aleatórias, escolha uma nota "alvo" do acorde atual (geralmente a 3ª) e construa sua frase <b>em direção a ela</b>. Chegue na nota alvo descendo 1 casa antes — isso cria uma sensação de "resolução" muito satisfatória.</p>
+        </div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:8px">📋 COMO "FALAR" COM A GUITARRA</div>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px;margin-bottom:4px">Pense em frases curtas, como se estivesse <b>cantando</b> — 4 compassos de "pergunta" e 4 de "resposta"</div>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px;margin-bottom:4px">Deixe <b>silêncios</b> — eles dão peso ao que você toca antes e depois</div>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px">Repita uma ideia 2 vezes, depois mude um pouco — cria familiaridade</div>
+        </div>
+        <div style="background:var(--tint-blue);border:1px solid var(--slate);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:4px">🎯 Exercício prático</div>
+          <div style="font-size:0.78rem;color:var(--silver)">Grave 2 minutos improvisando sobre um backing track em Am. Ouça de volta: você "respirou"? Teve momentos de pergunta e resposta? Escolha sua frase favorita e desenvolva ela mais.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">M4</div>
+        <div><div class="module-title">Técnicas de Guitarra Elétrica</div><div class="module-sub">Bend, vibrato, tapping, harmônicas</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:8px">📋 BEND — "DOBRANDO" A NOTA</div>
+          <p style="font-size:0.78rem;color:var(--silver);margin-bottom:6px">Você empurra a corda para cima ou para baixo enquanto ela toca, fazendo a nota subir de altura sem trocar de casa. É a técnica mais expressiva da guitarra elétrica.</p>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="font-size:0.75rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px"><b>Bend de meio tom:</b> empurra um pouco — soa quase igual</div>
+            <div style="font-size:0.75rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px"><b>Bend de 1 tom (o mais comum):</b> empurra até soar como se fosse 2 casas acima</div>
+          </div>
+        </div>
+        <div id="tab-bend-adv"></div>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:6px">📋 TAPPING — TOCANDO COM AS 2 MÃOS NO BRAÇO</div>
+          <p style="font-size:0.78rem;color:var(--silver)">Em vez de só dedilhar com uma mão e segurar com a outra, você usa o dedo da mão da palheta para "martelar" notas direto no braço, como se fosse um piano. Permite saltos de notas impossíveis com 1 mão só. Eddie Van Halen tornou isso famoso.</p>
+        </div>
+        <div id="tab-tapping"></div>
+      </div>
+    </div>
+
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">M5</div>
+        <div><div class="module-title">Guitarristas para Ouvir e Estudar</div><div class="module-sub">Por estilo musical</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.78rem;color:var(--silver);margin:8px 0">Ouvir os mestres é tão importante quanto praticar. Escolha 1 nome por semana e ouça 3 músicas dele com atenção total.</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:var(--tint-purple);border-radius:8px;padding:10px"><div style="font-size:0.72rem;font-weight:800;color:var(--blues-c)">BLUES</div><div style="font-size:0.78rem;color:var(--cream);margin-top:2px">Stevie Ray Vaughan, B.B. King, Robert Johnson</div></div>
+          <div style="background:var(--tint-gold);border-radius:8px;padding:10px"><div style="font-size:0.72rem;font-weight:800;color:var(--amber)">ROCK CLÁSSICO</div><div style="font-size:0.78rem;color:var(--cream);margin-top:2px">Jimi Hendrix, Eric Clapton, Jimmy Page</div></div>
+          <div style="background:var(--tint-blue);border-radius:8px;padding:10px"><div style="font-size:0.72rem;font-weight:800;color:var(--slate)">ROCK MODERNO</div><div style="font-size:0.78rem;color:var(--cream);margin-top:2px">David Gilmour, John Frusciante, Tom Morello</div></div>
+          <div style="background:var(--tint-red);border-radius:8px;padding:10px"><div style="font-size:0.72rem;font-weight:800;color:var(--red)">METAL</div><div style="font-size:0.78rem;color:var(--cream);margin-top:2px">Eddie Van Halen, Kirk Hammett</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RITMO ═══ -->
+  <div id="guit-ritmo" class="bat-section" style="display:none">
+    <div class="section-label"><h2>Ritmo na Guitarra</h2></div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">ST</div>
+        <div><div class="module-title">Strumming — Os Movimentos de Mão</div><div class="module-sub">Para cima e para baixo</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--slate);margin-bottom:8px">📖 LEGENDA</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--amber)">↓</b> = palheta vai PARA BAIXO (das cordas graves para agudas)</div>
+            <div style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--amber)">↑</b> = palheta vai PARA CIMA (das agudas para graves)</div>
+            <div style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--amber)">–</b> = pausa, não toca nada nessa subdivisão</div>
+            <div style="font-size:0.78rem;color:var(--cream)"><b style="color:var(--amber)">x</b> = abafado, toque rápido sem deixar soar</div>
+          </div>
+        </div>
+        <div id="strum-patterns"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ EXERCÍCIOS ═══ -->
+  <div id="guit-exercicios" class="bat-section" style="display:none">
+    <div class="section-label"><h2>Exercícios</h2></div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">E1</div>
+        <div><div class="module-title">Spider Exercise</div><div class="module-sub">O aquecimento de todo guitarrista</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">Coloque 1 dedo em cada casa (4 casas seguidas), 1 corda de cada vez. Suba pelas 6 cordas, depois desça. Alternando palheta para baixo e para cima sem parar. Esse exercício "acorda" os 4 dedos igualmente.</p>
+        <div id="tab-spider"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">E2</div>
+        <div><div class="module-title">Am Pentatônica — Subindo e Descendo</div><div class="module-sub">O exercício mais importante de escala</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">Toque a Caixa 1 da pentatônica subindo (da corda grave para a aguda) e depois descendo. Repita continuamente. Comece bem devagar — a precisão importa mais que a velocidade.</p>
+        <div id="tab-penta-ex"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">E3</div>
+        <div><div class="module-title">Trocando de Acorde Rápido</div><div class="module-sub">Am → Em → G → D</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <p style="font-size:0.82rem;color:var(--silver);margin:8px 0">Toque 1 acorde, troque para o outro, repita. A meta é trocar em menos de 1 segundo sem olhar para a mão.</p>
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:6px">📋 ORDEM DE PRÁTICA</div>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px;margin-bottom:4px">Semana 1: <b>Am ↔ Em</b> (20 vezes cada direção)</div>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px;margin-bottom:4px">Semana 2: <b>Em ↔ G</b></div>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px;margin-bottom:4px">Semana 3: <b>G ↔ D</b></div>
+          <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:6px 10px;border-radius:6px">Semana 4: <b>Am-Em-G-D</b> em sequência contínua</div>
+        </div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--slate)">E4</div>
+        <div><div class="module-title">Hammer-on e Pull-off</div><div class="module-sub">Notas conectadas sem usar a palheta</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--tint-blue);border-radius:8px;padding:12px;margin:8px 0">
+          <p style="font-size:0.82rem;color:var(--cream)"><b>Hammer-on (h):</b> você toca uma nota com a palheta e depois "martela" o dedo numa casa mais aguda na mesma corda, sem palhetar de novo.</p>
+          <p style="font-size:0.82rem;color:var(--cream);margin-top:6px"><b>Pull-off (p):</b> o oposto — você está segurando uma nota aguda e "puxa" o dedo para fora, deixando soar a nota mais grave que já estava pressionada (ou a corda solta).</p>
+        </div>
+        <div id="tab-legato"></div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-header" onclick="toggleModule(this)">
+        <div class="module-num" style="background:var(--red)">E5</div>
+        <div><div class="module-title">Improvise Agora — Passo a Passo</div><div class="module-sub">Aplicando tudo que você aprendeu</div></div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="module-body">
+        <div style="background:var(--subblock-bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--amber);margin-bottom:8px">📋 SIGA ESTES PASSOS</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px"><b style="color:var(--gold)">1.</b> Descubra o tom da música (ex: Lá menor)</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px"><b style="color:var(--gold)">2.</b> Posicione-se na Am Pentatônica Caixa 1</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px"><b style="color:var(--gold)">3.</b> Comece tocando só a nota raiz (A) no ritmo</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px"><b style="color:var(--gold)">4.</b> Adicione 1 nota nova por vez, ouvindo como soa</div>
+            <div style="font-size:0.78rem;color:var(--cream);background:var(--subblock-bg);padding:8px;border-radius:6px"><b style="color:var(--gold)">5.</b> Use silêncios — eles também são música</div>
+          </div>
+        </div>
+        <div style="background:var(--tint-red);border:1px solid var(--red);border-radius:8px;padding:10px;margin:8px 0">
+          <div style="font-size:0.72rem;font-weight:800;color:var(--red);margin-bottom:4px">A única regra que importa</div>
+          <div style="font-size:0.78rem;color:var(--silver)">Não existe nota "errada" — existe nota tocada sem intenção. 3 notas bem pensadas valem mais que 20 notas aleatórias. Grave-se sempre — você vai se surpreender com o que consegue criar.</div>
+        </div>
+        <div class="music-box" style="margin-top:8px">
+          <div class="music-box-header">🎵 BACKING TRACKS PARA PRATICAR</div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Busque%20no%20YouTube%3A%20%22A%20minor%20blues%20backing%20track%20slow%22" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Busque no YouTube: "A minor blues backing track slow" <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-tip">Use Am pentatônica por cima</div></div></div>
+          <div class="music-item"><span class="music-note">♪</span><div class="music-info"><div class="music-song"><a href="https://www.youtube.com/results?search_query=Busque%3A%20%22G%20major%20pop%20rock%20backing%20track%22" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:5px">Busque: "G major pop rock backing track" <span style="font-size:0.7em;opacity:0.6">▶</span></a></div><div class="music-tip">Use G pentatônica maior</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ── PAGE: METRÔNOMO ── -->
+<div class="page" id="page-metronomo">
+  <div class="section-label"><h2>Metrônomo</h2></div>
+  <div class="metronome">
+    <div class="metro-display">
+      <div class="metro-bpm" id="metroBpm">80</div>
+      <div class="metro-label">BPM</div>
+    </div>
+    <div class="metro-beat-vis" id="beatVis"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+      <button class="metro-btn" onclick="changeBpm(-5)">−5</button>
+      <input type="range" class="metro-slider" id="bpmSlider" min="40" max="220" value="80" oninput="setBpm(this.value)">
+      <button class="metro-btn" onclick="changeBpm(5)">+5</button>
+    </div>
+    <button class="metro-btn play" id="metroPlayBtn" onclick="toggleMetro()">▶ TOCAR</button>
+    <div class="metro-sig" id="metroSig"></div>
+  </div>
+
+  <div class="section-label"><h2>Referências de BPM</h2></div>
+  <div class="module-card" style="margin:0 16px 8px;">
+    <div style="padding:10px 14px;">
+      <div id="bpmRefs"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAGE: PROGRESSO ── -->
+<div class="page" id="page-progresso">
+  <div class="section-label"><h2>Plano 12 Semanas</h2></div>
+  <div class="progress-section" id="weekList"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-tab active" onclick="go('home')" id="tab-home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Início
+  </button>
+  <button class="nav-tab" onclick="go('bateria')" id="tab-bateria">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="3" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="21"/></svg>
+    Bateria
+  </button>
+  <button class="nav-tab" onclick="go('guitarra')" id="tab-guitarra">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    Guitarra
+  </button>
+  <button class="nav-tab" onclick="go('metronomo')" id="tab-metronomo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 22 22 22"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
+    Metrônomo
+  </button>
+  <button class="nav-tab" onclick="go('progresso')" id="tab-progresso">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Plano
+  </button>
+</nav>
+
+<script>
+'use strict';
+
+// ══ NAVIGATION ══════════════════════════════════════════════════════════════
+var PAGE_MAP = { home:'page-home', bateria:'page-bateria', guitarra:'page-guitarra', metronomo:'page-metronomo', progresso:'page-progresso' };
+var TAB_MAP  = { home:'tab-home', bateria:'tab-bateria', guitarra:'tab-guitarra', metronomo:'tab-metronomo', progresso:'tab-progresso' };
+
+function go(name) {
+  Object.values(PAGE_MAP).forEach(function(id) { var el = document.getElementById(id); if (el) el.classList.remove('active'); });
+  Object.values(TAB_MAP).forEach(function(id) { var el = document.getElementById(id); if (el) el.classList.remove('active'); });
+  var page = document.getElementById(PAGE_MAP[name]);
+  if (page) { page.classList.add('active'); window.scrollTo(0, 0); }
+  var tab = document.getElementById(TAB_MAP[name]);
+  if (tab) tab.classList.add('active');
+}
+// Backward-compat alias
+function goToTab(name) { go(name); }
+
+// ══ BAT INNER TABS ═══════════════════════════════════════════════════════════
+var BAT_SECTIONS = ['bat-geral','bat-blues','bat-teoria','bat-rudimentos','bat-fills'];
+var BAT_TAB_IDS  = ['btab-geral','btab-blues','btab-teoria','btab-rudimentos','btab-fills'];
+var BAT_COLORS   = ['var(--gold)','var(--blues-c)','var(--gold)','var(--gold)','var(--slate)'];
+
+function showBatTab(sectionId) {
+  BAT_SECTIONS.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  var target = document.getElementById(sectionId);
+  if (target) target.style.display = 'block';
+
+  var idx = BAT_SECTIONS.indexOf(sectionId);
+  BAT_TAB_IDS.forEach(function(tabId, i) {
+    var btn = document.getElementById(tabId);
+    if (!btn) return;
+    if (i === idx) {
+      btn.style.borderBottomColor = BAT_COLORS[i];
+      btn.style.color = BAT_COLORS[i];
+    } else {
+      btn.style.borderBottomColor = 'transparent';
+      btn.style.color = 'var(--gray)';
+    }
+  });
+  window.scrollTo(0, 0);
+}
+
+// ══ GUITAR INNER TABS ═══════════════════════════════════════════════════════
+var GUIT_SECTIONS = ['guit-teoria','guit-harmonia','guit-escalas','guit-avancado','guit-ritmo','guit-exercicios'];
+var GUIT_TAB_IDS  = ['gtab-teoria','gtab-harmonia','gtab-escalas','gtab-avancado','gtab-ritmo','gtab-exercicios'];
+
+function showGuitTab(sectionId) {
+  GUIT_SECTIONS.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  var target = document.getElementById(sectionId);
+  if (target) target.style.display = 'block';
+  GUIT_TAB_IDS.forEach(function(tabId, i) {
+    var btn = document.getElementById(tabId);
+    if (!btn) return;
+    if (GUIT_SECTIONS[i] === sectionId) {
+      btn.style.borderBottomColor = 'var(--slate)';
+      btn.style.color = 'var(--slate)';
+    } else {
+      btn.style.borderBottomColor = 'transparent';
+      btn.style.color = 'var(--gray)';
+    }
+  });
+  window.scrollTo(0, 0);
+}
+
+// ══ MODULE ACCORDION ═════════════════════════════════════════════════════════
+function toggleModule(header) {
+  header.parentElement.classList.toggle('open');
+}
+
+// ══ DRUM TAB BUILDER ═════════════════════════════════════════════════════════
+function buildTab(containerId, tracks, title, bpm, beats) {
+  var el = document.getElementById(containerId);
+  if (!el) return;
+
+  var labels8  = ['1','+','2','+','3','+','4','+'];
+  var labels16 = ['1','e','+','a','2','e','+','a','3','e','+','a','4','e','+','a'];
+  var labels12 = ['1','la','li','2','la','li','3','la','li','4','la','li'];
+  var labels6  = ['1','la','li','2','la','li'];
+  var beatLabels = beats===16 ? labels16 : beats===12 ? labels12 : beats===6 ? labels6 : labels8;
+
+  var html = '<div class="dtab-wrap">';
+  if (title) {
+    html += '<div class="dtab-title">' + title +
+            '<span class="dtab-bpm">\u2669= ' + bpm + '</span></div>';
+  }
+  html += '<div class="dtab">';
+
+  html += '<div class="dtab-beat-row"><div class="dtab-beat-label"></div>' +
+          '<div class="dtab-beat-cells"><div class="dtab-beat-cells-inner">';
+  for (var i = 0; i < beats; i++) {
+    var isBar = (beats===8 && i%2===0) || (beats===16 && i%4===0) || (beats===12 && i%3===0);
+    html += '<div class="dtab-beat-cell"' +
+            (isBar ? ' style="font-weight:700;color:#CCC;"' : '') + '>' +
+            beatLabels[i] + '</div>';
+  }
+  html += '</div></div></div>';
+
+  for (var ti = 0; ti < tracks.length; ti++) {
+    var label   = tracks[ti][0];
+    var pattern = tracks[ti][1];
+    var syms    = pattern.split(' ');
+    html += '<div class="dtab-row">' +
+            '<div class="dtab-label">' + label + '</div>' +
+            '<div class="dtab-cells"><div class="dtab-cells-inner">';
+    for (var ci = 0; ci < beats; ci++) {
+      var sym    = (syms[ci] !== undefined && syms[ci] !== '') ? syms[ci] : '-';
+      var isBar2 = (beats===8 && ci%2===0)||(beats===16 && ci%4===0)||(beats===12 && ci%3===0);
+      var inner  = '';
+      if      (sym==='x') inner = '<span class="sym-x">&times;</span>';
+      else if (sym==='X') inner = '<span class="sym-X">&times;</span>';
+      else if (sym==='o') inner = '<span class="sym-o">&#9675;</span>';
+      else if (sym==='s') inner = '<div class="sym-s"></div>';
+      else if (sym==='S') inner = '<div class="sym-S"></div>';
+      else if (sym==='b') inner = '<div class="sym-b"></div>';
+      else if (sym==='g') inner = '<span class="sym-g">(&times;)</span>';
+      else if (sym==='+') inner = '<span class="sym-plus">+</span>';
+      else if (sym==='R'||sym==='L') inner = '<span style="font-size:0.7rem;font-weight:800;color:#4A90D9;position:relative;z-index:1;">' + sym + '</span>';
+      else if (sym==='l') inner = '<span style="font-size:0.55rem;color:#888;position:relative;z-index:1;">l</span>';
+      else                inner = '<span class="sym-dot">&ndash;</span>';
+      html += '<div class="dtab-cell' + (isBar2 ? ' beat-start' : '') + '">' + inner + '</div>';
+    }
+    html += '</div></div></div>';
+  }
+  html += '</div></div>';
+  el.innerHTML = html;
+}
+
+// ══ ALL TABS DATA ════════════════════════════════════════════════════════════
+function initTabs() {
+  buildTab('tab-g01',[['HH','x x x x x x x x'],['SN','- - s - - - s -'],['BD','b - - - b - - -']],'G01 — Rock Básico','60→100',8);
+  buildTab('tab-g02-ht',[['HH','x x x x x x x x'],['SN','- - - - s - - -'],['BD','b - b - - - b -']],'G02 — Half-Time Feel','70→110',8);
+  buildTab('tab-g03-16',[['HH','x x x x x x x x x x x x x x x x'],['SN','- - - - s - - - - - - - s - - -'],['BD','b - - - b - - - b - - - - - - -']],'G03 — Pop Rock 16th HH','55→90',16);
+  buildTab('tab-g04-rock',[['HH','x x x x x x x x'],['SN','- - S - - - S -'],['BD','b b - - b - b -']],'G04 — Rock Pesado','80→120',8);
+  buildTab('tab-g05-reggae',[['HH','x o x o x o x o'],['SN','- - - - - - - -'],['BD','- - - b - - - -']],'G05 — Reggae One-Drop','60→85',8);
+  buildTab('tab-g06-funk',[['HH','x x x x x x x x x x x x x x x x'],['SN','- - - - s - g - - - - - s - - g'],['BD','b - - x - - - - b - - - - - - -']],'G06 — Funk','50→80',16);
+  buildTab('tab-g07-pop',[['HH','x x x x x x x x x x x x x x x x'],['SN','- - - - s - - - - - - - s - - -'],['BD','b - - x - - - - b - - - - - x -']],'G07 — Pop Moderno','80→110',16);
+  buildTab('tab-g08-ind',[['HH','x x x x x x x x'],['SN','- - s - - - s -'],['BD','b - - - b - - -'],['HH(p)','- - + - - - + -']],'G08 — Independência','50→70',8);
+  buildTab('tab-g09-dyn',[['HH','x x x x x x x x x x x x x x x x'],['SN','- - - - S - g - - - g - S - g -'],['BD','b - - x - - - - b - - - - - x -']],'G09 — Dinâmica','65→85',16);
+  buildTab('tab-g10-poly',[['HH','x x x x x x x x x x x x'],['SN','- - - - s - - - - - - -'],['BD','b - - - b - - - b - - -']],'G10 — Polirritmo','70→90',12);
+  buildTab('tab-g11-full',[['HH','x x x o x x x x x x x o x x x x'],['SN','- - s - - - s - - - s - - - s -'],['BD','b - - - b x - - b - - - b - b -'],['HH(p)','- - + - - - + - - - + - - - + -']],'G11 — Groove Total','80→100',16);
+  buildTab('tab-blues-sh',[['HH','x - x x - x x - x x - x'],['SN','- - - s - - - - - s - -'],['BD','b - - - - - b - - - - -']],'Blues Shuffle','70→95',12);
+  buildTab('tab-blues-68',[['HH','x x x x x x'],['SN','- - - s - -'],['BD','b - - - - -']],'Slow Blues 6/8','50→70',6);
+  buildTab('tab-blues-up',[['HH','x - x x - x x - x x - x'],['SN','- - - s - - - - - s - -'],['BD','b - - - - - b - x - - -']],'Blues Uptempo','90→120',12);
+  buildTab('tab-blues-swing',[['RD','x - x x - x x - x x - x'],['SN','- - g - - - g - - - g -'],['BD','b - - - - - b - - - - -'],['HH(p)','- - + - - - - - - - + -']],'Swing — Ride + ghost notes','70→100',12);
+  buildTab('tab-ex-cont',[['HH','x x x x x x x x'],['SN','- - s - - - s -'],['BD','b - - - b - - -']],'Exercício — conte em voz alta','60',8);
+  buildTab('tab-ex-acento',[['HH','X x x x X x x x'],['SN','- - s - - - s -'],['BD','b - - - b - - -']],'Exercício — acento no tempo 1','65',8);
+  buildTab('tab-ex-silencio',[['HH','x x x x x x x x - - - - - - - -'],['SN','- - s - - - s - - - - - - - - -'],['BD','b - - - b - - - - - - - - - - -']],'Exercício — silêncio consciente','65',16);
+  buildTab('tab-r1',[['MÃO','R L R L R L R L'],['SN','x x x x x x x x']],'R1 — Single Stroke','60→120',8);
+  buildTab('tab-r2',[['MÃO','R R L L R R L L'],['SN','x x x x x x x x']],'R2 — Double Stroke','50→100',8);
+  buildTab('tab-r3',[['MÃO','R L R R L R L L'],['SN','S x x x S x x x']],'R3 — Paradiddle','60→110',8);
+  buildTab('tab-r4',[['MÃO','l R l R l R l R'],['SN','x - x - x - x -']],'R4 — Flam','60→80',8);
+  buildTab('tab-r5',[['MÃO','R L R L R L R L'],['SN','S x S x S x S x']],'R5 — Accent Tap','60→100',8);
+  buildTab('tab-f01',[['HH','x x x x x x - -'],['T1','- - - - - x - -'],['FT','- - - - - - x -'],['SN','- - s - - - - -'],['BD','b - - - - - - b']],'F01 — Descida nos Toms','70→90',8);
+  buildTab('tab-f02',[['HH','x x x x x x x x x x x x x x x x'],['SN','- - - - - - - - s s s s s s s s'],['BD','b - - - b - - - - - - - - - - b']],'F02 — Semicolcheias na Caixa','65→90',16);
+  buildTab('tab-f03',[['SN','s s - - - - - - - - - - - - - -'],['T1','- - s s - - - - - - - - - - - -'],['FT','- - - - s s - - - - - - - - - -'],['BD','- - - - - - b b - - - - - - b b']],'F03 — Compasso Completo','65→85',16);
+  buildTab('tab-f04',[['T1','- - - - s - s - - - - - - - - -'],['FT','- - - - - - - - s - s - - - - -'],['BD','- - - - - - - - - - - - b b b b']],'F04 — Fill Rock Pesado','70→90',16);
+  buildTab('tab-arpejo-am',[['e','- 8 - - - - 8 -'],['B','- - - 5 - 5 - -'],['G','- - - - 5 - - -'],['D','- - 7 - - - 7 -'],['A','- - - - - - - -'],['E','5 - - - - - - 5']],'Arpejo de Am','60→90',8);
+  buildTab('tab-bend-adv',[['e','- - - - - - - -'],['B','7 b9 - r7 - 7 - -'],['G','- - - - - - - -'],['D','- - - - - - - -'],['A','- - - - - - - -'],['E','- - - - - - - -']],'Bend + release','60',8);
+  buildTab('tab-tapping',[['e','5 h12 T15 p12 p5 - - -'],['B','- - - - - - - -'],['G','- - - - - - - -'],['D','- - - - - - - -'],['A','- - - - - - - -'],['E','- - - - - - - -']],'Tapping','60',8);
+  buildTab('tab-spider',[['e','1 2 3 4 - - - - 4 3 2 1 - - - -'],['B','- - - - 1 2 3 4 - - - - 4 3 2 1'],['G','- - - - - - - - - - - - - - - -'],['D','- - - - - - - - - - - - - - - -'],['A','- - - - - - - - - - - - - - - -'],['E','- - - - - - - - - - - - - - - -']],'Spider Exercise','60→100',16);
+  buildTab('tab-penta-ex',[['e','- 5 - 8'],['B','- 5 - 8'],['G','- 5 - 7'],['D','- 5 - 7'],['A','- 5 - 7'],['E','5 - - 8']],'Am Pentatônica Caixa 1','60→100',4);
+  buildTab('tab-legato',[['e','- - - - - - - -'],['B','- - - - - - - -'],['G','- - - - - - - -'],['D','- - - - - - - -'],['A','5 h7 h9 - 9 p7 p5 -'],['E','- - - - - - - -']],'Hammer-on e Pull-off','70',8);
+}
+
+// ══ CHROMATIC KEYBOARD ══════════════════════════════════════════════════════
+function initChromatic() {
+  var notes    = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  var naturals = {C:1,D:1,E:1,F:1,G:1,A:1,B:1};
+  var el = document.getElementById('chromaticRow');
+  if (!el) return;
+  var html = '';
+  notes.forEach(function(n, i) {
+    var nat   = !!naturals[n];
+    var label = n.indexOf('#') >= 0 ? n[0] + '#' : n;
+    html += '<div class="key ' + (nat ? 'natural' : 'sharp') + '">' +
+            label + '<br><span style="font-size:0.5rem;color:#888">' + i + '</span></div>';
+  });
+  el.innerHTML = html;
+}
+
+// ══ INTERVAL GRID ═══════════════════════════════════════════════════════════
+function initIntervals() {
+  var ivs = [
+    {name:'Uníssono',note:'C', st:0,  root:true,  imp:false},
+    {name:'2ª M',    note:'D', st:2,  root:false, imp:false},
+    {name:'3ª m',    note:'Eb',st:3,  root:false, imp:true},
+    {name:'3ª M',    note:'E', st:4,  root:false, imp:true},
+    {name:'4ª J',    note:'F', st:5,  root:false, imp:false},
+    {name:'5ª J',    note:'G', st:7,  root:false, imp:true},
+    {name:'Oitava',  note:"C'",st:12, root:false, imp:false},
+  ];
+  var el = document.getElementById('intervalGrid');
+  if (!el) return;
+  el.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  el.innerHTML = ivs.map(function(iv) {
+    var cls = iv.root ? ' root' : iv.imp ? ' important' : '';
+    return '<div class="interval-box' + cls + '">' +
+           '<div class="interval-name">' + iv.name + '</div>' +
+           '<div class="interval-note">' + iv.note + '</div>' +
+           '<div class="interval-st">+' + iv.st + ' casas</div></div>';
+  }).join('');
+}
+
+// ══ FRETBOARD ═══════════════════════════════════════════════════════════════
+var SCALES = {
+  'Am Pent.': {
+    name:'Am Pentatônica — A C D E G',
+    notes:{1:[5,8],2:[5,8],3:[5,7],4:[5,7],5:[5,7],6:[5,8]},
+    roots:[5], color:'scale'
+  },
+  'Blues': {
+    name:'Blues Scale em Lá — A C D Eb E G',
+    notes:{1:[5,8],2:[5,8],3:[4,5,7],4:[5,7],5:[5,7],6:[5,8]},
+    roots:[5], blueNotes:{3:[4]}, color:'scale'
+  },
+  'Dó Maior': {
+    name:'Escala de Dó Maior — C D E F G A B',
+    notes:{1:[0,1,3],2:[0,1,3],3:[0,2],4:[0,2,3],5:[0,2,3],6:[0,1,3]},
+    roots:[0], color:'scale2'
+  },
+  'Am Natural': {
+    name:'Lá Menor Natural — A B C D E F G',
+    notes:{1:[5,7,8],2:[5,6,8],3:[5,7],4:[5,7,8],5:[5,7,8],6:[5,7,8]},
+    roots:[5], color:'scale'
+  }
+};
+var currentScale = 'Am Pent.';
+
+function initFretboard() {
+  var sel = document.getElementById('scaleSelector');
+  if (!sel) return;
+  sel.innerHTML = Object.keys(SCALES).map(function(k) {
+    return '<button class="scale-btn' + (k===currentScale?' active':'') +
+           '" onclick="selectScale(\'' + k + '\')">' + k + '</button>';
+  }).join('');
+  renderFretboard();
+}
+
+function selectScale(name) {
+  currentScale = name;
+  document.querySelectorAll('.scale-btn').forEach(function(b) {
+    b.classList.toggle('active', b.textContent===name);
+  });
+  renderFretboard();
+}
+
+function renderFretboard() {
+  var fb     = document.getElementById('fretboard');
+  var legend = document.getElementById('scaleLegend');
+  if (!fb) return;
+  var scale = SCALES[currentScale];
+  var sNames = ['e','B','G','D','A','E'];
+  var allNotes = [
+    ['E','F','F#','G','G#','A','A#','B','C','C#','D','D#','E'],
+    ['B','C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],
+    ['G','G#','A','A#','B','C','C#','D','D#','E','F','F#','G'],
+    ['D','D#','E','F','F#','G','G#','A','A#','B','C','C#','D'],
+    ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#','A'],
+    ['E','F','F#','G','G#','A','A#','B','C','C#','D','D#','E']
+  ];
+  var inlays = [3,5,7,9,12];
+  var html = '';
+  html += '<div class="fb-label"></div>';
+  for (var f = 0; f <= 12; f++) html += '<div class="fb-fret-num">' + f + '</div>';
+  for (var si = 0; si < 6; si++) {
+    var snum   = si + 1;
+    var snotes = scale.notes[snum] || [];
+    var blues  = (scale.blueNotes && scale.blueNotes[snum]) || [];
+    html += '<div class="fb-label">' + sNames[si] + '</div>';
+    for (var fi = 0; fi <= 12; fi++) {
+      var isRoot  = scale.roots && scale.roots.indexOf(fi) >= 0 && snotes.indexOf(fi) >= 0;
+      var isBlue  = blues.indexOf(fi) >= 0;
+      var isScale = snotes.indexOf(fi) >= 0;
+      var hasInlay = inlays.indexOf(fi) >= 0 && si === 2;
+      var noteName = allNotes[si][fi];
+      var inner = hasInlay ? '<div class="inlay"></div>' : '';
+      if (isScale) {
+        var cls = isRoot ? 'root' : isBlue ? 'blues' : scale.color;
+        inner += '<div class="fb-note ' + cls + '">' + noteName + '</div>';
+      }
+      html += '<div class="fb-cell' + (fi===0?' fb-nut':'') + '">' + inner + '</div>';
+    }
+  }
+  fb.innerHTML = html;
+  fb.style.gridTemplateColumns = '28px repeat(13, 38px)';
+  if (legend) {
+    legend.innerHTML = '<h4>' + scale.name + '</h4>' +
+      '<p>🔴 = raiz &nbsp; 🟢 = notas da escala &nbsp; 🟣 = blue note</p>';
+  }
+}
+
+// ══ METRONOME ═══════════════════════════════════════════════════════════════
+var metro = { bpm: 80, beats: 4, beat: 0, running: false, interval: null, audioCtx: null };
+
+function getAudioCtx() {
+  if (!metro.audioCtx) {
+    try { metro.audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    catch(e) { metro.audioCtx = null; }
+  }
+  return metro.audioCtx;
+}
+
+function metroBeep(accent) {
+  var ctx = getAudioCtx();
+  if (!ctx) return;
+  try {
+    var osc  = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = accent ? 1200 : 900;
+    gain.gain.setValueAtTime(accent ? 0.5 : 0.25, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.07);
+  } catch(e) {}
+}
+
+function updateBeatVis() {
+  var el = document.getElementById('beatVis');
+  if (!el) return;
+  var html = '';
+  for (var i = 0; i < metro.beats; i++) {
+    var cls = 'beat-dot';
+    if (i === metro.beat) cls += ' active';
+    if (i === 0) cls += ' accent';
+    html += '<div class="' + cls + '"></div>';
+  }
+  el.innerHTML = html;
+}
+
+function metroTick() {
+  metroBeep(metro.beat === 0);
+  updateBeatVis();
+  metro.beat = (metro.beat + 1) % metro.beats;
+}
+
+function toggleMetro() {
+  var btn = document.getElementById('metroPlayBtn');
+  if (metro.running) {
+    metro.running = false;
+    clearInterval(metro.interval);
+    metro.interval = null;
+    metro.beat = 0;
+    if (btn) { btn.textContent = '\u25B6 TOCAR'; btn.classList.remove('running'); }
+    updateBeatVis();
+  } else {
+    metro.running = true;
+    if (btn) { btn.textContent = '\u23F9 PARAR'; btn.classList.add('running'); }
+    metro.beat = 0;
+    metroTick();
+    metro.interval = setInterval(metroTick, Math.round(60000 / metro.bpm));
+  }
+}
+
+function setBpm(v) {
+  metro.bpm = Math.max(40, Math.min(220, parseInt(v, 10)));
+  var display = document.getElementById('metroBpm');
+  var slider  = document.getElementById('bpmSlider');
+  if (display) display.textContent = metro.bpm;
+  if (slider)  slider.value = metro.bpm;
+  if (metro.running) {
+    clearInterval(metro.interval);
+    metro.interval = setInterval(metroTick, Math.round(60000 / metro.bpm));
+  }
+}
+
+function changeBpm(delta) { setBpm(metro.bpm + delta); }
+
+function setTimeSig(sig) {
+  var map = {'2/4':2,'3/4':3,'4/4':4,'6/8':6,'12/8':12};
+  metro.beats = map[sig] || 4;
+  metro.beat  = 0;
+  document.querySelectorAll('.metro-sig button').forEach(function(b) {
+    b.classList.toggle('active', b.textContent === sig);
+  });
+  updateBeatVis();
+}
+
+function initMetro() {
+  updateBeatVis();
+  var sigs  = ['2/4','3/4','4/4','6/8','12/8'];
+  var sigEl = document.getElementById('metroSig');
+  if (sigEl) {
+    sigEl.innerHTML = sigs.map(function(s) {
+      return '<button onclick="setTimeSig(\'' + s + '\')"' +
+             (s==='4/4' ? ' class="active"' : '') + '>' + s + '</button>';
+    }).join('');
+  }
+}
+
+function initBpmRefs() {
+  var refs = [
+    {range:'40–60', desc:'Lento — estudo de rudimentos'},
+    {range:'60–80', desc:'Moderado — aprender novos grooves'},
+    {range:'80–100',desc:'Médio — consolidar o groove'},
+    {range:'100–120',desc:'Animado — rock básico confortável'},
+    {range:'120–140',desc:'Rápido — metal e rock pesado'},
+    {range:'140+',  desc:'Muito rápido — avançado'},
+  ];
+  var el = document.getElementById('bpmRefs');
+  if (!el) return;
+  el.innerHTML = refs.map(function(r) {
+    var bpmVal = parseInt(r.range, 10);
+    return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">' +
+           '<div style="font-family:monospace;font-size:0.85rem;color:var(--gold);font-weight:700;width:80px;">' + r.range + '</div>' +
+           '<div style="font-size:0.8rem;color:#CCC;flex:1;">' + r.desc + '</div>' +
+           '<button onclick="setBpm(' + bpmVal + ')" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--cream);font-size:0.7rem;cursor:pointer;white-space:nowrap;">Usar</button>' +
+           '</div>';
+  }).join('');
+}
+
+// ══ PROGRESS TRACKER ════════════════════════════════════════════════════════
+var WEEKS = [
+  {n:1,phase:'gold', title:'Base e Postura',     focus:'G01 parcial',
+   content:'Postura, grip e bounce. R1 a 60 BPM. G01 HH+SN sem bumbo.',
+   tasks:['Estudar anatomia da bateria','Praticar bounce 15 min','R1 a 60 BPM — 10 min','G01 HH+SN sem bumbo']},
+  {n:2,phase:'gold', title:'G01 Completo',        focus:'Primeiro groove',
+   content:'G01 completo a 70 BPM. R1+R2. F01 (descida nos toms).',
+   tasks:['G01 completo a 70 BPM','R2 Double Stroke iniciando','F01 descida nos toms']},
+  {n:3,phase:'gold', title:'Variações de Bumbo',  focus:'G02 + G03',
+   content:'G02 e G03 a 75 BPM. R3 Paradiddle. F02.',
+   tasks:['G02 bumbo no +2','G03 HH aberto','R3 Paradiddle 60 BPM','F02 semicolcheias']},
+  {n:4,phase:'gold', title:'Música Real',          focus:'Tocar com faixas',
+   content:'G04 Half-time, G05 16th HH. Tocar junto com música.',
+   tasks:['G04 half-time','G05 semicolcheias no HH','Tocar com música real 10 min','R4 Flam']},
+  {n:5,phase:'slate',title:'Dinâmica e Estilos',  focus:'Forte e piano',
+   content:'G06 dinâmica. G07 rock pesado. R5 accent tap. F03.',
+   tasks:['G06 dinâmica forte/piano','G07 rock pesado','R5 Accent Tap','F03 compasso completo']},
+  {n:6,phase:'slate',title:'Pop e Reggae',         focus:'Novos estilos',
+   content:'G08 pop moderno. G09 reggae. F04 fill pesado.',
+   tasks:['G08 pop moderno','G09 reggae','Ouvir Bob Marley e identificar o groove','F04 fill pesado']},
+  {n:7,phase:'slate',title:'Funk e Ghost Notes',   focus:'G10',
+   content:'G10 Funk com ghost notes. Dinâmica avançada.',
+   tasks:['G10 Funk com ghost notes','Ouvir Stevie Wonder Superstition','Tocar com backing track de funk']},
+  {n:8,phase:'slate',title:'Avaliação',            focus:'Gravar vídeo',
+   content:'Revisão G01–G10. Gravar vídeo e comparar com semana 1.',
+   tasks:['G01–G10 a 85+ BPM','Gravar vídeo de 5 minutos','Identificar pontos fracos']},
+  {n:9,phase:'red',  title:'Independência',        focus:'4 membros',
+   content:'Sequência IND-01 a IND-05. Começa apenas com pés.',
+   tasks:['IND-01 só pés','IND-03 HH+SN+BD','IND-05 HH pedal nos tempos 2 e 4']},
+  {n:10,phase:'red', title:'HH Pedal',             focus:'4º membro',
+   content:'HH pedal em todas as colcheias. G11 rock avançado.',
+   tasks:['HH pedal em todas colcheias + G01','G11 rock avançado','Ghost notes audíveis']},
+  {n:11,phase:'red', title:'Improv. de Fills',     focus:'Criação livre',
+   content:'Improvisar fills livremente. Criar groove próprio.',
+   tasks:['Improvisar fills sem metrônomo 5 min','Criar e gravar groove próprio','Tocar músicas completas do início ao fim']},
+  {n:12,phase:'red', title:'Conclusão',             focus:'Vídeo final',
+   content:'Revisão geral. Vídeo final. Próximo plano.',
+   tasks:['Gravar vídeo final','Comparar com semana 1','Definir próximos objetivos']},
+];
+
+var checkedItems = {};
+var openWeeks    = {};
+
+try { checkedItems = JSON.parse(localStorage.getItem('drumChecks') || '{}'); } catch(e) {}
+try { openWeeks    = JSON.parse(localStorage.getItem('openWeeks')  || '{}'); } catch(e) {}
+
+function initProgress() {
+  var el = document.getElementById('weekList');
+  if (!el) return;
+  var html = '';
+  WEEKS.forEach(function(w) {
+    var allDone = w.tasks.every(function(_, i) { return checkedItems[w.n+'-'+i]; });
+    var anyDone = w.tasks.some(function(_, i)  { return checkedItems[w.n+'-'+i]; });
+    var numCls  = allDone ? 'done' : anyDone ? 'current' : 'future';
+    var icon    = allDone ? '✓' : w.n;
+    var phaseLabel = w.phase==='gold' ? 'Fase 1' : w.phase==='slate' ? 'Fase 2' : 'Fase 3';
+    html += '<div class="week-card' + (openWeeks[w.n]?' open':'') + '" id="week-'+w.n+'">' +
+      '<div class="week-header" onclick="toggleWeek('+w.n+')">' +
+        '<div class="week-num '+numCls+'">'+icon+'</div>' +
+        '<div class="week-info">' +
+          '<div class="week-title">Semana '+w.n+' — '+w.title+'</div>' +
+          '<div class="week-focus"><span class="tag tag-'+w.phase+'">'+phaseLabel+'</span> '+w.focus+'</div>' +
+        '</div>' +
+        '<div class="chevron">›</div>' +
+      '</div>' +
+      '<div class="week-body">' +
+        '<p>'+w.content+'</p>' +
+        '<div class="checklist">';
+    w.tasks.forEach(function(t, i) {
+      var checked = !!checkedItems[w.n+'-'+i];
+      html += '<div class="check-item'+(checked?' checked':'')+'" onclick="toggleCheck('+w.n+','+i+')">' +
+        '<div class="check-box">'+(checked?'✓':'')+'</div>' +
+        '<div class="check-label">'+t+'</div></div>';
+    });
+    html += '</div></div></div>';
+  });
+  el.innerHTML = html;
+}
+
+function toggleWeek(n) {
+  var el = document.getElementById('week-'+n);
+  if (!el) return;
+  var isOpen = el.classList.toggle('open');
+  openWeeks[n] = isOpen;
+  try { localStorage.setItem('openWeeks', JSON.stringify(openWeeks)); } catch(e) {}
+}
+
+function toggleCheck(week, idx) {
+  var key = week+'-'+idx;
+  checkedItems[key] = !checkedItems[key];
+  try { localStorage.setItem('drumChecks', JSON.stringify(checkedItems)); } catch(e) {}
+  initProgress();
+}
+
+// ══ ROUTINE ═════════════════════════════════════════════════════════════════
+function initRoutine() {
+  var items = [
+    {emoji:'🤸',dur:'05 min',text:'Aquecimento — rotação de pulsos'},
+    {emoji:'🥁',dur:'10 min',text:'Rudimentos com metrônomo'},
+    {emoji:'🎵',dur:'15 min',text:'Groove do módulo atual'},
+    {emoji:'🔀',dur:'10 min',text:'Fill integrado ao groove'},
+    {emoji:'🎧',dur:'05 min',text:'Tocar com música real'},
+  ];
+  ['routineList','routineList2'].forEach(function(elId) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    el.innerHTML = items.map(function(i) {
+      return '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);">' +
+             '<span style="font-size:1.1rem;">'+i.emoji+'</span>' +
+             '<span style="font-size:0.75rem;color:var(--gold);font-weight:700;width:42px;">'+i.dur+'</span>' +
+             '<span style="font-size:0.8rem;color:#CCC;">'+i.text+'</span></div>';
+    }).join('');
+  });
+}
+
+// ══ TEORIA BATERIA VISUALS (compasso, figuras, subdivisões) ═════════════════
+function buildTeoriaBat() {
+  var cv = document.getElementById('compasso-vis');
+  if (cv) {
+    var cs = [
+      {sig:'4/4',beats:4,feel:'Rock, Pop, Jazz — o mais comum'},
+      {sig:'3/4',beats:3,feel:'Valsa — sensação de giro'},
+      {sig:'6/8',beats:6,feel:'Blues, Folk — balanço'},
+    ];
+    cv.innerHTML = cs.map(function(c) {
+      var beats = '';
+      for (var i=0;i<c.beats;i++) {
+        beats += '<div style="flex:1;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;background:' +
+          (i===0?'var(--gold)':'var(--surface2)') + ';color:' + (i===0?'#000':'var(--cream)') + ';">' + (i+1) + '</div>';
+      }
+      return '<div class="theory-card" style="margin-bottom:8px;"><h4>' + c.sig + ' — ' + c.feel + '</h4>' +
+        '<div style="display:flex;gap:4px;margin-top:8px;">' + beats + '</div></div>';
+    }).join('');
+  }
+
+  var fg = document.getElementById('figuras-vis');
+  if (fg) {
+    var figs = [
+      {name:'Semibreve',dur:'4 tempos inteiros',dots:1,color:'var(--gold)'},
+      {name:'Mínima',dur:'2 tempos',dots:2,color:'var(--slate)'},
+      {name:'Semínima',dur:'1 tempo',dots:4,color:'var(--slate)'},
+      {name:'Colcheia',dur:'½ tempo',dots:8,color:'var(--red)'},
+    ];
+    var html = '<div style="display:flex;gap:6px;overflow-x:auto;padding:4px 0;">';
+    figs.forEach(function(f) {
+      var dotCount = Math.min(f.dots, 8);
+      var dotSize = f.dots <= 4 ? '10px' : '6px';
+      html += '<div style="flex-shrink:0;width:75px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;">' +
+        '<div style="font-size:0.65rem;font-weight:700;color:' + f.color + ';margin-bottom:6px;">' + f.name + '</div>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin-bottom:6px;">';
+      for (var i = 0; i < dotCount; i++) {
+        html += '<div style="width:' + dotSize + ';height:' + dotSize + ';border-radius:50%;background:' + f.color + ';"></div>';
+      }
+      html += '</div><div style="font-size:0.62rem;color:var(--gray);">' + f.dur + '</div></div>';
+    });
+    html += '</div>';
+    fg.innerHTML = html;
+  }
+
+  var sv = document.getElementById('subdiv-vis');
+  if (sv) {
+    var subdivs = [
+      {label:'Semínimas (4 por compasso)', cells:['1','','','','2','','','','3','','','','4','','','']},
+      {label:'Colcheias (8 por compasso)', cells:['1','+','2','+','3','+','4','+','','','','','','','','']},
+      {label:'Semicolcheias (16 por compasso)', cells:['1','e','+','a','2','e','+','a','3','e','+','a','4','e','+','a']},
+    ];
+    var h = '';
+    subdivs.forEach(function(s) {
+      h += '<div style="margin-bottom:10px;"><div style="font-size:0.72rem;font-weight:700;color:var(--gold);margin-bottom:4px;">' + s.label + '</div>' +
+        '<div style="display:flex;gap:1px;">';
+      s.cells.forEach(function(cell) {
+        var isStrong = cell === '1' || cell === '2' || cell === '3' || cell === '4';
+        var isEmpty = cell === '';
+        h += '<div style="flex:1;height:28px;border-radius:3px;background:' +
+          (isEmpty ? 'transparent' : isStrong ? 'var(--gold)' : 'var(--surface2)') +
+          ';border:' + (isEmpty ? 'none' : '1px solid var(--border)') +
+          ';display:flex;align-items:center;justify-content:center;font-size:0.58rem;font-weight:' +
+          (isStrong ? '800' : '400') + ';color:' + (isStrong ? '#000' : 'var(--gray)') + ';">' + cell + '</div>';
+      });
+      h += '</div></div>';
+    });
+    sv.innerHTML = h;
+  }
+}
+
+// ══ CAMPO HARMÔNICO / PROGRESSÕES / STRUMMING (guitarra) ═════════════════════
+function buildTeoriaGuit() {
+  var ch = document.getElementById('campo-harmonico');
+  if (ch) {
+    var campos = [
+      {tom:'C Maior', graus:['I','II','III','IV','V','VI','VII'],
+       acordes:['C','Dm','Em','F','G','Am','Bdim'], tipos:['M','m','m','M','M','m','dim']},
+      {tom:'G Maior', graus:['I','II','III','IV','V','VI','VII'],
+       acordes:['G','Am','Bm','C','D','Em','F#dim'], tipos:['M','m','m','M','M','m','dim']},
+    ];
+    var html = '';
+    campos.forEach(function(campo) {
+      html += '<div class="theory-card" style="margin-bottom:8px;"><h4>' + campo.tom + '</h4>' +
+        '<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;">';
+      campo.acordes.forEach(function(ac, i) {
+        var tipo = campo.tipos[i];
+        var bg = tipo==='M' ? 'var(--slate)' : tipo==='m' ? 'var(--surface2)' : '#2A0A0A';
+        html += '<div style="background:'+bg+';border:1px solid var(--border);border-radius:5px;padding:5px 2px;text-align:center;">' +
+          '<div style="font-size:0.5rem;color:var(--gray);">' + campo.graus[i] + '</div>' +
+          '<div style="font-size:0.8rem;font-weight:800;color:var(--cream);">' + ac + '</div>' +
+          '<div style="font-size:0.5rem;color:var(--gold);">' + tipo + '</div></div>';
+      });
+      html += '</div></div>';
+    });
+    ch.innerHTML = html;
+  }
+
+  var pl = document.getElementById('progressoes-list');
+  if (pl) {
+    var progs = [
+      {rom:'I – V – vi – IV', em:'G – D – Em – C', estilo:'Pop moderno',
+       musicas:['Let It Be (Beatles)','Someone Like You (Adele)'],
+       analise:'A progressão mais usada do pop. Toque os 4 acordes em loop e você vai reconhecer dezenas de músicas.'},
+      {rom:'I – IV – V – I', em:'A – D – E – A', estilo:'Blues/Rock',
+       musicas:['Johnny B. Goode (Chuck Berry)','Twist and Shout'],
+       analise:'Base do rock e blues clássico. Vai do repouso ao movimento, tensão máxima, e volta ao repouso.'},
+      {rom:'i – VII – VI – VII', em:'Am – G – F – G', estilo:'Rock Alternativo',
+       musicas:['Stairway to Heaven','Hotel California'],
+       analise:'Progressão em tom menor com um acorde maior surpresa (F) que cria contraste emocional.'},
+    ];
+    pl.innerHTML = progs.map(function(p) {
+      return '<div class="theory-card" style="margin-bottom:8px;">' +
+        '<h4>' + p.rom + ' <span style="color:var(--gold);font-size:0.8rem;">(' + p.estilo + ')</span></h4>' +
+        '<div style="font-family:monospace;font-size:1rem;color:var(--gold2);background:var(--bg);border-radius:6px;padding:6px 10px;margin:6px 0;">' + p.em + '</div>' +
+        '<p style="font-size:0.78rem;color:#CCC;margin:4px 0;">' + p.analise + '</p>' +
+        '<div style="margin-top:6px;">' +
+        p.musicas.map(function(m){ return '<div style="font-size:0.72rem;color:var(--gray);padding:2px 0;">♪ ' + m + '</div>'; }).join('') +
+        '</div></div>';
+    }).join('');
+  }
+
+  var sp = document.getElementById('strum-patterns');
+  if (sp) {
+    var patterns = [
+      {name:'Padrão Básico', beats:['↓','↓','↓','↓'], musicas:'We Will Rock You'},
+      {name:'Padrão Folk', beats:['↓','↓↑','↑','↓↑'], musicas:'Wonderwall'},
+      {name:'Padrão Reggae', beats:['–','↑','–','↑'], musicas:'No Woman No Cry'},
+    ];
+    sp.innerHTML = patterns.map(function(p) {
+      var beats = p.beats.map(function(b) {
+        var isEmpty = b === '–';
+        return '<div style="flex:1;height:36px;background:' + (isEmpty?'transparent':'var(--surface2)') +
+          ';border:' + (isEmpty?'1px dashed var(--border)':'1px solid var(--slate)') +
+          ';border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:' +
+          (b.length>1?'0.6rem':'1rem') + ';font-weight:700;color:var(--slate);">' + b + '</div>';
+      }).join('');
+      return '<div class="theory-card" style="margin-bottom:8px;"><h4>' + p.name + '</h4>' +
+        '<div style="display:flex;gap:4px;margin:8px 0;">' + beats + '</div>' +
+        '<div style="font-size:0.7rem;color:var(--gray);">♪ ' + p.musicas + '</div></div>';
+    }).join('');
+  }
+}
+
+// ══ THEME TOGGLE (light/dark) ═══════════════════════════════════════════════
+function applyTheme(theme) {
+  if (theme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  var knob = document.getElementById('themeKnob');
+  if (knob) knob.textContent = theme === 'light' ? '☀️' : '🌙';
+}
+
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  var next = current === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+  try { localStorage.setItem('theme', next); } catch(e) {}
+}
+
+function initTheme() {
+  var saved = 'dark';
+  try { saved = localStorage.getItem('theme') || 'dark'; } catch(e) {}
+  applyTheme(saved);
+}
+
+// ══ BOOTSTRAP ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  initTheme();
+  initTabs();
+  initChromatic();
+  initIntervals();
+  initFretboard();
+  initMetro();
+  initBpmRefs();
+  initProgress();
+  initRoutine();
+  buildTeoriaBat();
+  buildTeoriaGuit();
+});
+</script>
+</body>
+</html>  min-height: 100vh;
   padding-bottom: calc(var(--tab-height) + env(safe-area-inset-bottom));
   overflow-x: hidden;
 }
